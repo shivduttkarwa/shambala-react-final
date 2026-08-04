@@ -35,7 +35,7 @@ const EssenceSection: React.FC<EssenceSectionProps> = ({
     mobile: `${publicUrl}images/home/essence-mobile.webp`,
     alt: "Climate-responsive Queensland living space opening to a subtropical garden",
   },
-  videoUrl = `${publicUrl}images/home-hero.mp4`,
+  videoUrl = `${publicUrl}vid/shambala-demo-vid.mp4`,
 }) => {
   const shortDescription =
     "We envision spaces that are not just lived in, but felt — where every element has been curated to inspire connection, serenity, and belonging. Our approach transcends traditional architecture, creating environments that nurture the soul and elevate everyday moments into extraordinary experiences of comfort and beauty.";

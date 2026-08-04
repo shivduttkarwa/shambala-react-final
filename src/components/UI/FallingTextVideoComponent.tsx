@@ -14,7 +14,7 @@ interface FallingTextVideoComponentProps {
 const FallingTextVideoComponent: React.FC<FallingTextVideoComponentProps> = ({
   leftText = "Design",
   rightText = "Philosophy",
-  videoSrc = "/images/home_hero.mp4",
+  videoSrc = `${import.meta.env.BASE_URL}vid/shambala-demo-vid.mp4`,
 }) => {
   const wrapperRef = useRef<HTMLElement>(null);
   const videoContainerRef = useRef<HTMLDivElement>(null);

@@ -283,7 +283,13 @@
   color: rgba(255, 255, 255, 0.08);
   margin: 0;
   line-height: 1;
-  letter-spacing: 0.12em;
+  /* ---- THE tracking control for the wordmark. Change this one value. ----
+     It used to be redeclared at 640/768/1024/1280 with a separate paired
+     margin at each, so editing the base did nothing on a desktop — the
+     wider media query always won. Now there is a single source and the
+     centring margin derives from it below. */
+  --brand-tracking: -0.02em;
+  letter-spacing: var(--brand-tracking);
   text-transform: uppercase;
   user-select: none;
   white-space: nowrap;
@@ -297,9 +303,10 @@
   height: 1em;
 }
 
-/* negate trailing letter-spacing so text-align: center is truly centered */
+/* Negate the trailing letter-space so the wordmark is truly centred.
+   Derived from --brand-tracking, so it can never drift out of sync. */
 .shambala-footer-mask:last-child {
-  margin-right: -0.12em;
+  margin-right: calc(-1 * var(--brand-tracking));
 }
 
 .shambala-footer-letter {
@@ -314,15 +321,22 @@
   transform: translateY(-0.3125rem) scale(1.05);
 }
 
-/* Letter hover colors */
-.shambala-footer-mask:nth-child(1) .shambala-footer-letter:hover { color: #ff6b6b; }
-.shambala-footer-mask:nth-child(2) .shambala-footer-letter:hover { color: #4ecdc4; }
-.shambala-footer-mask:nth-child(3) .shambala-footer-letter:hover { color: #ffe66d; }
-.shambala-footer-mask:nth-child(4) .shambala-footer-letter:hover { color: #a8e6cf; }
-.shambala-footer-mask:nth-child(5) .shambala-footer-letter:hover { color: #ff8b94; }
-.shambala-footer-mask:nth-child(6) .shambala-footer-letter:hover { color: #c7ceea; }
-.shambala-footer-mask:nth-child(7) .shambala-footer-letter:hover { color: #ffdac1; }
-.shambala-footer-mask:nth-child(8) .shambala-footer-letter:hover { color: #b5ead7; }
+/* Letter colours.
+
+   Hovering anywhere on the wordmark colours the whole word — the trigger is
+   the parent, not each letter, so all eight light up together rather than one
+   at a time. Each keeps its own hue via nth-child.
+
+   The lift below stays per-letter: the word colours as a unit while the letter
+   actually under the cursor rises, which is what makes it feel responsive. */
+.shambala-footer-brand-text:hover .shambala-footer-mask:nth-child(1) .shambala-footer-letter { color: #ff6b6b; }
+.shambala-footer-brand-text:hover .shambala-footer-mask:nth-child(2) .shambala-footer-letter { color: #4ecdc4; }
+.shambala-footer-brand-text:hover .shambala-footer-mask:nth-child(3) .shambala-footer-letter { color: #ffe66d; }
+.shambala-footer-brand-text:hover .shambala-footer-mask:nth-child(4) .shambala-footer-letter { color: #a8e6cf; }
+.shambala-footer-brand-text:hover .shambala-footer-mask:nth-child(5) .shambala-footer-letter { color: #ff8b94; }
+.shambala-footer-brand-text:hover .shambala-footer-mask:nth-child(6) .shambala-footer-letter { color: #c7ceea; }
+.shambala-footer-brand-text:hover .shambala-footer-mask:nth-child(7) .shambala-footer-letter { color: #ffdac1; }
+.shambala-footer-brand-text:hover .shambala-footer-mask:nth-child(8) .shambala-footer-letter { color: #b5ead7; }
 
 /* ============================================
    Small phones (≥ 480px)
@@ -379,11 +393,6 @@
 
   .shambala-footer-brand-text {
     font-size: 5.5rem;
-    letter-spacing: 0.13em;
-  }
-
-  .shambala-footer-mask:last-child {
-    margin-right: -0.13em;
   }
 }
 
@@ -419,11 +428,6 @@
 
   .shambala-footer-brand-text {
     font-size: 7.2rem;
-    letter-spacing: 0.14em;
-  }
-
-  .shambala-footer-mask:last-child {
-    margin-right: -0.14em;
   }
 
   .shambala-footer-brand-large {
@@ -537,11 +541,6 @@
 
   .shambala-footer-brand-text {
     font-size: 10.26rem;
-    letter-spacing: 0.16em;
-  }
-
-  .shambala-footer-mask:last-child {
-    margin-right: -0.16em;
   }
 
   .shambala-footer-brand-large {
@@ -652,11 +651,6 @@
 
   .shambala-footer-brand-text {
     font-size: 13.56rem;
-    letter-spacing: 0.18em;
-  }
-
-  .shambala-footer-mask:last-child {
-    margin-right: -0.18em;
   }
 }
 
