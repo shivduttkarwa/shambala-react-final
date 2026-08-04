@@ -23,7 +23,9 @@ const publicUrl = import.meta.env.BASE_URL;
 
 interface SlideData {
   id: number;
-  image: string;
+  desktopImage: string;
+  mobileImage: string;
+  imageAlt: string;
   tag?: string;
   title: string;
   description: string;
@@ -46,7 +48,9 @@ const ModernServicesSlider: React.FC = () => {
   const slidesData: SlideData[] = [
     {
       id: 1,
-      image: `${publicUrl}images/l1.jpg`,
+      desktopImage: `${publicUrl}images/services/custom-residences-desktop.webp`,
+      mobileImage: `${publicUrl}images/services/custom-residences-mobile.webp`,
+      imageAlt: "Bespoke Queensland residence opening to a landscaped outdoor living area",
       tag: "BESPOKE HOME DESIGN",
       title: "Custom Residences",
       description:
@@ -56,7 +60,9 @@ const ModernServicesSlider: React.FC = () => {
     },
     {
       id: 2,
-      image: `${publicUrl}images/l2.jpg`,
+      desktopImage: `${publicUrl}images/services/feasibility-yield-desktop.webp`,
+      mobileImage: `${publicUrl}images/services/feasibility-yield-mobile.webp`,
+      imageAlt: "Australian architects reviewing a landscaped multi-dwelling feasibility model",
       tag: "DEVELOPMENT STRATEGY",
       title: "Feasibility & Yield",
       description:
@@ -66,7 +72,9 @@ const ModernServicesSlider: React.FC = () => {
     },
     {
       id: 3,
-      image: `${publicUrl}images/l3.jpg`,
+      desktopImage: `${publicUrl}images/services/interior-systems-desktop.webp`,
+      mobileImage: `${publicUrl}images/services/interior-systems-mobile.webp`,
+      imageAlt: "Custom spotted-gum joinery and integrated lighting in a Queensland interior",
       tag: "INTERIOR ARCHITECTURE",
       title: "Interior Systems",
       description:
@@ -76,7 +84,9 @@ const ModernServicesSlider: React.FC = () => {
     },
     {
       id: 4,
-      image: `${publicUrl}images/l4.jpg`,
+      desktopImage: `${publicUrl}images/services/passive-first-desktop.webp`,
+      mobileImage: `${publicUrl}images/services/passive-first-mobile.webp`,
+      imageAlt: "Passive-first Queensland home with deep eaves, timber screens and solar panels",
       tag: "SUSTAINABILITY & SYSTEMS",
       title: "Passive First",
       description:
@@ -86,7 +96,9 @@ const ModernServicesSlider: React.FC = () => {
     },
     {
       id: 5,
-      image: `${publicUrl}images/l5.jpg`,
+      desktopImage: `${publicUrl}images/services/aftercare-styling-desktop.webp`,
+      mobileImage: `${publicUrl}images/services/aftercare-styling-mobile.webp`,
+      imageAlt: "Interior designer and homeowner refining a completed Australian living room",
       tag: "POST-OCCUPANCY & STYLING",
       title: "Aftercare & Styling",
       description:
@@ -497,11 +509,22 @@ const ModernServicesSlider: React.FC = () => {
           {slidesData.map((slide) => (
             <SwiperSlide key={slide.id} className="mss-swiper-slide">
               <div className="mss-slider-inner" data-swiper-parallax="100">
-                <img
-                  src={slide.image}
-                  alt="full_screen-image"
-                  className="mss-slide-image"
-                />
+                <picture className="mss-slide-picture">
+                  <source
+                    media="(max-width: 767px)"
+                    srcSet={slide.mobileImage}
+                  />
+                  <img
+                    src={slide.desktopImage}
+                    alt={slide.imageAlt}
+                    width="1600"
+                    height="900"
+                    className="mss-slide-image"
+                    loading={slide.id === 1 ? "eager" : "lazy"}
+                    fetchPriority={slide.id === 1 ? "high" : "auto"}
+                    decoding="async"
+                  />
+                </picture>
                 <div
                   className="mss-swiper-content"
                   data-swiper-parallax="2000"

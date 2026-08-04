@@ -12,9 +12,13 @@ type ProcessStep = {
   subtitle: string;
   description: string;
   outcome: string;
-  image: string;
+  desktopImage: string;
+  mobileImage: string;
+  imageAlt: string;
   reverse?: boolean;
 };
+
+const publicUrl = import.meta.env.BASE_URL;
 
 const processSteps: ProcessStep[] = [
   {
@@ -25,8 +29,9 @@ const processSteps: ProcessStep[] = [
       "As a new studio, we take the time to learn how you want to live, how your family moves through space, and what the site can offer. We review budget, timelines, and any renovation constraints to create a brief we can build on with confidence.",
     outcome:
       "A shared project brief that anchors every design and construction decision.",
-    image:
-      "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&h=1000&fit=crop",
+    desktopImage: `${publicUrl}images/services/process-discovery-desktop.webp`,
+    mobileImage: `${publicUrl}images/services/process-discovery-mobile.webp`,
+    imageAlt: "Architect listening to homeowners during discovery on their Queensland site",
   },
   {
     number: "02",
@@ -36,8 +41,9 @@ const processSteps: ProcessStep[] = [
       "We explore massing, layout, and light to propose a design direction that works for both new builds and renovations. You will see spatial options, material intent, and early 3D views to help you feel the home before it exists.",
     outcome:
       "A concept package that balances function, beauty, and buildability.",
-    image:
-      "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=1000&fit=crop",
+    desktopImage: `${publicUrl}images/services/process-concept-desktop.webp`,
+    mobileImage: `${publicUrl}images/services/process-concept-mobile.webp`,
+    imageAlt: "Architect shaping an early Queensland home concept with a physical model",
     reverse: true,
   },
   {
@@ -47,8 +53,9 @@ const processSteps: ProcessStep[] = [
     description:
       "We refine the architecture, coordinate engineering, and prepare the drawings needed for permits and pricing. Every detail is specified to reduce surprises and keep the build moving smoothly.",
     outcome: "Permit-ready documentation and a clear scope for your builder.",
-    image:
-      "https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?w=800&h=1000&fit=crop",
+    desktopImage: `${publicUrl}images/services/process-documentation-desktop.webp`,
+    mobileImage: `${publicUrl}images/services/process-documentation-mobile.webp`,
+    imageAlt: "Architect and engineer coordinating build-ready residential documentation",
   },
   {
     number: "04",
@@ -58,8 +65,9 @@ const processSteps: ProcessStep[] = [
       "We stay involved through construction, collaborating with your builder and trades to protect the design intent. From site checks to finish coordination, we help ensure quality at every stage.",
     outcome:
       "A well-built home that reflects the architecture we set out to deliver.",
-    image:
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=1000&fit=crop",
+    desktopImage: `${publicUrl}images/services/process-construction-desktop.webp`,
+    mobileImage: `${publicUrl}images/services/process-construction-mobile.webp`,
+    imageAlt: "Architect and site supervisor checking craftsmanship during construction",
     reverse: true,
   },
   {
@@ -70,8 +78,9 @@ const processSteps: ProcessStep[] = [
       "From joinery, lighting, and fixtures to final styling, we bring the interior story together so it feels cohesive and calm. We also offer post-handover support for tweaks, future phases, or renovations.",
     outcome:
       "A move-in ready home with a team you can return to as needs evolve.",
-    image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=1000&fit=crop",
+    desktopImage: `${publicUrl}images/services/process-aftercare-desktop.webp`,
+    mobileImage: `${publicUrl}images/services/process-aftercare-mobile.webp`,
+    imageAlt: "Interior architect guiding homeowners through a completed Queensland home",
   },
 ];
 
@@ -308,11 +317,21 @@ export const ProcessSection: FC = () => {
         >
           <div className="shambala-process-step-image-wrap">
             <div className="shambala-process-step-image-container">
-              <img
-                className="shambala-process-step-image"
-                src={step.image}
-                alt={step.title}
-              />
+              <picture className="shambala-process-step-picture">
+                <source
+                  media="(max-width: 1123px)"
+                  srcSet={step.mobileImage}
+                />
+                <img
+                  className="shambala-process-step-image"
+                  src={step.desktopImage}
+                  alt={step.imageAlt}
+                  width="1200"
+                  height="1050"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
           </div>
 

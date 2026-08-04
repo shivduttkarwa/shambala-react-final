@@ -3,7 +3,10 @@ import gsap from "gsap";
 import "./NewServicesHero.css";
 
 const publicUrl = import.meta.env.BASE_URL;
-const heroVideo = `${publicUrl}images/services-hero-vid.mp4`;
+const heroBackgroundDesktop = `${publicUrl}images/services/hero-background-desktop.webp`;
+const heroBackgroundMobile = `${publicUrl}images/services/hero-background-mobile.webp`;
+const heroFeatureDesktop = `${publicUrl}images/services/hero-feature-desktop.webp`;
+const heroFeatureTablet = `${publicUrl}images/services/hero-feature-tablet.webp`;
 
 interface FloatingCard {
   id: number;
@@ -211,10 +214,18 @@ const NewServicesHero: React.FC = () => {
       className={`nsh-hero ${isLoaded ? "nsh-loaded" : ""}`}
       ref={rootRef}
     >
-      {/* Background Video */}
-      <video className="nsh-bg-video" autoPlay muted loop playsInline>
-        <source src={heroVideo} type="video/mp4" />
-      </video>
+      <picture className="nsh-bg-media">
+        <source media="(max-width: 767px)" srcSet={heroBackgroundMobile} />
+        <img
+          src={heroBackgroundDesktop}
+          alt="Sunlit Queensland architecture with local stone and spotted-gum screening"
+          width="1600"
+          height="900"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+        />
+      </picture>
       <div className="nsh-bg-overlay" />
 
       {/* Left Content */}
@@ -281,12 +292,22 @@ const NewServicesHero: React.FC = () => {
 
           <div className="nsh-image-frame">
             <div className="nsh-image-reveal" ref={imageRevealRef} />
-            <img
-              src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-              alt="Modern Architectural Design"
-              className="nsh-main-image"
-              ref={imageRef}
-            />
+            <picture className="nsh-main-picture">
+              <source
+                media="(max-width: 1199px)"
+                srcSet={heroFeatureTablet}
+              />
+              <img
+                src={heroFeatureDesktop}
+                alt="Climate-responsive Queensland residence opening to a native garden"
+                width="1200"
+                height="1200"
+                className="nsh-main-image"
+                ref={imageRef}
+                loading="eager"
+                decoding="async"
+              />
+            </picture>
           </div>
 
           {/* Floating Cards */}

@@ -248,7 +248,6 @@ const AboutCompanyShowcase: React.FC = () => {
                   data-speed="0.22"
                 />
               </picture>
-              <div className="company-panel-overlay" />
             </figure>
 
             <div className="company-panel-content">
