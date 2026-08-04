@@ -49,6 +49,12 @@
   background: #000;
 }
 
+.pms-slider-picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .pms-slide-image {
   width: 100%;
   height: 100vh;
@@ -91,7 +97,10 @@
 .pms-title-area .pms-title {
   margin-top: 50px;
   color: #fff;
-  font-size: 8vw;
+  /* Capped: a bare 8vw keeps growing while .pms-swiper-content stays pinned at
+     600px, so past ~1400px viewport the title outgrows its own column. The cap
+     keeps the longest title ("CREATE") inside 600px at every width. */
+  font-size: clamp(2.5rem, 8vw, 7rem);
   font-family: "Dream Avenue", serif;
   font-weight: 900;
   line-height: 1.1;
@@ -100,6 +109,7 @@
   margin-left: -12px;
   text-decoration: none;
   display: block;
+  white-space: nowrap;
 }
 
 .pms-disc {

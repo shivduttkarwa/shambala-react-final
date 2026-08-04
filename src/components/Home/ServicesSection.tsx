@@ -37,7 +37,7 @@ const defaultServices: ServiceCard[] = [
     title: "Sustainable Vision",
     description:
       "We believe in building for generations, not just years. Every project honors the environment through eco-conscious materials, energy-efficient design, and practices that minimize our footprint while maximizing your home's harmony with nature.",
-    imageSrc: `${publicUrl}images/sercard1.jpg`,
+    imageSrc: `${publicUrl}images/home/foundation-sustainable.webp`,
     alt: "Sustainable building philosophy",
     ctaText: "Our Approach",
     ctaLink: "/about#approach",
@@ -47,7 +47,7 @@ const defaultServices: ServiceCard[] = [
     title: "Timeless Craftsmanship",
     description:
       "Quality isn't rushed—it's refined. Our master craftsmen blend time-honored techniques with modern innovation, ensuring every detail stands as a testament to precision, durability, and enduring beauty that transcends fleeting trends.",
-    imageSrc: `${publicUrl}images/sercard2.jpg`,
+    imageSrc: `${publicUrl}images/home/foundation-craftsmanship.webp`,
     alt: "Quality craftsmanship",
     ctaText: "Our Philosophy",
     ctaLink: "/about#philosophy",
@@ -57,7 +57,7 @@ const defaultServices: ServiceCard[] = [
     title: "Human-Centered Design",
     description:
       "Spaces shape lives. We listen deeply to understand how you live, work, and dream—then craft environments that elevate your daily experience, nurture well-being, and grow beautifully with your evolving story.",
-    imageSrc: `${publicUrl}images/sercard3.jpg`,
+    imageSrc: `${publicUrl}images/home/foundation-human-design.webp`,
     alt: "Human-centered design philosophy",
     ctaText: "Our Process",
     ctaLink: "/services#process",
@@ -67,7 +67,7 @@ const defaultServices: ServiceCard[] = [
     title: "Integrity & Trust",
     description:
       "Your vision deserves unwavering commitment. We build relationships on transparency, honest communication, and meticulous attention to your needs—because the foundation of every great project is trust earned through consistent excellence.",
-    imageSrc: `${publicUrl}images/4.avif`,
+    imageSrc: `${publicUrl}images/home/foundation-integrity.webp`,
     alt: "Trust and integrity",
     ctaText: "Know Us Better",
     ctaLink: "/about",
@@ -193,6 +193,8 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
                   src={service.imageSrc}
                   alt={service.alt}
                   className="hss-service-card-image"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="hss-service-overlay">
                   <div className="hss-service-text-wrapper">

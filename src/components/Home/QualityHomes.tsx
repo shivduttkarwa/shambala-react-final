@@ -87,11 +87,20 @@ const QualityHomes: React.FC = () => {
         {/* Image Side */}
         <div className="quality__media">
           <div className="quality__img-wrap">
-            <img data-gsap="zoom-in"
-              src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&q=80"
-              alt="Luxury Interior"
-              className="quality__img"
-            />
+            <picture>
+              <source
+                media="(max-width: 767px)"
+                srcSet={`${import.meta.env.BASE_URL}images/home/quality-mobile.webp`}
+              />
+              <img
+                data-gsap="zoom-in"
+                src={`${import.meta.env.BASE_URL}images/home/quality-desktop.webp`}
+                alt="Detailed Australian hardwood kitchen opening to a native garden"
+                className="quality__img"
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
           </div>
         </div>
       </div>

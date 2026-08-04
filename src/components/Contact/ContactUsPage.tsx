@@ -4,16 +4,24 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AestheticButton from "../UI/AestheticButton";
 import "./ContactUsPage.css";
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_RE = /^[\d\s\-()+]+$/;
+
+const EMPTY_FORM = {
+  name: "",
+  email: "",
+  phone: "",
+  service: "",
+  message: "",
+};
+
+type FormState = typeof EMPTY_FORM;
+type FormErrors = Partial<Record<keyof FormState, string>>;
+
 const ContactUsPage: React.FC = () => {
-  const [selectedOption, setSelectedOption] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState<FormState>(EMPTY_FORM);
+  const [errors, setErrors] = useState<FormErrors>({});
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -41,11 +49,8 @@ const ContactUsPage: React.FC = () => {
       });
 
       gsap.set(".cup-hero-reveal-line", { yPercent: 120, autoAlpha: 0 });
-      gsap.set(".cup-hero-actions > *", {
-        y: 80,
-        autoAlpha: 0,
-        scale: 0.6,
-      });
+      // Buttons get a plain fade — no travel, no scale.
+      gsap.set(".cup-hero-actions > *", { autoAlpha: 0 });
 
       const heroTl = gsap.timeline({
         defaults: { ease: "power4.out" },
@@ -70,11 +75,8 @@ const ContactUsPage: React.FC = () => {
       heroTl.to(
         ".cup-hero-actions > *",
         {
-          y: 0,
           autoAlpha: 1,
-          scale: 1,
-          duration: 0.9,
-          stagger: 0.12,
+          duration: 0.6,
           ease: "power1.out",
         },
         "-=0.35",
@@ -100,51 +102,58 @@ const ContactUsPage: React.FC = () => {
     };
   }, []);
 
-  const handleSubmit = (e: React.MouseEvent) => {
+  // Field-level messages beat a blocking alert(): the user sees every problem
+  // at once, next to the input that caused it, and can fix them in one pass.
+  const validate = (data: FormState): FormErrors => {
+    const next: FormErrors = {};
+
+    if (!data.name.trim()) next.name = "Please enter your name.";
+
+    if (!data.email.trim()) next.email = "Please enter your email address.";
+    else if (!EMAIL_RE.test(data.email.trim()))
+      next.email = "That doesn't look like a valid email address.";
+
+    if (!data.phone.trim()) next.phone = "Please enter a contact number.";
+    else if (
+      !PHONE_RE.test(data.phone.trim()) ||
+      data.phone.replace(/\D/g, "").length < 6
+    )
+      next.phone = "That doesn't look like a valid phone number.";
+
+    if (!data.service) next.service = "Please choose a service.";
+
+    if (!data.message.trim())
+      next.message = "Tell us a little about your project.";
+
+    return next;
+  };
+
+  const setField = (field: keyof FormState, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    // Clear this field's error as soon as the user starts correcting it.
+    setErrors((prev) =>
+      prev[field] ? { ...prev, [field]: undefined } : prev,
+    );
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Email validation regex
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // Phone validation regex (basic - allows digits, spaces, dashes, parentheses)
-    const phoneRegex = /^[\d\s\-()]+$/;
+    const next = validate(formData);
+    setErrors(next);
 
-    // Check if all fields are filled
-    if (
-      !formData.name ||
-      !formData.email ||
-      !formData.phone ||
-      !formData.message ||
-      !selectedOption
-    ) {
-      alert("Please fill in all fields");
+    if (Object.keys(next).length > 0) {
+      // Move focus to the first field that failed so keyboard and screen
+      // reader users are not left guessing where the problem is.
+      const firstInvalid = Object.keys(next)[0];
+      document.getElementById(`cup-${firstInvalid}`)?.focus();
       return;
     }
 
-    // Validate email format
-    if (!emailRegex.test(formData.email)) {
-      alert("Please enter a valid email address");
-      return;
-    }
-
-    // Validate phone format
-    if (!phoneRegex.test(formData.phone) || formData.phone.length < 6) {
-      alert("Please enter a valid phone number");
-      return;
-    }
-
-    console.log("Contact form submitted", {
-      ...formData,
-      lookingFor: selectedOption,
-    });
-
-    // Show success message
     setShowSuccess(true);
+    setFormData(EMPTY_FORM);
+    setErrors({});
 
-    // Reset form
-    setFormData({ name: "", email: "", phone: "", message: "" });
-    setSelectedOption("");
-
-    // Hide success message after 5 seconds
     setTimeout(() => {
       setShowSuccess(false);
     }, 5000);
@@ -219,166 +228,192 @@ const ContactUsPage: React.FC = () => {
         <div className="cup-inner">
           <div className="cup-info-wrapper">
             {/* LEFT – FORM */}
-            <div className="cup-form contact-animate">
-              {/* NAME */}
-              <div className="cup-input-wrapper">
-                <input
-                  placeholder="Your Name"
-                  className="cup-contact-header cup-big-line"
-                  autoComplete="off"
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                />
-                <div className="cup-underline" />
+            <form
+              className="cup-form contact-animate"
+              onSubmit={handleSubmit}
+              noValidate
+            >
+              <div className="cup-form-head">
+                <h2 className="cup-form-title">Send us a message</h2>
+                <p className="cup-form-note">
+                  Fill in a few details and we'll come back to you within
+                  24–48 hours.
+                </p>
               </div>
 
-              {/* PHONE NUMBER */}
-              <div className="cup-input-wrapper">
-                <input
-                  placeholder="Mobile Number"
-                  className="cup-contact-header cup-big-line"
-                  autoComplete="off"
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={(e) =>
-                    setFormData({ ...formData, phone: e.target.value })
-                  }
-                />
-                <div className="cup-underline" />
-              </div>
+              <div className="cup-field-grid">
+                <div className="cup-field">
+                  <label htmlFor="cup-name">Name</label>
+                  <input
+                    id="cup-name"
+                    type="text"
+                    name="name"
+                    autoComplete="name"
+                    placeholder="Jane Smith"
+                    value={formData.name}
+                    aria-invalid={!!errors.name}
+                    aria-describedby={errors.name ? "cup-name-err" : undefined}
+                    onChange={(e) => setField("name", e.target.value)}
+                  />
+                  {errors.name && (
+                    <p className="cup-field-error" id="cup-name-err">
+                      {errors.name}
+                    </p>
+                  )}
+                </div>
 
-              {/* EMAIL */}
-              <div className="cup-input-wrapper">
-                <input
-                  placeholder="Your Email"
-                  className="cup-contact-header cup-big-line"
-                  autoComplete="off"
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                />
-                <div className="cup-underline" />
-              </div>
+                <div className="cup-field">
+                  <label htmlFor="cup-phone">Mobile</label>
+                  <input
+                    id="cup-phone"
+                    type="tel"
+                    name="phone"
+                    autoComplete="tel"
+                    placeholder="0400 000 000"
+                    value={formData.phone}
+                    aria-invalid={!!errors.phone}
+                    aria-describedby={
+                      errors.phone ? "cup-phone-err" : undefined
+                    }
+                    onChange={(e) => setField("phone", e.target.value)}
+                  />
+                  {errors.phone && (
+                    <p className="cup-field-error" id="cup-phone-err">
+                      {errors.phone}
+                    </p>
+                  )}
+                </div>
 
-              {/* SELECT SERVICE */}
-              <div
-                className={`cup-input-wrapper ${
-                  isOpen || selectedOption ? "focused" : ""
-                }`}
-              >
-                <div className="cup-select-wrapper">
-                  <div
-                    className={`cup-select-display cup-big-line ${
-                      selectedOption ? "has-value" : ""
-                    }`}
-                    onClick={() => setIsOpen(!isOpen)}
-                  >
-                    {selectedOption || "Select service"}
-                  </div>
-                  <div className={`cup-select-options ${isOpen ? "open" : ""}`}>
-                    {options.map((option, index) => (
-                      <div
-                        key={index}
-                        className="cup-select-option"
-                        onClick={() => {
-                          setSelectedOption(option);
-                          setIsOpen(false);
-                        }}
-                      >
-                        {option}
-                      </div>
-                    ))}
-                  </div>
-                  <div className="cup-select-icon">
+                <div className="cup-field">
+                  <label htmlFor="cup-email">Email</label>
+                  <input
+                    id="cup-email"
+                    type="email"
+                    name="email"
+                    autoComplete="email"
+                    placeholder="jane@example.com"
+                    value={formData.email}
+                    aria-invalid={!!errors.email}
+                    aria-describedby={
+                      errors.email ? "cup-email-err" : undefined
+                    }
+                    onChange={(e) => setField("email", e.target.value)}
+                  />
+                  {errors.email && (
+                    <p className="cup-field-error" id="cup-email-err">
+                      {errors.email}
+                    </p>
+                  )}
+                </div>
+
+                <div className="cup-field">
+                  <label htmlFor="cup-service">Service</label>
+                  <div className="cup-select-shell">
+                    <select
+                      id="cup-service"
+                      name="service"
+                      value={formData.service}
+                      aria-invalid={!!errors.service}
+                      aria-describedby={
+                        errors.service ? "cup-service-err" : undefined
+                      }
+                      onChange={(e) => setField("service", e.target.value)}
+                    >
+                      <option value="">Select a service</option>
+                      {options.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
                     <svg viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M7 10l5 5 5-5H7z" />
                     </svg>
                   </div>
+                  {errors.service && (
+                    <p className="cup-field-error" id="cup-service-err">
+                      {errors.service}
+                    </p>
+                  )}
                 </div>
-                <div className="cup-underline" />
-              </div>
 
-              {/* MESSAGE */}
-              <div className="cup-input-wrapper">
-                <textarea
-                  name="message"
-                  placeholder="Your Message"
-                  className="cup-contact-header cup-contact-textarea cup-big-line"
-                  value={formData.message}
-                  onChange={(e) =>
-                    setFormData({ ...formData, message: e.target.value })
-                  }
-                />
-                <div className="cup-underline" />
-              </div>
-
-              <div className="cup-button-area">
-                <div className="cup-behind-line" />
-                <div className="cup-button-wrapper">
-                  <button
-                    className="cup-submit-button"
-                    onClick={handleSubmit}
-                    tabIndex={0}
-                  >
-                    <div className="cup-submit-inner">
-                      <p className="cup-p-button">SUBMIT</p>
-                    </div>
-                  </button>
+                <div className="cup-field cup-field--full">
+                  <label htmlFor="cup-message">Project details</label>
+                  <textarea
+                    id="cup-message"
+                    name="message"
+                    rows={4}
+                    placeholder="Tell us about your site, timeline and budget."
+                    value={formData.message}
+                    aria-invalid={!!errors.message}
+                    aria-describedby={
+                      errors.message ? "cup-message-err" : undefined
+                    }
+                    onChange={(e) => setField("message", e.target.value)}
+                  />
+                  {errors.message && (
+                    <p className="cup-field-error" id="cup-message-err">
+                      {errors.message}
+                    </p>
+                  )}
                 </div>
               </div>
-            </div>
+
+              <div className="cup-form-footer">
+                <p className="cup-form-privacy">
+                  We'll only use these details to reply to your enquiry.
+                </p>
+                <button type="submit" className="cup-submit">
+                  Send enquiry
+                </button>
+              </div>
+            </form>
 
             {/* RIGHT – CONTACT INFO (shambala) */}
-            <div className="cup-info-column contact-animate">
-              <h3 className="cup-info-title">Shambala Homes</h3>
-              <ul className="cup-info-list">
-                <li>
-                  <strong>Projects:</strong>{" "}
-                  <a href="mailto:admin@shambalahomes.com.au">
-                    admin@shambalahomes.com.au
-                  </a>
-                </li>
-                <li>
-                  <strong>New enquiries:</strong>{" "}
-                  <a href="mailto:admin@shambalahomes.com.au">
-                    admin@shambalahomes.com.au
-                  </a>
-                </li>
-                <li>
-                  <strong>Response time:</strong> 24–48 hours
-                </li>
-                <li>
-                  <strong>Phone:</strong>{" "}
-                  <a href="tel:0428809166">0428 809 166</a>
-                </li>
-                <li>
-                  <strong>Visits:</strong> By appointment only, Narangba 4504
-                </li>
-                <li>
-                  <strong>Hours:</strong> Monday–Friday, 9am–6pm
-                </li>
-              </ul>
+            <aside className="cup-info-column contact-animate">
+              <div className="cup-info-head">
+                <p className="cup-info-eyebrow">Get in touch</p>
+                <h2 className="cup-info-title">Shambala Homes</h2>
+              </div>
+
+              {/* Definition list: each row is a label/value pair, which is what
+                  this content actually is — and it keeps the label visually
+                  quiet instead of bolding half the block. */}
+              <dl className="cup-info-list">
+                <div className="cup-info-row">
+                  <dt>Email</dt>
+                  <dd>
+                    <a href="mailto:admin@shambalahomes.com.au">
+                      admin@shambalahomes.com.au
+                    </a>
+                  </dd>
+                </div>
+                <div className="cup-info-row">
+                  <dt>Phone</dt>
+                  <dd>
+                    <a href="tel:0428809166">0428 809 166</a>
+                  </dd>
+                </div>
+                <div className="cup-info-row">
+                  <dt>Response</dt>
+                  <dd>Within 24–48 hours</dd>
+                </div>
+                <div className="cup-info-row">
+                  <dt>Studio</dt>
+                  <dd>Narangba 4504 — by appointment</dd>
+                </div>
+                <div className="cup-info-row">
+                  <dt>Hours</dt>
+                  <dd>Monday–Friday, 9am–6pm</dd>
+                </div>
+              </dl>
 
               <AestheticButton
                 href="mailto:admin@shambalahomes.com.au"
                 className="cup-info-cta"
                 text="Schedule a Call"
               />
-
-              <div className="cup-arrow" aria-hidden="true">
-                <svg viewBox="0 0 36.41 36.41" className="cup-arrow-icon">
-                  <path d="M18.21,0a18.21,18.21,0,1,0,18.2,18.21A18.22,18.22,0,0,0,18.21,0Zm0,.71A17.5,17.5,0,1,1,.71,18.21,17.53,17.53,0,0,1,18.21.71Zm0,9a.34.34,0,0,0-.36.35V25.51l-4.68-4.67a.35.35,0,0,0-.49.49L18,26.62a.33.33,0,0,0,.25.1.32.32,0,0,0,.25-.1l5.28-5.28a.33.33,0,0,0,0-.5.34.34,0,0,0-.49,0l-4.68,4.68V10a.34.34,0,0,0-.36-.35Z" />
-                </svg>
-              </div>
-            </div>
+            </aside>
           </div>
         </div>
       </section>

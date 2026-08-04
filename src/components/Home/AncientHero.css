@@ -39,6 +39,12 @@
   z-index: 1;
 }
 
+.sanctuary__bg picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .sanctuary__bg img {
   width: 100%;
   height: 100%;
@@ -166,6 +172,9 @@
 }
 
 /* Typography */
+/* Acts as the reveal mask for .eyebrow-text. Its margin-bottom stays out
+   here on the mask, so the translated text is fully clipped rather than
+   showing through the gap below it. */
 .eyebrow {
   font-family: 'Cinzel', serif;
   font-size: 0.7rem;
@@ -173,9 +182,13 @@
   color: rgba(255, 255, 255, 0.95);
   text-transform: uppercase;
   margin-bottom: 1.5rem;
-  opacity: 0;
+  overflow: hidden;
   text-shadow: 0 2px 12px rgba(0,0,0,0.8);
   white-space: nowrap;
+}
+
+.eyebrow-text {
+  display: block;
 }
 
 .ancient-hero-title {
@@ -654,6 +667,7 @@
   }
 
   .eyebrow,
+  .eyebrow-text,
   .ancient-hero-title,
   .ancient-hero-title .line,
   .ancient-hero-subtitle,

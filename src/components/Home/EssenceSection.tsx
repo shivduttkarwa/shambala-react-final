@@ -32,8 +32,9 @@ const EssenceSection: React.FC<EssenceSectionProps> = ({
   ctaText = "Get to Know Us",
   ctaHref = "/about",
   image = {
-    src: `${publicUrl}images/fwi1.jpg`,
-    alt: "Modern architectural design",
+    src: `${publicUrl}images/home/essence-desktop.webp`,
+    mobile: `${publicUrl}images/home/essence-mobile.webp`,
+    alt: "Climate-responsive Queensland living space opening to a subtropical garden",
   },
   videoUrl = `${publicUrl}images/home-hero.mp4`,
 }) => {
@@ -123,21 +124,18 @@ const EssenceSection: React.FC<EssenceSectionProps> = ({
           {/* Right side: beige bg + image sliding in over it */}
           <div className="essence-image">
             <div className="essence-image-mask" ref={imageMaskRef}>
-              <img
-                src={image.src}
-                srcSet={
-                  image.mobile && image.tablet && image.desktop
-                    ? `${image.mobile} 700w, ${image.tablet} 1000w, ${image.desktop} 1200w`
-                    : undefined
-                }
-                sizes={
-                  image.mobile && image.tablet && image.desktop
-                    ? "(max-width: 768px) 100vw, (max-width: 1024px) 100vw, 50vw"
-                    : undefined
-                }
-                alt={image.alt}
-                className="essence-img"
-              />
+              <picture>
+                {image.mobile && (
+                  <source media="(max-width: 767px)" srcSet={image.mobile} />
+                )}
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  className="essence-img"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
           </div>
 

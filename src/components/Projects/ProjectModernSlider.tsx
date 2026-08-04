@@ -22,7 +22,9 @@ const publicUrl = import.meta.env.BASE_URL;
 
 interface SlideData {
   id: number;
-  image: string;
+  desktopImage: string;
+  mobileImage: string;
+  alt: string;
   tag?: string;
   title: string;
   description: string;
@@ -44,7 +46,9 @@ const ProjectModernSlider: React.FC = () => {
   const slidesData: SlideData[] = [
     {
       id: 1,
-      image: `${publicUrl}images/l1.jpg`,
+      desktopImage: `${publicUrl}images/home/project-create-desktop.webp`,
+      mobileImage: `${publicUrl}images/home/project-create-mobile.webp`,
+      alt: "New contemporary Queensland home glowing at blue hour",
       tag: "NEW HOME ARCHITECTURE",
       title: "CREATE",
       description:
@@ -53,7 +57,9 @@ const ProjectModernSlider: React.FC = () => {
     },
     {
       id: 2,
-      image: `${publicUrl}images/l2.jpg`,
+      desktopImage: `${publicUrl}images/home/project-refine-desktop.webp`,
+      mobileImage: `${publicUrl}images/home/project-refine-mobile.webp`,
+      alt: "Queensland character home with a contemporary garden extension",
       tag: "RENOVATION & EXTENSION",
       title: "REFINE",
       description:
@@ -62,7 +68,9 @@ const ProjectModernSlider: React.FC = () => {
     },
     {
       id: 3,
-      image: `${publicUrl}images/l3.jpg`,
+      desktopImage: `${publicUrl}images/home/project-finish-desktop.webp`,
+      mobileImage: `${publicUrl}images/home/project-finish-mobile.webp`,
+      alt: "Bespoke Australian interior opening to a subtropical courtyard",
       tag: "INTERIOR ARCHITECTURE",
       title: "FINISH",
       description:
@@ -460,11 +468,19 @@ const ProjectModernSlider: React.FC = () => {
           {slidesData.map((slide) => (
             <SwiperSlide key={slide.id} className="pms-swiper-slide">
               <div className="pms-slider-inner" data-swiper-parallax="100">
-                <img
-                  src={slide.image}
-                  alt="full_screen-image"
-                  className="pms-slide-image"
-                />
+                <picture className="pms-slider-picture">
+                  <source
+                    media="(max-width: 767px)"
+                    srcSet={slide.mobileImage}
+                  />
+                  <img
+                    src={slide.desktopImage}
+                    alt={slide.alt}
+                    className="pms-slide-image"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
                 <div className="pms-swiper-content" data-swiper-parallax="2000">
                   <div className="pms-title-area">
                     {slide.tag && <p className="pms-tag">{slide.tag}</p>}

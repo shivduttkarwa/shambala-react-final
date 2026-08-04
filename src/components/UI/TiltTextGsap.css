@@ -32,6 +32,12 @@
   display: inline-block;
   overflow: hidden;
   position: relative;
+  /* Each character is its own inline-block, so a word is breakable at every
+     letter. As a flex item it would also be shrunk below its content width,
+     at which point those characters wrap and the word splits mid-word
+     ("CREAT" / "E"). Pin both: words wrap against each other, never inside. */
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .tilt-text-char {

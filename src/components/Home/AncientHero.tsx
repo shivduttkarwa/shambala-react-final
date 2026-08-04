@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import gsap from "gsap";
 import "./AncientHero.css";
 
+const publicUrl = import.meta.env.BASE_URL;
+
 const AncientHero: React.FC = () => {
   const particlesRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
-  const eyebrowRef = useRef<HTMLDivElement>(null);
+  const eyebrowRef = useRef<HTMLSpanElement>(null);
   const titleLine1Ref = useRef<HTMLSpanElement>(null);
   const titleLine2Ref = useRef<HTMLSpanElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
@@ -32,9 +34,12 @@ const AncientHero: React.FC = () => {
       }
     }
 
-    // Lock animated elements hidden until GSAP reveals them
-    gsap.set(eyebrowRef.current, { opacity: 0 });
-    gsap.set([titleLine1Ref.current, titleLine2Ref.current], { y: "100%" });
+    // Lock animated elements hidden until GSAP reveals them. All three hero
+    // lines sit below their masks, so no opacity is needed to hide them.
+    gsap.set(
+      [eyebrowRef.current, titleLine1Ref.current, titleLine2Ref.current],
+      { y: "100%" },
+    );
     gsap.set(subtitleRef.current, { opacity: 0 });
     gsap.set(ctaRef.current, { opacity: 0, clipPath: "inset(0 100% 0 0)" });
     gsap.set(scrollBtnRef.current, { opacity: 0, y: 30 });
@@ -56,59 +61,54 @@ const AncientHero: React.FC = () => {
   useEffect(() => {
     if (!animationsStarted) return;
 
+    // Entry choreography — reads top-to-bottom, resolves in ~1.45s.
+    // Elements overlap heavily so the hero settles as one gesture rather
+    // than a queue of separate reveals.
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-    // 1. Eyebrow fades in
+    // 1. All three hero lines rise out of their masks as a visible cascade.
+    //
+    // The previous 0.14s stagger read as simultaneous. What the eye tracks is
+    // the wall-clock gap between lines landing, and 0.14s put only 0.28s
+    // between the first and last — while expo.out had already carried line one
+    // ~83% of its travel by then, so there was almost nothing left moving to
+    // separate them. Widening to 0.22s puts 0.44s end to end, and power3.out
+    // keeps more of the motion in the back half where it stays visible.
     tl.fromTo(
-      eyebrowRef.current,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 1 },
+      [eyebrowRef.current, titleLine1Ref.current, titleLine2Ref.current],
+      { y: "100%" },
+      { y: "0%", duration: 0.85, ease: "power3.out", stagger: 0.22 },
       0,
     );
 
-    // 2. Title line 1 reveals from mask
-    tl.fromTo(
-      titleLine1Ref.current,
-      { y: "100%" },
-      { y: "0%", duration: 3, ease: "expo.out" },
-      0.3,
-    );
-
-    // 3. Title line 2 reveals from mask (staggered)
-    tl.fromTo(
-      titleLine2Ref.current,
-      { y: "100%" },
-      { y: "0%", duration: 2, ease: "expo.out" },
-      0.6,
-    );
-
-    // 4. Subtitle fades in
+    // 2. Subtitle fades in as the last line is still settling
     tl.fromTo(
       subtitleRef.current,
       { opacity: 0 },
-      { opacity: 1, duration: 1 },
-      1.7,
+      { opacity: 1, duration: 0.5 },
+      0.7,
     );
 
-    // 5. CTA reveals with clip-path animation
+    // 3. CTA wipes in
     tl.fromTo(
       ctaRef.current,
       { opacity: 0, clipPath: "inset(0 100% 0 0)" },
       {
         opacity: 1,
         clipPath: "inset(0 0 0 0)",
-        duration: 1.1,
+        duration: 0.55,
         ease: "expo.out",
       },
-      1.5,
+      0.85,
     );
 
-    // 6. Scroll indicator slides up
+    // 4. Scroll indicator lands last, overlapping the CTA so there is no
+    // pause between the content finishing and the cue appearing.
     tl.fromTo(
       scrollBtnRef.current,
       { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" },
-      4.3,
+      { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" },
+      1.05,
     );
 
     return () => {
@@ -132,10 +132,18 @@ const AncientHero: React.FC = () => {
     >
       {/* Background Image */}
       <div className="sanctuary__bg">
-        <img
-          src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?q=80&w=2940&auto=format&fit=crop"
-          alt="Ancient Himalayan Architecture at Golden Hour"
-        />
+        <picture>
+          <source
+            media="(max-width: 767px)"
+            srcSet={`${publicUrl}images/home/hero-mobile.webp`}
+          />
+          <img
+            src={`${publicUrl}images/home/hero-desktop.webp`}
+            alt="Contemporary Queensland home among native landscaping at dusk"
+            fetchPriority="high"
+            decoding="async"
+          />
+        </picture>
       </div>
 
       {/* Atmospheric Effects */}
@@ -164,8 +172,10 @@ const AncientHero: React.FC = () => {
       {/* Main Content */}
       <div className="sanctuary__content">
         <div className="gateway">
-          <div ref={eyebrowRef} className="eyebrow">
-            Architectural Excellence
+          <div className="eyebrow">
+            <span ref={eyebrowRef} className="eyebrow-text">
+              Architectural Excellence
+            </span>
           </div>
           <h1 className="ancient-hero-title">
             <div className="line-mask">

@@ -10,8 +10,11 @@ interface Slide {
   subtitle: string;
   description: string;
   features: string[];
-  image: string;
+  desktopImage: string;
+  mobileImage: string;
 }
+
+const publicUrl = import.meta.env.BASE_URL;
 
 const slides: Slide[] = [
   {
@@ -20,7 +23,8 @@ const slides: Slide[] = [
     subtitle: 'Build Your Dream',
     description: 'Start fresh with a custom-designed home tailored to your lifestyle. From foundation to finishing touches, we bring your vision to life.',
     features: ['Custom Floor Plans', 'Premium Materials', 'Energy Efficient', 'Smart Home Ready'],
-    image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80',
+    desktopImage: `${publicUrl}images/home/service-new-desktop.webp`,
+    mobileImage: `${publicUrl}images/home/service-new-mobile.webp`,
   },
   {
     id: 2,
@@ -28,7 +32,8 @@ const slides: Slide[] = [
     subtitle: 'Elevate Your Living',
     description: 'Transform your current space into something extraordinary. Modern renovations that enhance both comfort and value.',
     features: ['Kitchen Remodels', 'Bathroom Upgrades', 'Room Additions', 'Outdoor Living'],
-    image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80',
+    desktopImage: `${publicUrl}images/home/service-renovation-desktop.webp`,
+    mobileImage: `${publicUrl}images/home/service-renovation-mobile.webp`,
   },
 ];
 
@@ -186,9 +191,11 @@ const ShambalaServices: React.FC = () => {
               return (
                 <img
                   key={`${slide.id}-${isActive ? 'active' : 'prev'}`}
-                  src={slide.image}
+                  src={width < 1124 ? slide.mobileImage : slide.desktopImage}
                   alt={slide.title}
                   className="shambala-services__slide-image"
+                  loading="lazy"
+                  decoding="async"
                   style={{
                     zIndex: isActive ? 2 : 1,
                     ...getAnimationStyle(isActive),
