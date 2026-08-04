@@ -45,14 +45,28 @@
   object-fit: cover;
 }
 
+/*
+ * Cream wash that makes the dark hero copy legible over the photograph.
+ *
+ * It has to stay strong behind the text column (the type is #1f1b16, so it
+ * needs a light backing) but the old ramp held 0.72 all the way to 52% and
+ * only reached 0.28 at the far corner — which washed the whole image out.
+ *
+ * Now it holds full strength across the copy, then falls away quickly so the
+ * right two-thirds of the photograph reads properly. Horizontal rather than
+ * 135deg: the copy is a left-hand column, so the wash should track x, not the
+ * diagonal — the old angle was spending opacity on the empty lower-left.
+ */
 .nsh-bg-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    135deg,
-    rgba(250, 248, 243, 0.9) 0%,
-    rgba(250, 248, 243, 0.72) 52%,
-    rgba(250, 248, 243, 0.28) 100%
+    to right,
+    rgba(250, 248, 243, 0.92) 0%,
+    rgba(250, 248, 243, 0.88) 32%,
+    rgba(250, 248, 243, 0.45) 52%,
+    rgba(250, 248, 243, 0.12) 72%,
+    rgba(250, 248, 243, 0) 100%
   );
   z-index: 1;
   pointer-events: none;

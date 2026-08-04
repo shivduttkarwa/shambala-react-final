@@ -1,5 +1,60 @@
+/* ===========================================================================
+   ROOT TYPE SCALE — the one place `rem` is defined.
+   ===========================================================================
+   Every rem on the site resolves against this, so these seven steps scale the
+   whole layout — type, spacing, radii, shadows — in proportion to the screen.
+   Change a value here and the entire site moves with it.
+
+     < 480px    14.5px   small phones — tighter, more fits per line
+     ≥ 480px    15px     large phones
+     ≥ 768px    15.5px   tablets
+     ≥ 1024px   16px     laptops — the width the design is tuned at
+     ≥ 1280px   16.5px   large laptops / small desktops
+     ≥ 1536px   17px     large desktops
+     ≥ 1920px   18px     2K/4K — stops the layout looking marooned
+
+   1024–1280 holds the current 16px baseline, so the width the design was
+   built against renders exactly as it does today. The scale only departs
+   from that at the extremes.
+   =========================================================================== */
 html {
-  font-size: 16px; /* 1rem = 16px */
+  font-size: 14.5px;
+}
+
+@media (min-width: 480px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 15.5px;
+  }
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: 16px; /* baseline */
+  }
+}
+
+@media (min-width: 1280px) {
+  html {
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 1536px) {
+  html {
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 1920px) {
+  html {
+    font-size: 18px;
+  }
 }
 
 body {

@@ -237,7 +237,7 @@ const NewServicesHero: React.FC = () => {
                 if (el) titleLineRefs.current[0] = el;
               }}
             >
-              CREAT SOMETHING
+              CREATE SOMETHING
             </span>
           </span>
           <span className="nsh-title-line">
