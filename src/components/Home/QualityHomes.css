@@ -34,6 +34,8 @@
   position: absolute;
   inset: 1rem;
   overflow: hidden;
+  /* Frame for the aperture reveal — see useApertureReveal.ts. */
+  will-change: clip-path;
 }
 
 .quality__img-wrap picture {

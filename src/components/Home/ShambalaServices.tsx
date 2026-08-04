@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import TiltTextGsap from '../UI/TiltTextGsap';
 import AestheticButton from '../UI/AestheticButton';
 import { initGsapSwitchAnimations } from '../../lib/gsapSwitchAnimations';
+import { useApertureReveal } from '../../lib/useApertureReveal';
 import './ShambalaServices.css';
 
 interface Slide {
@@ -140,43 +139,12 @@ const ShambalaServices: React.FC = () => {
     return initGsapSwitchAnimations(sectionRef.current || undefined);
   }, []);
 
-  // Entry reveal — identical to the Essence image (EssenceSection.tsx).
+  // Aperture entry reveal, shared with Essence and Quality Homes.
   //
-  // Clipped on the container, not the images: the slides themselves are
-  // transformed by the slide-change keyframes, and clip-path on the parent
-  // uncovers them without touching that. clip-path is GPU-composited and
-  // leaves layout alone, so the image is never resized or re-cropped.
-  //
-  // inset(top right bottom left): the RIGHT inset retreats from 100% to 0, so
-  // the visible area grows from the left edge outward — a left-to-right wipe.
-  useEffect(() => {
-    const container = imageContainerRef.current;
-    if (!container) return;
-
-    gsap.registerPlugin(ScrollTrigger);
-    gsap.set(container, { clipPath: 'inset(0 100% 0 0)' });
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: container,
-        start: 'top 80%',
-        toggleActions: 'play none none none',
-        once: true,
-      },
-    });
-
-    tl.to(container, {
-      clipPath: 'inset(0 0% 0 0)',
-      duration: 1.1,
-      ease: 'power3.out',
-    });
-
-    return () => {
-      ScrollTrigger.getAll().forEach((st) => {
-        if (st.trigger === container) st.kill();
-      });
-    };
-  }, []);
+  // Clipped on the container rather than the images: the slides are already
+  // transformed by the slide-change keyframes, and clipping the parent
+  // uncovers them without touching that.
+  useApertureReveal(imageContainerRef);
 
   
   // Only dynamic animation styles that depend on state

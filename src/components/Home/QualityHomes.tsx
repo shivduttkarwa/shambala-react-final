@@ -1,14 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 import { initGsapSwitchAnimations } from '../../lib/gsapSwitchAnimations';
+import { useApertureReveal } from '../../lib/useApertureReveal';
 import AestheticButton from '../UI/AestheticButton';
 import './QualityHomes.css';
 
 const QualityHomes: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const imageFrameRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     return initGsapSwitchAnimations(sectionRef.current || undefined);
   }, []);
+
+  useApertureReveal(imageFrameRef);
 
   return (
     <section ref={sectionRef} className="quality home-section home-section--quality">
@@ -86,14 +90,15 @@ const QualityHomes: React.FC = () => {
 
         {/* Image Side */}
         <div className="quality__media">
-          <div className="quality__img-wrap">
+          <div className="quality__img-wrap" ref={imageFrameRef}>
             <picture>
               <source
                 media="(max-width: 767px)"
                 srcSet={`${import.meta.env.BASE_URL}images/home/quality-mobile.webp`}
               />
+              {/* No data-gsap here: the aperture hook drives the counter-zoom on
+                  this img, and the old zoom-in would fight it for the transform. */}
               <img
-                data-gsap="zoom-in"
                 src={`${import.meta.env.BASE_URL}images/home/quality-desktop.webp`}
                 alt="Detailed Australian hardwood kitchen opening to a native garden"
                 className="quality__img"

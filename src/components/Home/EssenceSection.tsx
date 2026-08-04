@@ -1,11 +1,10 @@
 import React, { useRef, useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./EssenceSection.css";
 import AestheticButton from "../UI/AestheticButton";
 import FallingTextVideoComponent from "../UI/FallingTextVideoComponent";
 import TiltTextGsap from "../UI/TiltTextGsap";
 import { initGsapSwitchAnimations } from "../../lib/gsapSwitchAnimations";
+import { useApertureReveal } from "../../lib/useApertureReveal";
 
 interface EssenceSectionProps {
   logo?: string;
@@ -47,72 +46,7 @@ const EssenceSection: React.FC<EssenceSectionProps> = ({
   const sectionRef = useRef<HTMLDivElement>(null);
   const imageMaskRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!imageMaskRef.current) return;
-
-    gsap.registerPlugin(ScrollTrigger);
-
-    const mask = imageMaskRef.current;
-    const img = mask.querySelector("img");
-
-    // APERTURE reveal (see play.html #01).
-    //
-    // A circular clip opens from the centre while the photograph counter-zooms
-    // back down to 1×. The opposing motion is what creates the depth — the
-    // frame grows outward as the subject settles back.
-    //
-    // 75% is not arbitrary: for circle() a percentage resolves against
-    // sqrt(w² + h²) / sqrt(2), so any radius above sqrt(2)/2 ≈ 70.7% reaches
-    // the corners of *any* rectangle. 75% clears them with margin to spare,
-    // which matters here because this mask is a tall portrait box on desktop
-    // and a wide one on mobile.
-    //
-    // clip-path and transform are both GPU-composited, so nothing reflows and
-    // the image is laid out once rather than re-cropped mid-animation.
-    gsap.set(mask, { clipPath: "circle(0% at 50% 50%)" });
-    if (img) gsap.set(img, { scale: 1.45 });
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: mask,
-        start: "top 80%",
-        toggleActions: "play none none none",
-        once: true,
-      },
-    });
-
-    tl.to(
-      mask,
-      {
-        clipPath: "circle(75% at 50% 50%)",
-        duration: 1.4,
-        ease: "power3.inOut",
-      },
-      0,
-    );
-
-    if (img) {
-      // Slightly longer than the clip so the zoom is still easing as the frame
-      // finishes opening, rather than both landing on the same frame.
-      tl.to(
-        img,
-        {
-          scale: 1,
-          duration: 1.6,
-          ease: "power2.out",
-        },
-        0,
-      );
-    }
-
-    return () => {
-      ScrollTrigger.getAll().forEach((st) => {
-        if (st.trigger === mask) {
-          st.kill();
-        }
-      });
-    };
-  }, []);
+  useApertureReveal(imageMaskRef);
 
   useEffect(() => {
     return initGsapSwitchAnimations(sectionRef.current || undefined);
