@@ -41,18 +41,18 @@
    this one read smaller was being the only title not uppercased — lowercase
    sits at the x-height (~52% of the em) rather than the cap-height (~70%) —
    compounded by negative tracking where the others use +0.04em. */
+/* Everything visual — font, size, casing, weight, tracking, colour — now comes
+   from .tilt-text-heading. Only the section's own spacing is set here, so this
+   heading can never drift from the others again. */
 .i-want-section__title {
-  font-size: var(--home-section-title-size);
-  font-weight: 800;
-  font-family: "Bona Nova SC", "Bebas Neue", sans-serif;
-  color: #1A1A1A;
-  margin: 0 0 1rem 0;
-  line-height: 1.1;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  margin-bottom: 1rem;
 }
 
-.i-want-section__title-accent {
+/* Gold accent on the trailing "...".
+   TiltTextGsap renders one span per character, so the accent is positional:
+   the last three characters of the final word. This is coupled to the copy
+   ending in "..." — if that changes, update or drop this rule. */
+.i-want-section__title .tilt-text-word:last-child .tilt-text-char:nth-last-child(-n + 3) {
   color: #6a4c09;
 }
 

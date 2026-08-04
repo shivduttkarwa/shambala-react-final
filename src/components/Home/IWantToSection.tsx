@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { initGsapSwitchAnimations } from '../../lib/gsapSwitchAnimations';
 import AestheticButton from '../UI/AestheticButton';
+import TiltTextGsap from '../UI/TiltTextGsap';
 import './IWantToSection.css';
 
 interface ServiceOption {
@@ -57,9 +58,14 @@ const IWantToSection: React.FC = () => {
           <div data-gsap="fade-up" className="i-want-section__eyebrow">
             Your Journey Begins
           </div>
-          <h2 data-gsap="fade-up" className="i-want-section__title">
-            I want to<span className="i-want-section__title-accent">...</span>
-          </h2>
+          {/* Shared section heading — same component every other home section
+              uses, so font, casing, size and tracking stay in step with it.
+              TiltTextGsap splits its text into per-character spans, so it takes
+              a plain string; the gold "..." accent is applied in CSS instead of
+              a nested span, and it runs its own reveal so no data-gsap here. */}
+          <TiltTextGsap className="i-want-section__title" startTrigger="top 80%">
+            I want to...
+          </TiltTextGsap>
         </div>
 
         {/* Grid */}
