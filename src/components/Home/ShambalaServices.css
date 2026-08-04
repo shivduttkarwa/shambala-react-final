@@ -57,6 +57,8 @@
 .shambala-services__image-container {
   position: absolute;
   inset: 0;
+  /* This container is what the entry wipe clips — see ShambalaServices.tsx. */
+  will-change: clip-path;
 }
 
 .shambala-services__slide-image {

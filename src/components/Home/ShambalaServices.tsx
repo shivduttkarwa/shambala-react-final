@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import TiltTextGsap from '../UI/TiltTextGsap';
 import AestheticButton from '../UI/AestheticButton';
 import { initGsapSwitchAnimations } from '../../lib/gsapSwitchAnimations';
@@ -70,6 +72,7 @@ const ShambalaServices: React.FC = () => {
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const imageContainerRef = useRef<HTMLDivElement>(null);
 
   const { width, height } = useWindowSize();
   const isMobile = width < 768;
@@ -137,6 +140,44 @@ const ShambalaServices: React.FC = () => {
     return initGsapSwitchAnimations(sectionRef.current || undefined);
   }, []);
 
+  // Entry reveal — identical to the Essence image (EssenceSection.tsx).
+  //
+  // Clipped on the container, not the images: the slides themselves are
+  // transformed by the slide-change keyframes, and clip-path on the parent
+  // uncovers them without touching that. clip-path is GPU-composited and
+  // leaves layout alone, so the image is never resized or re-cropped.
+  //
+  // inset(top right bottom left): the RIGHT inset retreats from 100% to 0, so
+  // the visible area grows from the left edge outward — a left-to-right wipe.
+  useEffect(() => {
+    const container = imageContainerRef.current;
+    if (!container) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.set(container, { clipPath: 'inset(0 100% 0 0)' });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: container,
+        start: 'top 80%',
+        toggleActions: 'play none none none',
+        once: true,
+      },
+    });
+
+    tl.to(container, {
+      clipPath: 'inset(0 0% 0 0)',
+      duration: 1.1,
+      ease: 'power3.out',
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach((st) => {
+        if (st.trigger === container) st.kill();
+      });
+    };
+  }, []);
+
   
   // Only dynamic animation styles that depend on state
   const getAnimationStyle = (isActive: boolean) => {
@@ -179,8 +220,11 @@ const ShambalaServices: React.FC = () => {
 
       <div className="shambala-services__container">
         {/* Image Side - Positioned first for mobile background */}
-        <div className="shambala-services__image-side" data-gsap="slide-left">
-          <div className="shambala-services__image-container">
+        <div className="shambala-services__image-side">
+          <div
+            className="shambala-services__image-container"
+            ref={imageContainerRef}
+          >
             {slides.map((slide, idx) => {
               const isActive = idx === currentSlide;
               const isPrevious = idx === previousSlide;
