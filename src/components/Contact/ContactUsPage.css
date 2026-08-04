@@ -96,7 +96,8 @@
   margin-left: auto;
   margin-right: auto;
   color: rgba(255, 255, 255, 0.92);
-  overflow: hidden;
+  /* No overflow:hidden — this used to clip a masked reveal-line. The subtitle
+     now fades up as a whole, and clipping would crop it mid-animation. */
 }
 
 .cup-hero-reveal-line {
@@ -110,7 +111,8 @@
   justify-content: center;
   margin-top: 5.1rem;
   transform-origin: center;
-  overflow: hidden;
+  /* No overflow:hidden — the buttons translate up from y:20 on entry and this
+     would clip them mid-flight. */
 }
 
 .cup-hero-cta {

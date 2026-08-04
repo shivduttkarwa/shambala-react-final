@@ -97,12 +97,20 @@
 }
 
 .nsh-changing-word {
-  filter: none;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.24));
 }
 
 .nsh-changing-word span {
   display: inline-block;
-  color: #b8892e;
+  background: linear-gradient(
+    to bottom,
+    #fff7d6 0%,
+    #ffd45a 48%,
+    #ffad33 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .nsh-title em::after {

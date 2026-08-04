@@ -48,38 +48,43 @@ const ContactUsPage: React.FC = () => {
         );
       });
 
+      // Only the title uses a mask reveal. The subtitle and buttons fade up,
+      // matching the About and Services heroes.
       gsap.set(".cup-hero-reveal-line", { yPercent: 120, autoAlpha: 0 });
-      // Buttons get a plain fade — no travel, no scale.
-      gsap.set(".cup-hero-actions > *", { autoAlpha: 0 });
+      // 0.9, not 0, is the resting opacity in the stylesheet — animating to 1
+      // would brighten the subtitle past its intended value.
+      gsap.set(".cup-hero-subtitle", { y: 30, autoAlpha: 0 });
+      gsap.set(".cup-hero-actions > *", { y: 20, autoAlpha: 0 });
 
       const heroTl = gsap.timeline({
         defaults: { ease: "power4.out" },
         delay: 0.8,
       });
 
-      heroTl.to(".cup-hero-title .cup-hero-reveal-line", {
-        yPercent: 0,
-        autoAlpha: 1,
-        duration: 1,
-        skewY: 0,
-      });
+      // Absolute positions rather than "-=" offsets: relative ones compound, so
+      // retiming the title silently shifts everything after it.
       heroTl.to(
-        ".cup-hero-subtitle .cup-hero-reveal-line",
-        {
-          yPercent: 0,
-          autoAlpha: 1,
-          duration: 0.9,
-        },
-        "-=0.32",
+        ".cup-hero-title .cup-hero-reveal-line",
+        { yPercent: 0, autoAlpha: 1, duration: 1, skewY: 0 },
+        0,
       );
+
+      heroTl.to(
+        ".cup-hero-subtitle",
+        { y: 0, autoAlpha: 0.9, duration: 0.8, ease: "power3.out" },
+        0.35,
+      );
+
       heroTl.to(
         ".cup-hero-actions > *",
         {
+          y: 0,
           autoAlpha: 1,
           duration: 0.6,
-          ease: "power1.out",
+          ease: "power3.out",
+          stagger: 0.14,
         },
-        "-=0.35",
+        0.7,
       );
     });
 
@@ -205,12 +210,12 @@ const ContactUsPage: React.FC = () => {
           <h1 className="cup-hero-title">
             <span className="cup-hero-reveal-line">Let's Connect</span>
           </h1>
+          {/* No reveal-line span: the subtitle fades up as a whole rather than
+              rising out of a mask, matching the About/Services heroes. */}
           <p className="cup-hero-subtitle">
-            <span className="cup-hero-reveal-line">
-              New home, refined upgrade, or a commercial property that needs a
-              quieter kind of drama— tell us where you are, and we'll help you
-              plan what comes next.
-            </span>
+            New home, refined upgrade, or a commercial property that needs a
+            quieter kind of drama— tell us where you are, and we'll help you
+            plan what comes next.
           </p>
 
           <div className="cup-hero-actions">

@@ -65,14 +65,54 @@ const FallingTextVideoComponent: React.FC<FallingTextVideoComponentProps> = ({
       }
     };
 
-    // Set up video load handler
-    if (videoRef.current) {
-      if (videoRef.current.readyState >= 3) {
+    // Defer the video until it is nearly on screen.
+    //
+    // This section sits below the fold, so there is no reason to spend the
+    // initial page load on a multi-megabyte clip. The element ships with
+    // preload="metadata" and no autoPlay attribute — autoPlay would make the
+    // browser fetch eagerly regardless of preload — and we only switch to
+    // preload="auto" and start playback once it approaches the viewport.
+    //
+    // Gate on `canplay` (readyState 2) rather than `canplaythrough` (3):
+    // "through" waits for enough buffer to finish the whole clip uninterrupted,
+    // which is a long wait for no benefit on a silent looping background.
+    const video = videoRef.current;
+    let started = false;
+
+    const startIfReady = () => {
+      if (!video) return;
+      if (video.readyState >= 2) {
         handleVideoLoad();
       } else {
-        videoRef.current.addEventListener('canplaythrough', handleVideoLoad, { once: true });
+        video.addEventListener('canplay', handleVideoLoad, { once: true });
       }
-    }
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!video) return;
+          if (entry.isIntersecting) {
+            if (!started) {
+              started = true;
+              video.preload = 'auto';
+              video.load();
+              startIfReady();
+            } else {
+              void video.play().catch(() => {});
+            }
+          } else if (started) {
+            // Offscreen playback burns CPU and battery for nothing.
+            video.pause();
+          }
+        });
+      },
+      // Start fetching a little before it scrolls in, so it is running by the
+      // time the section is actually visible.
+      { rootMargin: '300px 0px' },
+    );
+
+    if (video) io.observe(video);
 
     const ctx = gsap.context(() => {
       // Initial state for top text
@@ -142,7 +182,11 @@ const FallingTextVideoComponent: React.FC<FallingTextVideoComponentProps> = ({
 
     }, wrapperRef);
 
-    return () => ctx.revert();
+    return () => {
+      io.disconnect();
+      video?.removeEventListener('canplay', handleVideoLoad);
+      ctx.revert();
+    };
   }, []);
 
   return (
@@ -160,14 +204,16 @@ const FallingTextVideoComponent: React.FC<FallingTextVideoComponentProps> = ({
 
         {/* Center video */}
         <div ref={videoContainerRef} className="ftv-video-container">
-          <video 
+          {/* No autoPlay and preload="metadata" on purpose — both are what keep
+              this off the initial page load. An IntersectionObserver above
+              upgrades preload and starts playback as it scrolls into view. */}
+          <video
             ref={videoRef}
-            autoPlay 
-            muted 
-            loop 
+            muted
+            loop
             playsInline
             controls={false}
-            preload="auto"
+            preload="metadata"
             webkit-playsinline="true"
           >
             <source src={videoSrc} type="video/mp4" />

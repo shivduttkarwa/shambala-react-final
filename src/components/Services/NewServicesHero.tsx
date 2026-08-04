@@ -144,47 +144,35 @@ const NewServicesHero: React.FC = () => {
         const words = ["Elegant", "Spacious", "Innovative", "Timeless"];
         const wordTl = gsap.timeline({
           repeat: -1,
-          defaults: { ease: "power3.out" },
+          defaults: { ease: "power3.inOut" },
         });
 
-        const buildSpans = (text: string) => {
-          changingWord.innerHTML = "";
-          const spans: HTMLSpanElement[] = [];
-          text.split("").forEach((char) => {
-            const span = document.createElement("span");
-            span.textContent = char === " " ? "\u00a0" : char;
-            changingWord.appendChild(span);
-            spans.push(span);
-          });
-          return spans;
-        };
-
         words.forEach((word) => {
-          wordTl.add(() => {
-            const spans = buildSpans(word);
-            gsap.set(spans, { opacity: 0, y: 24, filter: "blur(10px)" });
-            gsap.to(spans, {
-              opacity: 1,
-              y: 0,
-              filter: "blur(0px)",
-              duration: 1.1,
-              stagger: { each: 0.05, from: "start" },
-              ease: "power3.out",
-            });
-          });
-
-          wordTl.to(
-            changingWord.children,
-            {
-              opacity: 0,
-              y: -22,
-              filter: "blur(10px)",
-              duration: 1.0,
-              stagger: { each: 0.05, from: "end" },
-              ease: "power3.inOut",
-            },
-            "+=2.0",
-          );
+          wordTl
+            .call(() => {
+              changingWord.textContent = word;
+            })
+            .fromTo(
+              changingWord,
+              { opacity: 0, y: 24, filter: "blur(10px)" },
+              {
+                opacity: 1,
+                y: 0,
+                filter: "blur(0px)",
+                duration: 0.8,
+                ease: "power3.out",
+              },
+            )
+            .to(
+              changingWord,
+              {
+                opacity: 0,
+                y: -22,
+                filter: "blur(10px)",
+                duration: 0.7,
+              },
+              "+=2.0",
+            );
         });
       }
       const rootEl = rootRef.current;
