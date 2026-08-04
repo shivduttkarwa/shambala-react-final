@@ -214,7 +214,7 @@
 /* Typography */
 /* Acts as the reveal mask for .eyebrow-text. Its margin-bottom stays out here on the mask, so the translated text is fully clipped rather than showing through the gap below it. */
 .eyebrow {
-  font-family: "Cinzel", "Bebas Neue", serif;
+  font-family: "Cinzel", "Libre Franklin", serif;
   font-size: 0.7rem;
   letter-spacing: 0.3em;
   color: rgba(255, 255, 255, 0.95);
@@ -232,7 +232,7 @@
 }
 
 .ancient-hero-title {
-  font-family: "Bona Nova SC", "Bebas Neue", sans-serif;
+  font-family: "Bona Nova SC", "Libre Franklin", sans-serif;
   font-size: 2.5rem;
   font-weight: 400;
   line-height: 1.1;
@@ -297,7 +297,7 @@
   border: 1px solid rgba(212, 175, 55, 0.6);
   color: var(--gold);
   text-decoration: none;
-  font-family: "Cinzel", "Bebas Neue", serif;
+  font-family: "Cinzel", "Libre Franklin", serif;
   font-size: 0.75rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;

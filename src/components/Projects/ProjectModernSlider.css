@@ -118,7 +118,7 @@
      600px, so past ~1400px viewport the title outgrows its own column. The cap
      keeps the longest title ("CREATE") inside 600px at every width. */
   font-size: clamp(2.5rem, 8vw, 7rem);
-  font-family: "Bona Nova SC", "Bebas Neue", sans-serif;
+  font-family: "Bona Nova SC", "Libre Franklin", sans-serif;
   /* 400, not 900. Bona Nova SC only ships 400 and 700, so 900 forced the
      browser to synthesise a bolder face — which smears the fine strokes of a
      high-contrast serif at this size. */

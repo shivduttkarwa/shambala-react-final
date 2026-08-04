@@ -65,7 +65,7 @@
 /* Title */
 .nsh-title {
   font-size: var(--page-hero-title-size);
-  font-family: "Bona Nova SC", "Bebas Neue", sans-serif;
+  font-family: "Bona Nova SC", "Libre Franklin", sans-serif;
   font-weight: 400;
   line-height: 1.1;
   color: #ffffff;
@@ -401,7 +401,7 @@
 }
 
 .nsh-card-value {
-  font-family: "Playfair Display", "Bebas Neue", Georgia, serif;
+  font-family: "Playfair Display", "Libre Franklin", Georgia, serif;
   font-size: 1rem;
   font-weight: 500;
   color: #ffffff;

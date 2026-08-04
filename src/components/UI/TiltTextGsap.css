@@ -1,7 +1,7 @@
 /* TiltTextGsap Component Styles */
 
 .tilt-text-heading {
-  font-family: "Bona Nova SC", "Bebas Neue", sans-serif !important;
+  font-family: "Bona Nova SC", "Libre Franklin", sans-serif !important;
   text-transform: uppercase !important;
   /* No tracking. Bona Nova SC is small-caps and carries its own spacing. */
   letter-spacing: 0 !important;

@@ -37,7 +37,7 @@
 
 /* Serif font class */
 .ser-serif {
-  font-family: "Playfair Display", "Bebas Neue", Georgia, serif;
+  font-family: "Playfair Display", "Libre Franklin", Georgia, serif;
 }
 
 .ser-section-title {
@@ -150,7 +150,7 @@
 
 .ser-page-hero-velocity .mm-heading,
 .ser-page-hero-text-container h1 {
-  font-family: "Bona Nova SC", "Bebas Neue", sans-serif;
+  font-family: "Bona Nova SC", "Libre Franklin", sans-serif;
   font-size: clamp(70px, 8vw, 90px);
   font-weight: 400;
   line-height: 1.1;

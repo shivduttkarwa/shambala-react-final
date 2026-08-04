@@ -113,7 +113,7 @@
 
 /* Title */
 .cta-title {
-  font-family: "Bona Nova SC", "Bebas Neue", sans-serif;
+  font-family: "Bona Nova SC", "Libre Franklin", sans-serif;
   font-size: clamp(2rem, 8vw, 3rem);
   font-weight: 300;
   color: var(--color-white);
@@ -848,7 +848,7 @@
 }
 
 .cta-success-popup h3 {
-  font-family: "Bona Nova SC", "Bebas Neue", sans-serif;
+  font-family: "Bona Nova SC", "Libre Franklin", sans-serif;
   font-size: 1.75rem;
   font-weight: 600;
   color: var(--color-green);
