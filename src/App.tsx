@@ -11,8 +11,6 @@ import NewContact from "./pages/NewContact";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import CookiesPolicy from "./pages/CookiesPolicy";
-import BlogListPage from "./pages/BlogListPage";
-import BlogDetailPage from "./pages/BlogDetailPage";
 import ScrollToTop from "./components/UI/ScrollToTop";
 import Preloader from "./components/UI/Preloader";
 import FloatingContact from "./components/UI/FloatingContact";
@@ -35,8 +33,6 @@ function App() {
                 path="/projects/:projectId"
                 element={<ProjectDetailPage />}
               />
-              <Route path="/blog" element={<BlogListPage />} />
-              <Route path="/blog/:slug" element={<BlogDetailPage />} />
               <Route path="/contact-us" element={<NewContact />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/cookies-policy" element={<CookiesPolicy />} />

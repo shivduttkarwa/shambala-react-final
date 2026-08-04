@@ -193,23 +193,32 @@ const ShambalaServices: React.FC = () => {
             className="shambala-services__image-container"
             ref={imageContainerRef}
           >
+            {/* Every slide stays mounted; only z-index decides what you see.
+                Previously the inactive slides returned null and the key encoded
+                active/prev state — so on each change React tore down the <img>
+                and built a new one, forcing a fresh decode and a blank frame.
+                That was the flicker, and it was worse on mobile because the
+                mobile sources are separate files and decode slower.
+                The images are position:absolute inset:0 object-fit:cover, so
+                the topmost one covers the rest completely — no opacity needed. */}
             {slides.map((slide, idx) => {
               const isActive = idx === currentSlide;
               const isPrevious = idx === previousSlide;
-              const shouldShow = isActive || (isPrevious && isTransitioning);
-
-              if (!shouldShow) return null;
 
               return (
                 <img
-                  key={`${slide.id}-${isActive ? 'active' : 'prev'}`}
+                  key={slide.id}
                   src={width < 1124 ? slide.mobileImage : slide.desktopImage}
                   alt={slide.title}
                   className="shambala-services__slide-image"
+                  // Lazy is fine now they are permanently mounted: all slides
+                  // intersect the viewport together, so every one is fetched
+                  // when the section scrolls in — long before any interaction.
                   loading="lazy"
                   decoding="async"
+                  aria-hidden={!isActive}
                   style={{
-                    zIndex: isActive ? 2 : 1,
+                    zIndex: isActive ? 2 : isPrevious ? 1 : 0,
                     ...getAnimationStyle(isActive),
                   }}
                 />

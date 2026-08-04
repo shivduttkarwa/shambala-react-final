@@ -68,6 +68,11 @@
   height: 100%;
   object-fit: cover;
   will-change: transform;
+  /* Hold each slide on its own compositor layer. Without this the browser
+     promotes and demotes layers around the slide animation, which shows as a
+     one-frame flash — most visible on mobile, where decode is slower. */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .shambala-services__image-overlay {

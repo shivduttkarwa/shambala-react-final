@@ -78,7 +78,7 @@ const TiltTextGsap: React.FC<TiltTextGsapProps> = ({
     // Make sure the heading is visible before animating
     gsap.set(heading, { visibility: "visible" });
 
-    // Match BlogDetailPage hero title animation
+    // Keep the hero title animation smooth and consistent
     gsap.set(charEls, {
       opacity: 0,
       yPercent: 120,

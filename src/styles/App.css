@@ -34,8 +34,6 @@ h6,
 .dream-title,
 .feature-title,
 .studio-title,
-.blog-section-title,
-.blog-title,
 .section-title,
 .quality-main-title,
 .hero-text h1,
@@ -71,10 +69,6 @@ h6::before,
 .feature-title::before,
 .studio-title::after,
 .studio-title::before,
-.blog-section-title::after,
-.blog-section-title::before,
-.blog-title::after,
-.blog-title::before,
 .section-title::after,
 .section-title::before,
 .quality-main-title::after,
@@ -1212,8 +1206,7 @@ body.portfolio-active {
 /* COMMON SECTION TITLE STYLES */
 .section-title,
 .quality-main-title,
-.studio-title,
-.blog-section-title {
+.studio-title {
   font-family: "Cinzel", serif;
   font-size: clamp(2rem, 4vw, 3.04rem);
   font-weight: 400;
