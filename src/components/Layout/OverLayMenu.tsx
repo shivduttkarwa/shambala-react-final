@@ -497,7 +497,7 @@ const OverlayMenu: React.FC = () => {
                   <Link to="/terms-and-conditions" className="olm-footer-link">
                     Terms
                   </Link>
-                  <Link to="/blog" className="olm-footer-link">
+                  <Link to="/cookies-policy" className="olm-footer-link">
                     Cookies
                   </Link>
                 </div>

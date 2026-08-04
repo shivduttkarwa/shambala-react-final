@@ -32,17 +32,9 @@
   font-family: "Nunito", sans-serif;
 }
 
-.glass-rain-btn-bg {
-  position: absolute;
-  inset: 0;
-  background: #9bc56f;
-  opacity: 0.15;
-  transform-origin: left;
-  transform: scaleX(0);
-  transition: transform 0.8s ease-out;
-  pointer-events: none;
-  z-index: 0;
-}
+/* The green sweep (.glass-rain-btn-bg — a #9bc56f panel scaling in from the
+   left over 0.8s) has been removed. Hover feedback is now the background tint
+   and lift on .glass-rain-btn:hover below. */
 
 .glass-rain-btn-label {
   position: relative;
@@ -72,10 +64,6 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
-}
-
-.glass-rain-btn:hover .glass-rain-btn-bg {
-  transform: scaleX(1);
 }
 
 .glass-rain-btn:hover .glass-rain-btn-icon {

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import './LegalPages.css';
 
@@ -148,9 +149,11 @@ const PrivacyPolicy: React.FC = () => {
           <section className="legal-section">
             <h2>Cookies Policy</h2>
             <p>
-              Our website uses cookies to enhance your browsing experience. You can control 
-              cookie settings through your browser preferences. Disabling cookies may affect 
-              website functionality.
+              The current website does not intentionally set first-party analytics
+              or advertising cookies. Our Contact page contains an embedded Google
+              Map, which may use third-party cookies when it loads. Read our{" "}
+              <Link to="/cookies-policy">Cookies Policy</Link> for details and
+              information about your choices.
             </p>
           </section>
 

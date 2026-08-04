@@ -10,6 +10,7 @@ import ServicePage from "./pages/ServicePage";
 import NewContact from "./pages/NewContact";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
+import CookiesPolicy from "./pages/CookiesPolicy";
 import BlogListPage from "./pages/BlogListPage";
 import BlogDetailPage from "./pages/BlogDetailPage";
 import ScrollToTop from "./components/UI/ScrollToTop";
@@ -38,6 +39,7 @@ function App() {
               <Route path="/blog/:slug" element={<BlogDetailPage />} />
               <Route path="/contact-us" element={<NewContact />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/cookies-policy" element={<CookiesPolicy />} />
               <Route
                 path="/terms-and-conditions"
                 element={<TermsAndConditions />}

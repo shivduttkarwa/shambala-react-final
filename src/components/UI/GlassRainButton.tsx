@@ -101,8 +101,6 @@ const GlassRainButton: React.FC<GlassRainButtonProps> = ({
 
   const content = (
     <>
-      <span className="glass-rain-btn-bg"></span>
-
       {/* rain layer */}
       <div className="btn-rain-layer" ref={rainLayerRef}>
         <div className="btn-rain-shadows"></div>

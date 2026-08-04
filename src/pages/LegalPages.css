@@ -32,6 +32,11 @@
   --legal-scrim-end: rgba(30, 40, 32, 0.5);
 }
 
+.legal-header--cookies {
+  --legal-scrim-start: rgba(20, 25, 20, 0.52);
+  --legal-scrim-end: rgba(30, 40, 32, 0.6);
+}
+
 .legal-header__media {
   position: absolute;
   inset: 0;
@@ -289,4 +294,15 @@
   .contact-info p {
     font-size: 0.9rem;
   }
+}
+
+.legal-section a {
+  color: #4f7145;
+  font-weight: 600;
+  text-underline-offset: 0.18em;
+  transition: color 0.2s ease;
+}
+
+.legal-section a:hover {
+  color: #36522f;
 }

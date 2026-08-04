@@ -194,6 +194,12 @@ const Footer: React.FC = () => {
               >
                 Terms & Conditions
               </Link>
+              <Link
+                to="/cookies-policy"
+                className="shambala-footer-link shambala-legal-link"
+              >
+                Cookies Policy
+              </Link>
               <span className="shambala-footer-copyright">
                 © 2025 shambala. All rights reserved.
               </span>
