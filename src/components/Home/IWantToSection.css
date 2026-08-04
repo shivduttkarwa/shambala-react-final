@@ -36,6 +36,11 @@
   margin-bottom: 1.25rem;
 }
 
+/* Matches .tilt-text-heading, which every other home-section title uses.
+   The font-size was already shared via --home-section-title-size; what made
+   this one read smaller was being the only title not uppercased — lowercase
+   sits at the x-height (~52% of the em) rather than the cap-height (~70%) —
+   compounded by negative tracking where the others use +0.04em. */
 .i-want-section__title {
   font-size: var(--home-section-title-size);
   font-weight: 800;
@@ -43,7 +48,8 @@
   color: #1A1A1A;
   margin: 0 0 1rem 0;
   line-height: 1.1;
-  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .i-want-section__title-accent {
