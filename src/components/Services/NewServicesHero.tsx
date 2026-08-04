@@ -218,7 +218,7 @@ const NewServicesHero: React.FC = () => {
         <source media="(max-width: 767px)" srcSet={heroBackgroundMobile} />
         <img
           src={heroBackgroundDesktop}
-          alt="Sunlit Queensland architecture with local stone and spotted-gum screening"
+          alt="Shaded Queensland breezeway with spotted-gum screening and native planting"
           width="1600"
           height="900"
           loading="eager"
@@ -226,7 +226,6 @@ const NewServicesHero: React.FC = () => {
           decoding="async"
         />
       </picture>
-      <div className="nsh-bg-overlay" />
 
       {/* Left Content */}
       <div className="nsh-content">
@@ -299,7 +298,7 @@ const NewServicesHero: React.FC = () => {
               />
               <img
                 src={heroFeatureDesktop}
-                alt="Climate-responsive Queensland residence opening to a native garden"
+                alt="Climate-responsive Queensland pavilion residence with a native garden entry"
                 width="1200"
                 height="1200"
                 className="nsh-main-image"

@@ -45,34 +45,6 @@
   object-fit: cover;
 }
 
-/* Restrained dark scrim for white hero copy on smaller screens. */
-.nsh-bg-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(24, 35, 28, 0.42) 0%,
-    rgba(24, 35, 28, 0.36) 55%,
-    rgba(24, 35, 28, 0.3) 100%
-  );
-  z-index: 1;
-  pointer-events: none;
-}
-
-/* Darker beneath the left copy, lighter across the framed architecture. */
-@media (min-width: 1200px) {
-  .nsh-bg-overlay {
-    background: linear-gradient(
-      to right,
-      rgba(24, 35, 28, 0.48) 0%,
-      rgba(24, 35, 28, 0.4) 32%,
-      rgba(24, 35, 28, 0.28) 52%,
-      rgba(24, 35, 28, 0.16) 72%,
-      rgba(24, 35, 28, 0.1) 100%
-    );
-  }
-}
-
 /* ===== LEFT CONTENT ===== */
 .nsh-content {
   display: flex;

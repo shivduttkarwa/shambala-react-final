@@ -438,7 +438,6 @@ const ContactUsPage: React.FC = () => {
             decoding="async"
           />
         </picture>
-        <div className="cup-parallax-overlay" />
         <div className="cup-parallax-content contact-animate">
           <div className="cup-parallax-top">
             <h2>Where considered spaces meet calm living.</h2>
