@@ -119,6 +119,23 @@ code {
 }
 
 /* Home page section overlays + CTA theme hooks */
+/* ===========================================================================
+   PAGE HERO TYPE SCALE — one scale for the About, Services and Contact heroes.
+   ===========================================================================
+   These three previously carried 44 separate font-size declarations across 23
+   breakpoints, in three different systems (About used max-width, Services
+   min-width in px across 12 steps, Contact min-width in rem). At 1440px they
+   rendered at 70px / 53px / 63px — visibly different sizes for the same role.
+
+   Deliberately a single fluid clamp rather than a breakpoint ladder: there are
+   no steps to fall out of sync, and it interpolates smoothly at every width.
+   Change these two values to retune all three heroes together.
+   =========================================================================== */
+:root {
+  --page-hero-title-size: clamp(2.125rem, 5.1vw, 5.1rem);
+  --page-hero-body-size: clamp(1rem, 1.3vw, 1.35rem);
+}
+
 .home-section {
   position: relative;
   --home-section-title-size: clamp(2rem, 4vw, 3.2rem);

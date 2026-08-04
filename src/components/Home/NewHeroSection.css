@@ -188,11 +188,13 @@
 }
 
 .about-hero .hero-main-title {
+  font-size: var(--page-hero-title-size);
   color: #ffffff;
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.55);
 }
 
 .about-hero .hero-description {
+  font-size: var(--page-hero-body-size);
   color: rgba(255, 255, 255, 0.92);
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
 }
@@ -258,7 +260,6 @@
 
 /* Main Title */
 .hero-main-title {
-  font-size: clamp(2.125rem, 5.1vw, 4.25rem);
   font-weight: 400;
   line-height: 1.2;
   color: #ffffff;
@@ -296,7 +297,6 @@
 
 /* Description */
 .hero-description {
-  font-size: clamp(1rem, 1.8vw, 1.25rem);
   line-height: 1.7;
   color: #f2f4f8;
   text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.7);
@@ -454,12 +454,10 @@
   }
 
   .hero-main-title {
-    font-size: clamp(2.2rem, 5vw, 3.5rem);
     margin-bottom: 1.25rem;
   }
 
   .hero-description {
-    font-size: clamp(0.95rem, 1.6vw, 1.1rem);
     max-width: 600px;
     margin-bottom: 1.75rem;
   }
@@ -513,13 +511,11 @@
   }
 
   .hero-main-title {
-    font-size: clamp(1.7rem, 6.8vw, 2.125rem);
     line-height: 1.15;
     margin-bottom: 1rem;
   }
 
   .hero-description {
-    font-size: clamp(0.9rem, 3.5vw, 1.1rem);
     line-height: 1.6;
     margin-bottom: 1.5rem;
   }
@@ -581,13 +577,11 @@
 
   /* Main Title - 20% larger from reduced base */
   .hero-main-title {
-    font-size: clamp(2.55rem, 6.12vw, 5.1rem); /* 2.125rem * 1.2, 5.1vw * 1.2, 4.25rem * 1.2 */
     margin-bottom: 1.8rem; /* 1.5rem * 1.2 */
   }
 
   /* Description - 20% larger */
   .hero-description {
-    font-size: clamp(1.2rem, 2.16vw, 1.5rem); /* Original: 1rem, 1.8vw, 1.25rem */
     line-height: 2.04; /* 1.7 * 1.2 */
     margin-bottom: 2.4rem; /* 2rem * 1.2 */
     max-width: 840px; /* 700px * 1.2 */

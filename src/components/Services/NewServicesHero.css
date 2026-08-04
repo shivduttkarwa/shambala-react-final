@@ -64,8 +64,8 @@
 
 /* Title */
 .nsh-title {
+  font-size: var(--page-hero-title-size);
   font-family: "Bona Nova SC", "Bebas Neue", sans-serif;
-  font-size: clamp(1.5rem, 8vw, 1.7rem);
   font-weight: 400;
   line-height: 1.1;
   color: #ffffff;
@@ -127,8 +127,8 @@
 
 /* Description */
 .nsh-description {
+  font-size: var(--page-hero-body-size);
   font-family: "Nunito", sans-serif;
-  font-size: 0.9rem;
   line-height: 1.8;
   color: rgba(255, 255, 255, 0.9);
   max-width: 100%;
@@ -478,7 +478,6 @@
   }
 
   .nsh-title {
-    font-size: clamp(2.1rem, 9vw, 2.7rem);
     line-height: 1.08;
   }
 
@@ -487,7 +486,6 @@
   }
 
   .nsh-description {
-    font-size: 0.98rem;
     margin-bottom: 1.5rem;
     color: rgba(255, 255, 255, 0.9);
   }
@@ -528,11 +526,9 @@
   }
 
   .nsh-title {
-    font-size: clamp(1.7rem, 8vw, 1.9rem);
   }
 
   .nsh-description {
-    font-size: 0.9rem;
     margin-bottom: 2rem;
   }
 
@@ -576,12 +572,10 @@
   }
 
   .nsh-title {
-    font-size: clamp(2rem, 8vw, 2.25rem);
     margin-bottom: 1.5rem;
   }
 
   .nsh-description {
-    font-size: 0.95rem;
     margin-bottom: 2.5rem;
   }
 
@@ -610,11 +604,9 @@
    ============================================ */
 @media (min-width: 768px) {
   .nsh-title {
-    font-size: clamp(2.25rem, 7vw, 2.5rem);
   }
 
   .nsh-description {
-    font-size: 1rem;
     line-height: 1.8;
     margin-top: 1.5rem;
     max-width: 90%;
@@ -698,12 +690,10 @@
   }
 
   .nsh-title {
-    font-size: clamp(2.125rem, 5.1vw, 2.55rem);
     margin-bottom: 1.7rem;
   }
 
   .nsh-description {
-    font-size: 0.95rem;
     line-height: 1.85;
     margin-top: 1.75rem;
     max-width: 600px;
@@ -828,11 +818,9 @@
   }
 
   .nsh-title {
-    font-size: clamp(2.125rem, 3.825vw, 2.72rem);
   }
 
   .nsh-description {
-    font-size: 0.85rem;
     line-height: 1.9;
     margin-bottom: 2.2rem;
     max-width: 500px;
@@ -908,11 +896,9 @@
   }
 
   .nsh-title {
-    font-size: clamp(2.38rem, 3.57vw, 2.975rem);
   }
 
   .nsh-description {
-    font-size: 0.85rem;
     margin-bottom: 2.89rem;
   }
 
@@ -992,11 +978,9 @@
   }
 
   .nsh-title {
-    font-size: clamp(2.55rem, 3.655vw, 3.23rem);
   }
 
   .nsh-description {
-    font-size: 0.89rem;
   }
 
   /* Scroll Down Button - Desktop */
@@ -1057,12 +1041,10 @@
 
   /* Reduce all text sizes by 15% */
   .nsh-title {
-    font-size: clamp(3.23rem, 3.8vw, 3.655rem);
     margin-bottom: 2rem;
   }
 
   .nsh-description {
-    font-size: 0.935rem;
     margin-bottom: 3.5rem;
   }
 
@@ -1145,11 +1127,9 @@
   }
 
   .nsh-title {
-    font-size: clamp(4.4rem, 5.5vw, 4.95rem);
   }
 
   .nsh-description {
-    font-size: 1.265rem;
   }
 
   /* CTA Button - increased by 10% */
@@ -1351,12 +1331,10 @@
   }
 
   .nsh-title {
-    font-size: 1.5rem;
     margin-bottom: 1rem;
   }
 
   .nsh-description {
-    font-size: 0.85rem;
     margin-bottom: 1.5rem;
     display: none;
   }

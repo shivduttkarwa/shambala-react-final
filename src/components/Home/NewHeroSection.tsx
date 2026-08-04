@@ -196,14 +196,18 @@ const NewHeroSectionContent: React.FC = () => {
         <div className="hero-content">
           <div className="hero-text-wrapper">
             <h1 className="hero-main-title">
+              {/* Break after "DREAMS", not after "INTO". At the shared hero
+                  size "CRAFTING DREAMS INTO" needs ~1065px but the wrapper caps
+                  at 900px, so it wrapped — turning the two-line design into
+                  three. Same words, balanced across the two masks. */}
               <div className="hero-title-mask">
                 <span ref={titleLine1Ref} className="hero-title-line">
-                  CRAFTING DREAMS INTO
+                  CRAFTING DREAMS
                 </span>
               </div>
               <div className="hero-title-mask">
                 <span ref={titleLine2Ref} className="hero-title-line">
-                  <span className="hero-highlight">Reality</span>
+                  INTO <span className="hero-highlight">Reality</span>
                 </span>
               </div>
             </h1>

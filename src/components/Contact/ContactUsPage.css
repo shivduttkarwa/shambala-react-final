@@ -78,7 +78,7 @@
 }
 
 .cup-hero-title {
-  font-size: clamp(2.125rem, 5.1vw, 4.25rem);
+  font-size: var(--page-hero-title-size);
   line-height: 0.98;
   margin: 0 0 1rem;
   font-weight: 400;
@@ -89,8 +89,8 @@
 }
 
 .cup-hero-subtitle {
+  font-size: var(--page-hero-body-size);
   margin: 0 0 2.4rem;
-  font-size: clamp(1rem, 1.8vw, 1.25rem);
   opacity: 0.9;
   max-width: 38rem;
   margin-left: auto;
@@ -603,7 +603,6 @@
 /* ========== RESPONSIVE (Essence-style) ========== */
 @media (min-width: 30rem) {
   .cup-hero-title {
-    font-size: clamp(2.25rem, 5.2vw, 4.25rem);
   }
 }
 
@@ -615,13 +614,11 @@
 
 @media (min-width: 48rem) {
   .cup-hero-subtitle {
-    font-size: clamp(1rem, 1.7vw, 1.2rem);
   }
 }
 
 @media (min-width: 64rem) {
   .cup-hero-title {
-    font-size: clamp(2.6rem, 4.6vw, 4.6rem);
   }
 }
 
@@ -639,11 +636,9 @@
   }
 
   .cup-hero-title {
-    font-size: clamp(3rem, 4.4vw, 5rem);
   }
 
   .cup-hero-subtitle {
-    font-size: 1.2rem;
   }
 }
 
@@ -661,7 +656,6 @@
 
 @media (min-width: 96rem) {
   .cup-hero-title {
-    font-size: clamp(3.2rem, 4.2vw, 5.2rem);
   }
 }
 
@@ -682,14 +676,12 @@
     flex: 0.7;
   }
   .cup-hero-title {
-    font-size: clamp(4.3rem, 4.8vw, 6.7rem);
   }
   .cup-parallax-content {
     padding: clamp(3.6rem, 4.8vw, 6rem) clamp(2.4rem, 4.8vw, 4.8rem);
   }
 
   .cup-hero-subtitle {
-    font-size: clamp(1.2rem, 2.1vw, 1.5rem);
   }
 
   .cup-hero-cta span {
@@ -750,11 +742,9 @@
 
 @media (max-width: 30rem) {
   .cup-hero-title {
-    font-size: clamp(2.2rem, 8.7vw, 2.9rem);
   }
 
   .cup-hero-subtitle {
-    font-size: 1.12rem;
   }
 
   .cup-parallax-top h2 {

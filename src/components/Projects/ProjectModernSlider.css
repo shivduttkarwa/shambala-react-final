@@ -119,7 +119,10 @@
      keeps the longest title ("CREATE") inside 600px at every width. */
   font-size: clamp(2.5rem, 8vw, 7rem);
   font-family: "Bona Nova SC", "Bebas Neue", sans-serif;
-  font-weight: 900;
+  /* 400, not 900. Bona Nova SC only ships 400 and 700, so 900 forced the
+     browser to synthesise a bolder face — which smears the fine strokes of a
+     high-contrast serif at this size. */
+  font-weight: 400;
   line-height: 1.1;
   text-transform: uppercase;
   margin-bottom: 50px;
@@ -566,8 +569,10 @@
   .pms-title-area .pms-title,
   .pms-title-area .pms-title-tilt {
     font-size: clamp(2.5rem, 8vw, 3.5rem) !important;
-    font-weight: 600 !important;
-    letter-spacing: 0.04em !important;
+    /* Matches the base weight — 600 would also be synthesised, and the
+       !important here would otherwise win over the base rule on mobile. */
+    font-weight: 400 !important;
+    letter-spacing: 0.01em !important;
     line-height: 1.15 !important;
     margin-top: 20px !important;
     margin-bottom: 15px !important;
