@@ -321,20 +321,6 @@ body.menu-open {
   box-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
 }
 
-.olm-menu-item-projects .olm-menu-number {
-  color: #ffe66d;
-}
-
-.olm-menu-item-projects .olm-menu-arrow {
-  color: #ffe66d;
-}
-
-.olm-menu-item-projects:hover .olm-menu-line::before {
-  width: 100%;
-  background: #ffe66d;
-  box-shadow: 0 0 10px rgba(255, 230, 109, 0.5);
-}
-
 .olm-menu-item-about .olm-menu-number {
   color: #ff9500;
 }
@@ -658,7 +644,7 @@ body.menu-open {
     margin-inline: 0;
     background-image:
       linear-gradient(rgba(16, 16, 16, 0.85), rgba(16, 16, 16, 0.85)),
-      url("/images/bg.png");
+      url("/images/shared/monochrome-clifftop-residence.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1258,19 +1244,6 @@ body.menu-open {
     transition: all 0.15s ease;
   }
 
-  .olm-mobile-projects-icon {
-    background: rgba(255, 230, 109, 0.3);
-    border: 1px solid rgba(255, 230, 109, 0.4);
-    color: #ffe66d;
-    box-shadow:
-      0 4px 16px rgba(255, 230, 109, 0.15),
-      inset 0 1px 0 rgba(255, 230, 109, 0.3),
-      0 0 5px rgba(255, 230, 109, 0.2),
-      0 0 10px rgba(255, 230, 109, 0.05);
-    animation: glow-mobile-projects 2s ease-in-out infinite alternate;
-    transition: all 0.15s ease;
-  }
-
   .olm-mobile-about-icon {
     background: rgba(255, 149, 0, 0.3);
     border: 1px solid rgba(255, 149, 0, 0.4);
@@ -1351,19 +1324,6 @@ body.menu-open {
     box-shadow:
       0 0 8px rgba(78, 205, 196, 0.25),
       0 0 15px rgba(78, 205, 196, 0.1);
-  }
-}
-
-@keyframes glow-mobile-projects {
-  0% {
-    box-shadow:
-      0 0 5px rgba(255, 230, 109, 0.2),
-      0 0 10px rgba(255, 230, 109, 0.05);
-  }
-  100% {
-    box-shadow:
-      0 0 8px rgba(255, 230, 109, 0.25),
-      0 0 15px rgba(255, 230, 109, 0.1);
   }
 }
 

@@ -89,10 +89,14 @@ const ShambalaServices: React.FC = () => {
     // Change slide immediately so both images are visible during transition
     setCurrentSlide(index);
 
-    // Reset transition state after animation completes
+    // Clear the transition flag *after* the 1s animation, not exactly on it.
+    // Both were 1000ms, so the timer could fire on the frame before the
+    // animation's `forwards` fill committed — stripping the inline `animation`
+    // mid-flight and snapping the slide back a frame. The 120ms cushion means
+    // the element is settled before its style is removed.
     setTimeout(() => {
       setIsTransitioning(false);
-    }, 1000);
+    }, 1120);
   }, [currentSlide, isTransitioning]);
 
   const nextSlide = useCallback(() => {
@@ -325,8 +329,13 @@ const ShambalaServices: React.FC = () => {
               </div>
             )}
 
+            {/* No key={currentSlide}. That forced React to destroy and rebuild
+                this entire panel — heading, copy, feature list and button — on
+                every slide change. On mobile the panel is height:100vh, so that
+                teardown is a full-viewport reflow mid-animation, which is what
+                showed as the image blanking out and returning. React now just
+                updates the text in place. */}
             <div
-              key={currentSlide}
               className="shambala-services__content-panel shambala-services__content-layer shambala-services__content-layer--active"
               style={{
                 zIndex: 2,

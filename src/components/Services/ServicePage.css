@@ -20,11 +20,7 @@
   --ser-color-green: #47614d;
   --ser-color-yellow-soft: #fcf8d8;
 
-  background-image: linear-gradient(
-      rgba(224, 242, 228, 0.6),
-      rgba(224, 242, 228, 0.8)
-    ),
-    url("/images/bg-paint-1.jpg");
+  background-image: linear-gradient(135deg, #f2f5ef 0%, #e4eee5 100%);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -70,7 +66,7 @@
   height: 100vh;
   width: 100%;
   background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-    url("/images/bg.png");
+    url("/images/shared/monochrome-clifftop-residence.png");
   background-size: cover;
   background-position: center;
   display: flex;

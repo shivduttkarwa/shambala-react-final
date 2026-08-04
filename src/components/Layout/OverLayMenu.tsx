@@ -349,11 +349,11 @@ const OverlayMenu: React.FC = () => {
                 <div className="olm-menu-item-revealer"></div>
               </div>
 
-              {/* 4 - About Us */}
+              {/* 3 - About Us */}
               <div className="olm-menu-item olm-modern-menu-item olm-menu-item-about">
                 <div className="olm-menu-line"></div>
                 <Link to="/about">
-                  <span className="olm-menu-number">03.</span>
+                  <span className="olm-menu-number">02.</span>
                   <div className="olm-menu-arrow">
                     <svg width="40" height="25" viewBox="0 0 40 25">
                       <path
@@ -375,11 +375,11 @@ const OverlayMenu: React.FC = () => {
                 <div className="olm-menu-item-revealer"></div>
               </div>
 
-              {/* 5 - Contact Us */}
+              {/* 4 - Contact Us */}
               <div className="olm-menu-item olm-modern-menu-item olm-menu-item-contact">
                 <div className="olm-menu-line"></div>
                 <Link to="/contact-us">
-                  <span className="olm-menu-number">04.</span>
+                  <span className="olm-menu-number">03.</span>
                   <div className="olm-menu-arrow">
                     <svg width="40" height="25" viewBox="0 0 40 25">
                       <path
@@ -432,7 +432,7 @@ const OverlayMenu: React.FC = () => {
           <div
             className="olm-secondary-menu-bg"
             style={{
-              backgroundImage: `url(${getImagePath("bg.png")})`,
+              backgroundImage: `url(${getImagePath("shared/monochrome-clifftop-residence.png")})`,
               backgroundSize: "cover",
               backgroundPosition: "right center",
               backgroundRepeat: "no-repeat",

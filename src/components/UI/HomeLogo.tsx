@@ -15,8 +15,8 @@ const HomeLogo: React.FC<HomeLogoProps> = ({
 }) => {
   const publicUrl = import.meta.env.BASE_URL || "/";
   const logoPath = publicUrl.endsWith("/") 
-    ? `${publicUrl}images/shambala-white.svg`
-    : `${publicUrl}/images/shambala-white.svg`;
+    ? `${publicUrl}images/brand/shambala-homes-logo-white.svg`
+    : `${publicUrl}/images/brand/shambala-homes-logo-white.svg`;
 
   return (
     <img

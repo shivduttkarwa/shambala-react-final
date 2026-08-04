@@ -73,7 +73,7 @@ body.about-showcase-active {
   overflow: clip;
 }
 
-/* Ensures FULL background image height (100vh) - exactly like PortfolioShowcase */
+/* Ensures the full background image height fills the viewport */
 .company-panel > figure,
 .company-panel > figure > .company-panel-picture,
 .company-panel > figure > .company-panel-picture > img {
@@ -286,7 +286,7 @@ body.about-showcase-active {
   text-decoration: none;
 }
 
-/* First and last child adjustments - exactly like PortfolioShowcase */
+/* First and last child spacing adjustments */
 .company-panels .company-panel:first-child .company-panel-content {
   top: 0 !important;
 }
