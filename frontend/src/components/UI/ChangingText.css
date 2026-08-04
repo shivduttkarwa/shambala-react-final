@@ -1,8 +1,0 @@
-.changing-text {
-  display: inline-block;
-  white-space: pre;
-}
-
-.changing-text span {
-  display: inline-block; /* for y movement */
-}
