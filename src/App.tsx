@@ -14,6 +14,7 @@ import BlogListPage from "./pages/BlogListPage";
 import BlogDetailPage from "./pages/BlogDetailPage";
 import ScrollToTop from "./components/UI/ScrollToTop";
 import Preloader from "./components/UI/Preloader";
+import FloatingContact from "./components/UI/FloatingContact";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
             </Routes>
           </main>
           <Footer />
+          <FloatingContact />
         </div>
       </Router>
     </>

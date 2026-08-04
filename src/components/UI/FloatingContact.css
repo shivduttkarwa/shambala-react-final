@@ -1,0 +1,157 @@
+/* Floating WhatsApp + call buttons, bottom-right on every page.
+
+   z-index 1200 is deliberate: above page content (which tops out around 1002)
+   but well below the overlay menu and preloader (9999–10001), so those still
+   cover these when open. */
+
+.fcontact {
+  position: fixed;
+  right: clamp(1rem, 2.2vw, 1.75rem);
+  bottom: clamp(1rem, 2.2vw, 1.75rem);
+  z-index: 1200;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+
+  /* Hidden until the preloader curtain opens — see FloatingContact.tsx. */
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.fcontact--in {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* The second button trails the first slightly on entrance. */
+.fcontact--in .fcontact__btn--call {
+  transition-delay: 0.08s;
+}
+
+.fcontact__btn {
+  --size: 3.25rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0;
+
+  height: var(--size);
+  padding: 0;
+  border-radius: 999px;
+  text-decoration: none;
+  color: #ffffff;
+
+  box-shadow:
+    0 0.5rem 1.25rem rgba(13, 20, 16, 0.28),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+
+  /* Only the pill width animates on hover; the icon stays put. */
+  transition:
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.fcontact__btn--wa {
+  background: #25d366;
+}
+
+.fcontact__btn--call {
+  background: var(--color-green, #47614d);
+}
+
+.fcontact__btn:hover {
+  transform: translateY(-0.125rem);
+  box-shadow:
+    0 0.75rem 1.75rem rgba(13, 20, 16, 0.34),
+    0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+}
+
+.fcontact__btn--wa:hover {
+  background: #1fbb59;
+}
+
+.fcontact__btn--call:hover {
+  background: #3b5140;
+}
+
+.fcontact__btn:focus-visible {
+  outline: 2px solid var(--color-gold, #d9b57d);
+  outline-offset: 3px;
+}
+
+.fcontact__icon {
+  flex: 0 0 var(--size);
+  width: var(--size);
+  height: var(--size);
+  display: grid;
+  place-items: center;
+}
+
+.fcontact__icon svg {
+  width: 1.375rem;
+  height: 1.375rem;
+  display: block;
+}
+
+/* Label sits inside the pill and expands on hover. max-width rather than
+   display:none so it can animate, and so screen readers still skip it (it is
+   aria-hidden — the accessible name lives on the anchor's aria-label). */
+.fcontact__label {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  font-family: "Nunito", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition:
+    max-width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.25s ease,
+    padding-left 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fcontact__btn:hover .fcontact__label,
+.fcontact__btn:focus-visible .fcontact__label {
+  max-width: 11rem;
+  opacity: 1;
+  padding-left: 1.1rem;
+}
+
+/* Touch devices have no hover, and an expanded pill would just crowd the
+   screen — keep them as plain circles. */
+@media (hover: none) {
+  .fcontact__label {
+    display: none;
+  }
+}
+
+@media (max-width: 30rem) {
+  .fcontact__btn {
+    --size: 3rem;
+  }
+
+  .fcontact {
+    gap: 0.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .fcontact,
+  .fcontact__btn,
+  .fcontact__label {
+    transition: none;
+  }
+
+  .fcontact__btn:hover {
+    transform: none;
+  }
+}
