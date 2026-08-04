@@ -36,6 +36,9 @@ jobs:
         run: npm run build
         env:
           NODE_ENV: production
+          # Pages serves this project site at /<repo-name>/. Deriving the base
+          # from the repo name keeps assets resolvable even if it is renamed.
+          VITE_BASE: /${{ github.event.repository.name }}/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
