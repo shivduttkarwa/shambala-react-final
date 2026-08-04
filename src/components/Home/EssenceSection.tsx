@@ -53,7 +53,18 @@ const EssenceSection: React.FC<EssenceSectionProps> = ({
     gsap.registerPlugin(ScrollTrigger);
 
     const mask = imageMaskRef.current;
-    gsap.set(mask, { width: 0, marginLeft: "auto", overflow: "hidden" });
+
+    // Wipe with clip-path rather than width.
+    //
+    // Animating width reflowed the page every frame, and because .essence-img
+    // is width:100% of this mask, the image was resized and re-cropped by
+    // object-fit on each step — it squashed into view instead of being
+    // revealed. clip-path is composited on the GPU and leaves layout alone, so
+    // the image is sized once and simply uncovered.
+    //
+    // inset(top right bottom left): the left inset retreats from 100% to 0,
+    // which uncovers right-to-left and matches the old margin-left:auto anchor.
+    gsap.set(mask, { clipPath: "inset(0 0 0 100%)" });
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -65,7 +76,7 @@ const EssenceSection: React.FC<EssenceSectionProps> = ({
     });
 
     tl.to(mask, {
-      width: "100%",
+      clipPath: "inset(0 0 0 0%)",
       duration: 1.1,
       ease: "power3.out",
     });

@@ -170,6 +170,8 @@
   overflow: hidden;
   display: block;
   margin-left: auto;
+  /* The mask is what gets clipped on scroll — see EssenceSection.tsx. */
+  will-change: clip-path;
 }
 
 .essence-image-mask picture {
@@ -184,7 +186,6 @@
   min-height: 40vh;
   object-fit: cover;
   display: block;
-  will-change: clip-path;
 }
 
 /* ============================================
