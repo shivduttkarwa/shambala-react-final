@@ -7,8 +7,10 @@
 
 /* Header Section */
 .legal-header {
-  height: 60vh;
-  min-height: 400px;
+  --legal-scrim-start: rgba(20, 25, 20, 0.5);
+  --legal-scrim-end: rgba(30, 40, 32, 0.58);
+  height: clamp(20rem, 42vh, 28rem);
+  min-height: 20rem;
   padding: 60px 20px 40px;
   text-align: center;
   color: white;
@@ -17,14 +19,32 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  /* Scrim for the white heading. Cannot go much below this: over a bright
-     photo, white text needs roughly 0.6 alpha here to clear 4.5:1. */
-  background-image:
-    linear-gradient(160deg, rgba(20, 25, 20, 0.6) 0%, rgba(30, 40, 32, 0.66) 100%),
-    var(--legal-hero-bg);
+  background: #1b211c;
+}
+
+.legal-header--privacy {
+  --legal-scrim-start: rgba(20, 25, 20, 0.56);
+  --legal-scrim-end: rgba(30, 40, 32, 0.62);
+}
+
+.legal-header--terms {
+  --legal-scrim-start: rgba(20, 25, 20, 0.4);
+  --legal-scrim-end: rgba(30, 40, 32, 0.5);
+}
+
+.legal-header__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+}
+
+.legal-header__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 /* Bottom fade — blends hero into the page background */
@@ -32,14 +52,14 @@
   content: '';
   position: absolute;
   inset: 0;
-  /* Starts lower and lands weaker: it only needs to soften the seam into the
-     cream page below, not wash out the bottom half of the photograph. */
-  background: linear-gradient(
-    to bottom,
-    transparent 72%,
-    rgba(248, 246, 240, 0.14) 88%,
-    rgba(248, 246, 240, 0.5) 100%
-  );
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 76%,
+      rgba(248, 246, 240, 0.1) 90%,
+      rgba(248, 246, 240, 0.34) 100%
+    ),
+    linear-gradient(160deg, var(--legal-scrim-start), var(--legal-scrim-end));
   pointer-events: none;
   z-index: 1;
 }
@@ -203,6 +223,8 @@
   }
 
   .legal-header {
+    height: 21rem;
+    min-height: 21rem;
     padding: 40px 20px 30px;
   }
 
@@ -233,6 +255,11 @@
 }
 
 @media (max-width: 480px) {
+  .legal-header {
+    height: 20rem;
+    min-height: 20rem;
+  }
+
   .legal-header h1 {
     font-size: 2rem;
   }

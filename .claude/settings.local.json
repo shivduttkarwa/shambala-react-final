@@ -12,5 +12,8 @@
       "Bash(dir:*)"
     ],
     "deny": []
-  }
+  },
+  "enabledMcpjsonServers": [
+    "shadcn"
+  ]
 }

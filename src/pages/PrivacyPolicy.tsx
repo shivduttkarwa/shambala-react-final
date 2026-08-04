@@ -8,7 +8,8 @@ const PrivacyPolicy: React.FC = () => {
   const subtitleRef = useRef<HTMLParagraphElement>(null);
 
   const publicUrl = import.meta.env.BASE_URL;
-  const heroBg = `${publicUrl}images/vision-hero.jpg`;
+  const heroDesktop = `${publicUrl}images/legal/privacy-hero-v2-desktop.webp`;
+  const heroMobile = `${publicUrl}images/legal/privacy-hero-v2-mobile.webp`;
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -41,7 +42,19 @@ const PrivacyPolicy: React.FC = () => {
 
   return (
     <div className="legal-page">
-      <div className="legal-header" style={{ '--legal-hero-bg': `url(${heroBg})` } as React.CSSProperties}>
+      <div className="legal-header legal-header--privacy">
+        <picture className="legal-header__media">
+          <source media="(max-width: 767px)" srcSet={heroMobile} />
+          <img
+            src={heroDesktop}
+            alt=""
+            width="1600"
+            height="640"
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+          />
+        </picture>
         <div className="legal-header__content">
           <div className="legal-header__title-wrap">
             <h1><span ref={titleRef} className="legal-header__reveal-line">Privacy Policy</span></h1>
