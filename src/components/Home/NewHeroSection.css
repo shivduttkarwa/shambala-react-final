@@ -145,71 +145,22 @@
   }
 }
 
-.video-background {
+.about-hero-media {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateZ(0);
+  z-index: 1;
+  display: block;
+}
+
+.about-hero-media img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: translateZ(0);
-  /* Ensure video is behind poster initially */
-  z-index: 1;
-  border: none;
-}
-
-.vimeo-iframe {
-  /* Optimized Vimeo iframe for better pershambalance and full coverage */
-  width: 100vw;
-  height: 100vh;
-  /* Use transform3d for better pershambalance */
-  transform: translate3d(-50%, -50%, 0) scale(1.02);
-  top: 50%;
-  left: 50%;
-  will-change: transform;
-
-  /* Ensure minimum coverage on all aspect ratios */
-  min-width: 100%;
-  min-height: 100%;
-
-  /* Disable pointer events for background video */
-  pointer-events: none;
-
-  /* Ensure video is behind poster initially */
-  z-index: 1;
-}
-
-/* Responsive adjustments for different screen sizes */
-@media (max-aspect-ratio: 16/9) {
-  .vimeo-iframe {
-    width: 177.78vh; /* 16:9 aspect ratio width for tall screens */
-    height: 100vh;
-  }
-}
-
-@media (min-aspect-ratio: 16/9) {
-  .vimeo-iframe {
-    width: 100vw;
-    height: 56.25vw; /* 16:9 aspect ratio height for wide screens */
-  }
-}
-
-.image-background {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transform: translateZ(0);
-  /* Ensure background stays in background */
-  z-index: 1;
-}
-
-.video-poster {
-  /* When used as video poster, ensure very slow transition */
-  transition: opacity 2s ease-in-out;
-  z-index: 2; /* Above video initially */
+  object-position: center;
 }
 
 .hero-overlay {

@@ -72,7 +72,8 @@ body.about-showcase-active {
 
 /* Ensures FULL background image height (100vh) - exactly like PortfolioShowcase */
 .company-panel > figure,
-.company-panel > figure > img {
+.company-panel > figure > .company-panel-picture,
+.company-panel > figure > .company-panel-picture > img {
   width: 100%;
   height: 100vh;
 }
@@ -82,7 +83,12 @@ body.about-showcase-active {
   overflow: hidden;
 }
 
-.company-panel > figure > img {
+.company-panel-picture {
+  display: block;
+}
+
+.company-panel > figure > .company-panel-picture > img {
+  display: block;
   object-fit: cover;
   object-position: center;
   /* extra scale so parallax can move more without showing edges */

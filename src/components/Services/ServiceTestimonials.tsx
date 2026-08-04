@@ -98,7 +98,11 @@ const ServiceTestimonials: React.FC = () => {
         >
           <h3 className="ser-text-4xl" style={{ fontFamily: "'Nunito', sans-serif" }}>
             "Absolutely{" "}
-            <span style={{ color: "var(--ser-color-gold)" }}>exceptional</span>{" "}
+            {/* Green, not gold: this card is #ffe66d, and --ser-color-gold
+                (#d9b57d) is lighter than it — 1.57:1, effectively invisible.
+                On a light card the accent has to go darker than the
+                background, the mirror of the white-on-dark cards below. */}
+            <span style={{ color: "var(--ser-color-green)" }}>exceptional</span>{" "}
             work"
           </h3>
           <p className="ser-mb-8" style={{ color: "#333" }}>

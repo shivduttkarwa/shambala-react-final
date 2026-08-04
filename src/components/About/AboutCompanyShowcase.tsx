@@ -18,7 +18,9 @@ type ShowcaseCard = {
 
 type ShowcasePanel = {
   title: string;
-  bg: string;
+  desktopBg: string;
+  mobileBg: string;
+  imageAlt: string;
   cards: ShowcaseCard[];
   sideColor: string;
   sideTitle: string;
@@ -31,7 +33,9 @@ const panels: ShowcasePanel[] = [
   {
     title: "The Practice",
     sideColor: "#ffd6d9",
-    bg: getImagePath("l1.jpg"),
+    desktopBg: getImagePath("about/practice-desktop.webp"),
+    mobileBg: getImagePath("about/practice-mobile.webp"),
+    imageAlt: "Contemporary Queensland home set within a native Australian garden",
     cards: [
       {
         title: "Residential Architecture",
@@ -52,7 +56,9 @@ const panels: ShowcasePanel[] = [
   {
     title: "Our Method",
     sideColor: "#cfe8ff",
-    bg: getImagePath("l4.jpg"),
+    desktopBg: getImagePath("about/method-desktop.webp"),
+    mobileBg: getImagePath("about/method-mobile.webp"),
+    imageAlt: "Australian architects developing a residential design around a physical model",
     cards: [
       {
         title: "Design Method",
@@ -73,7 +79,9 @@ const panels: ShowcasePanel[] = [
   {
     title: "Design Ethos",
     sideColor: "#e9ddff",
-    bg: getImagePath("l2.jpg"),
+    desktopBg: getImagePath("about/ethos-desktop.webp"),
+    mobileBg: getImagePath("about/ethos-mobile.webp"),
+    imageAlt: "Queensland living room opening to a shaded native garden",
     cards: [
       {
         title: "Design Ethos",
@@ -94,7 +102,9 @@ const panels: ShowcasePanel[] = [
   {
     title: "Build Support",
     sideColor: "#dff4e1",
-    bg: getImagePath("l3.jpg"),
+    desktopBg: getImagePath("about/build-desktop.webp"),
+    mobileBg: getImagePath("about/build-mobile.webp"),
+    imageAlt: "Architect and site supervisor reviewing plans on a Queensland home build",
     cards: [
       {
         title: "Build Support",
@@ -115,7 +125,9 @@ const panels: ShowcasePanel[] = [
   {
     title: "Aftercare",
     sideColor: "#d6d0c5",
-    bg: getImagePath("l5.jpg"),
+    desktopBg: getImagePath("about/aftercare-desktop.webp"),
+    mobileBg: getImagePath("about/aftercare-mobile.webp"),
+    imageAlt: "Finished Australian kitchen connected to a landscaped native courtyard",
     cards: [
       {
         title: "Aftercare + Styling",
@@ -146,7 +158,7 @@ const AboutCompanyShowcase: React.FC = () => {
     document.body.classList.add("about-showcase-active");
 
     const parallaxImages = featureSection.querySelectorAll<HTMLImageElement>(
-      ".company-panel > figure > img[data-speed]"
+      ".company-panel > figure img[data-speed]"
     );
 
     let ticking = false;
@@ -224,7 +236,18 @@ const AboutCompanyShowcase: React.FC = () => {
         {panels.map((panel) => (
           <div className="company-panel" key={panel.title}>
             <figure>
-              <img src={panel.bg} alt={panel.title} data-speed="0.22" />
+              <picture className="company-panel-picture">
+                <source media="(max-width: 767px)" srcSet={panel.mobileBg} />
+                <img
+                  src={panel.desktopBg}
+                  alt={panel.imageAlt}
+                  width="1600"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                  data-speed="0.22"
+                />
+              </picture>
               <div className="company-panel-overlay" />
             </figure>
 

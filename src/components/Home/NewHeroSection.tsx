@@ -3,8 +3,8 @@ import gsap from "gsap";
 import "./NewHeroSection.css";
 
 const publicUrl = import.meta.env.BASE_URL;
-const posterImage = `${publicUrl}images/Petralithe_Automne.webp`;
-const heroVideo = `${publicUrl}images/services-hero.mp4`;
+const aboutHeroDesktop = `${publicUrl}images/about/hero-desktop.webp`;
+const aboutHeroMobile = `${publicUrl}images/about/hero-mobile.webp`;
 
 // Core values and principles
 const coreValues = [
@@ -179,38 +179,18 @@ const NewHeroSectionContent: React.FC = () => {
         className="hero-section new-hero-section about-hero"
         id="new-hero-section"
       >
-        {/* Poster image - static image that shows while video loads */}
-        <div
-          className="image-background video-poster"
-          style={{
-            backgroundImage: `url(${posterImage})`,
-          }}
-        />
-
-        {/* Video - loads over the poster image */}
-        <video
-          className="video-background"
-          autoPlay
-          muted
-          loop
-          playsInline
-          controls={false}
-          disablePictureInPicture
-          preload="auto"
-          onCanPlay={() => {
-            // Keep poster visible for 2-3 seconds before showing video
-            setTimeout(() => {
-              const poster = document.querySelector(
-                "#new-hero-section .video-poster",
-              );
-              if (poster) {
-                (poster as HTMLElement).style.opacity = "0";
-              }
-            }, 2500); // 2.5 seconds delay
-          }}
-        >
-          <source src={heroVideo} type="video/mp4" />
-        </video>
+        <picture className="about-hero-media">
+          <source media="(max-width: 767px)" srcSet={aboutHeroMobile} />
+          <img
+            src={aboutHeroDesktop}
+            alt="Contemporary Queensland home framed by native Australian landscape at dusk"
+            width="1600"
+            height="900"
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+          />
+        </picture>
         <div className="hero-overlay"></div>
 
         <div className="hero-content">
