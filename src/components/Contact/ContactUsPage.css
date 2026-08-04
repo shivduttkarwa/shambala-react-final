@@ -53,10 +53,10 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    135deg,
-    rgba(250, 248, 243, 0.72) 0%,
-    rgba(250, 248, 243, 0.6) 52%,
-    rgba(250, 248, 243, 0.42) 100%
+    to right,
+    rgba(24, 35, 28, 0.46) 0%,
+    rgba(24, 35, 28, 0.34) 48%,
+    rgba(24, 35, 28, 0.24) 100%
   );
   z-index: 1;
 }
@@ -67,13 +67,13 @@
   width: 100%;
   padding: clamp(1.5rem, 4vw, 3rem);
   text-align: center;
-  color: var(--cup-ink);
+  color: #ffffff;
   background: transparent;
   border: none;
   backdrop-filter: none;
   border-radius: 0;
   box-shadow: none;
-  text-shadow: 0 0.25rem 1.25rem rgba(255, 255, 255, 0.72);
+  text-shadow: 0 0.2rem 1.25rem rgba(0, 0, 0, 0.38);
   z-index: 2;
 }
 
@@ -95,7 +95,7 @@
   max-width: 38rem;
   margin-left: auto;
   margin-right: auto;
-  color: rgba(31, 39, 31, 0.84);
+  color: rgba(255, 255, 255, 0.92);
   overflow: hidden;
 }
 

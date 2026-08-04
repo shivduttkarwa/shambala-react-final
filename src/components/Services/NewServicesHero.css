@@ -45,43 +45,30 @@
   object-fit: cover;
 }
 
-/*
- * Cream wash that makes the dark hero copy (#1f1b16) legible over the photo.
- *
- * The old ramp held 0.72 all the way to 52% and still sat at 0.28 in the far
- * corner, which washed the whole image out — the background read as blank.
- *
- * Below 1200px the hero is a single column and the copy spans the full width,
- * so the wash has to cover everything; it just eases off toward the bottom.
- */
+/* Restrained dark scrim for white hero copy on smaller screens. */
 .nsh-bg-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(250, 248, 243, 0.92) 0%,
-    rgba(250, 248, 243, 0.86) 55%,
-    rgba(250, 248, 243, 0.68) 100%
+    rgba(24, 35, 28, 0.42) 0%,
+    rgba(24, 35, 28, 0.36) 55%,
+    rgba(24, 35, 28, 0.3) 100%
   );
   z-index: 1;
   pointer-events: none;
 }
 
-/*
- * At 1200px the hero becomes two columns, so the wash can track x instead:
- * full strength across the copy, then away quickly so the right side of the
- * photograph actually reads. (The old 135deg angle spent its opacity on the
- * empty lower-left rather than on the text.)
- */
+/* Darker beneath the left copy, lighter across the framed architecture. */
 @media (min-width: 1200px) {
   .nsh-bg-overlay {
     background: linear-gradient(
       to right,
-      rgba(250, 248, 243, 0.55) 0%,
-      rgba(250, 248, 243, 0.45) 32%,
-      rgba(250, 248, 243, 0.2) 52%,
-      rgba(250, 248, 243, 0.05) 72%,
-      rgba(250, 248, 243, 0) 100%
+      rgba(24, 35, 28, 0.48) 0%,
+      rgba(24, 35, 28, 0.4) 32%,
+      rgba(24, 35, 28, 0.28) 52%,
+      rgba(24, 35, 28, 0.16) 72%,
+      rgba(24, 35, 28, 0.1) 100%
     );
   }
 }
@@ -109,7 +96,7 @@
   font-size: clamp(1.5rem, 8vw, 1.7rem);
   font-weight: 400;
   line-height: 1.1;
-  color: #1f1b16;
+  color: #ffffff;
   margin-bottom: 1.25rem;
 }
 
@@ -163,14 +150,14 @@
   font-family: "Nunito", sans-serif;
   font-size: 0.9rem;
   line-height: 1.8;
-  color: rgba(31, 27, 22, 0.82);
+  color: rgba(255, 255, 255, 0.9);
   max-width: 100%;
   margin-top: 1.5rem;
   margin-bottom: 0;
   font-weight: 400;
   opacity: 1;
   transform: none;
-  text-shadow: none;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 /* Scroll Down Button */
@@ -204,12 +191,12 @@
 .nsh-scroll-circle {
   width: 3.5rem;
   height: 3.5rem;
-  border: 2px solid rgba(31, 27, 22, 0.35);
+  border: 2px solid rgba(255, 255, 255, 0.5);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
   transition: all 0.4s ease;
   position: relative;
@@ -239,7 +226,7 @@
 .nsh-scroll-arrow {
   width: 1.5rem;
   height: 1.5rem;
-  color: #1f1b16;
+  color: #ffffff;
   animation: scrollBounce 2s ease-in-out infinite;
   position: relative;
   z-index: 1;
@@ -256,7 +243,7 @@
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: rgba(31, 27, 22, 0.72);
+  color: rgba(255, 255, 255, 0.82);
   transition: color 0.3s ease;
 }
 
@@ -358,7 +345,7 @@
   font-weight: 500;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--color-tertiary-brown);
+  color: rgba(255, 255, 255, 0.82);
 }
 
 /* ===== RIGHT VISUAL ===== */

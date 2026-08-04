@@ -180,46 +180,47 @@
 /* Darker overlay for About Us hero for better text readability */
 .about-hero .hero-overlay {
   background: linear-gradient(
-    135deg,
-    rgba(250, 248, 243, 0.68) 0%,
-    rgba(250, 248, 243, 0.56) 50%,
-    rgba(250, 248, 243, 0.44) 100%
+    to right,
+    rgba(24, 35, 28, 0.4) 0%,
+    rgba(24, 35, 28, 0.32) 50%,
+    rgba(24, 35, 28, 0.28) 100%
   );
 }
 
 .about-hero .hero-main-title {
-  color: #1f1b16;
-  text-shadow: 0 2px 18px rgba(255, 255, 255, 0.72);
+  color: #ffffff;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.55);
 }
 
 .about-hero .hero-description {
-  color: rgba(31, 27, 22, 0.84);
-  text-shadow: none;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
 }
 
 .about-hero .hero-value-title {
-  background: none;
-  -webkit-text-fill-color: currentColor;
-  color: #6f5724;
-  text-shadow: none;
+  background: linear-gradient(to bottom, #f4e4bc 0%, #d4af37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
 }
 
 .about-hero .hero-value-description {
-  color: rgba(31, 27, 22, 0.78);
-  text-shadow: none;
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
 }
 
 .about-hero .hero-scroll-circle {
-  border-color: rgba(31, 27, 22, 0.35);
-  background: rgba(255, 255, 255, 0.5);
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .about-hero .hero-scroll-arrow {
-  color: #1f1b16;
+  color: #ffffff;
 }
 
 .about-hero .hero-scroll-text {
-  color: rgba(31, 27, 22, 0.72);
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .hero-content {
