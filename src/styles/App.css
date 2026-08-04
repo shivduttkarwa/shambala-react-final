@@ -1,14 +1,9 @@
 /* Import Google Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@400;600&family=Nunito:wght@300;400;500;600;700&family=Sofia+Sans+Condensed:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;600&display=swap");
 
-/* Local Dream Avenue Font */
-@font-face {
-  font-family: "Dream Avenue";
-  src: url("/fonts/Dream-Avenue.ttf") shambalat("truetype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
+/* Bona Nova SC is served from Google Fonts (see index.html) — it is OFL, so
+   no local @font-face is needed. The previous local Dream-Avenue.ttf was
+   personal-use-only and has been removed from the repo. */
 
 :root {
   --accent: #5b7c4f;
@@ -142,7 +137,7 @@ body.portfolio-active {
 }
 .logo {
   /* Prefer Cenzyl for headers if available, fallback to Cinzel */
-  font-family: "Cenzyl", "Cinzel", serif, "Bebas Neue", sans-serif;
+  font-family: "Cenzyl", "Cinzel", "Bebas Neue", serif;
   font-size: 16.2px; /* reduced header font-size by 10% */
   letter-spacing: 0.03em;
   color: var(--text);
@@ -173,7 +168,7 @@ body.portfolio-active {
 
 .menu-text {
   /* match the logo exactly: prefer Cenzyl, fallback to Cinzel */
-  font-family: "Cenzyl", "Cinzel", serif, "Bebas Neue", sans-serif;
+  font-family: "Cenzyl", "Cinzel", "Bebas Neue", serif;
   font-size: 16.2px; /* reduced header font-size by 10% */
   letter-spacing: 0.03em;
   text-transform: uppercase;
@@ -234,7 +229,7 @@ body.portfolio-active {
   margin: 20px 0;
 }
 .menu-content nav ul li a {
-  font-family: "Cinzel", sans-serif;
+  font-family: "Cinzel", "Bebas Neue", sans-serif;
   font-size: clamp(35px, 6vw, 80px);
   color: var(--text);
   text-decoration: none;
@@ -302,7 +297,7 @@ body.portfolio-active {
 .left-part h1 {
   margin: 0 0 15px 0;
   color: var(--text);
-  font-family: "Cinzel", serif;
+  font-family: "Cinzel", "Bebas Neue", serif;
   font-weight: 500;
   letter-spacing: 0.01em;
   font-size: clamp(32px, 5vw, 70px);
@@ -325,7 +320,7 @@ body.portfolio-active {
 .left-part h1 .text {
   display: block;
   color: var(--accent);
-  font-family: "Cinzel", serif;
+  font-family: "Cinzel", "Bebas Neue", serif;
   font-weight: 500;
   font-size: clamp(18px, 2.8vw, 38px);
   line-height: 1.2;
@@ -1207,7 +1202,7 @@ body.portfolio-active {
 .section-title,
 .quality-main-title,
 .studio-title {
-  font-family: "Cinzel", serif;
+  font-family: "Cinzel", "Bebas Neue", serif;
   font-size: clamp(2rem, 4vw, 3.04rem);
   font-weight: 400;
   line-height: 1.2;
@@ -1275,7 +1270,7 @@ body.portfolio-active {
 .icon-link-item span {
   font-size: 16px;
   font-weight: 500;
-  font-family: "Cinzel", serif;
+  font-family: "Cinzel", "Bebas Neue", serif;
 }
 
 /* PROJECTS GRID SECTION */
@@ -1583,7 +1578,7 @@ body.portfolio-active {
 }
 
 .productivity-head h2 {
-  font-family: "Cinzel", serif;
+  font-family: "Cinzel", "Bebas Neue", serif;
   font-size: 3rem;
   font-weight: 600;
   line-height: 1.15;
@@ -1710,7 +1705,7 @@ body.portfolio-active {
   font-size: 1.5rem;
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  font-family: "Cinzel", serif;
+  font-family: "Cinzel", "Bebas Neue", serif;
   letter-spacing: 2px;
   text-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
 

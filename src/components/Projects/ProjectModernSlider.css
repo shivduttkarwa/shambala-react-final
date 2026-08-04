@@ -1,6 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Dream+Avenue&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap");
-
 /* Reset and base styles */
 .pms-creative-fullpage--slider * {
   box-sizing: border-box;
@@ -121,7 +118,7 @@
      600px, so past ~1400px viewport the title outgrows its own column. The cap
      keeps the longest title ("CREATE") inside 600px at every width. */
   font-size: clamp(2.5rem, 8vw, 7rem);
-  font-family: "Dream Avenue", serif;
+  font-family: "Bona Nova SC", "Bebas Neue", sans-serif;
   font-weight: 900;
   line-height: 1.1;
   text-transform: uppercase;

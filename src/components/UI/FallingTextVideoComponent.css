@@ -34,7 +34,7 @@
 
 .ftv-text-left,
 .ftv-text-right {
-  font-family: "Dream Avenue", serif;
+  font-family: "Bona Nova SC", "Bebas Neue", sans-serif;
   font-size: clamp(4rem, 8vw, 14rem);
   font-weight: 500;
   letter-spacing: -0.04em;

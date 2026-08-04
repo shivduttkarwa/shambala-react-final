@@ -113,7 +113,7 @@
 
 /* Title */
 .cta-title {
-  font-family: "Dream Avenue", serif;
+  font-family: "Bona Nova SC", "Bebas Neue", sans-serif;
   font-size: clamp(2rem, 8vw, 3rem);
   font-weight: 300;
   color: var(--color-white);
@@ -838,7 +838,7 @@
 }
 
 .cta-success-popup h3 {
-  font-family: "Dream Avenue", serif;
+  font-family: "Bona Nova SC", "Bebas Neue", sans-serif;
   font-size: 1.75rem;
   font-weight: 600;
   color: var(--color-green);
