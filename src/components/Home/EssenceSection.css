@@ -186,6 +186,9 @@
   min-height: 40vh;
   object-fit: cover;
   display: block;
+  /* Counter-zooms against the aperture clip — see EssenceSection.tsx. The
+     mask's overflow:hidden keeps the oversized frames contained. */
+  will-change: transform;
 }
 
 /* ============================================

@@ -1,6 +1,30 @@
 import { useEffect, useState } from "react";
 import "./Preloader.css";
 
+/**
+ * Loader budget — the phases below sum to exactly 3000ms, from mount to the
+ * `curtainOpened` event that releases the page and lets the hero animate.
+ *
+ * Keep the sum at 3000 when adjusting: trade time between phases rather than
+ * adding to one. The previous version had these as magic numbers scattered
+ * through nested setTimeouts and totalled ~3560ms.
+ */
+const TIMING = {
+  /** Dead hold before the counter starts. Mandala is spinning. */
+  hold: 450,
+  /** Counter sweep. Spread across TICKS calls, not used as a single delay. */
+  count: 1250,
+  /** Pause once the counter completes, before the curtain moves. */
+  settle: 300,
+  /** Preloader hides, curtain begins opening. */
+  curtainIn: 300,
+  /** Curtain finishes; page is released. */
+  curtainOut: 700,
+} as const;
+
+/** The counter loop runs for count values 0…100 inclusive — 101 calls, not 100. */
+const TICKS = 101;
+
 const Preloader = () => {
   const [, setCounter] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -11,8 +35,9 @@ const Preloader = () => {
 
 
   useEffect(() => {
-    const duration = 1150;
-    const interval = duration / 100;
+    // Divide by TICKS, not 100 — the loop makes 101 calls, so dividing by 100
+    // would overshoot the intended sweep by a full tick.
+    const interval = TIMING.count / TICKS;
     let count = 0;
     let timeoutId: number;
 
@@ -22,7 +47,7 @@ const Preloader = () => {
         count++;
         timeoutId = window.setTimeout(updateCounter, interval);
       } else {
-        window.setTimeout(revealHero, 500);
+        window.setTimeout(revealHero, TIMING.settle);
       }
     };
 
@@ -42,13 +67,13 @@ const Preloader = () => {
           document.body.classList.add("content-loaded");
           // Dispatch event to trigger hero animations after curtain opens
           window.dispatchEvent(new CustomEvent("curtainOpened"));
-        }, 800);
-      }, 300);
+        }, TIMING.curtainOut);
+      }, TIMING.curtainIn);
     };
 
     const startTimer = window.setTimeout(() => {
       updateCounter();
-    }, 800);
+    }, TIMING.hold);
 
     return () => {
       clearTimeout(startTimer);
@@ -73,7 +98,9 @@ const Preloader = () => {
         document.body.classList.add("content-loaded");
         // Dispatch event to trigger hero animations after curtain opens
         window.dispatchEvent(new CustomEvent("curtainOpened"));
-      }, 800);
+        // Skipping jumps straight to the curtain, so only the curtain's own
+        // duration remains — the hold, counter and settle are all discarded.
+      }, TIMING.curtainOut);
     }, 100);
   };
 

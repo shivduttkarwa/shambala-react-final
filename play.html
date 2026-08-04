@@ -14,7 +14,7 @@
 
   <style>
     /* ===================================================================
-       PLAYGROUND — six image reveals, six different mechanisms.
+       PLAYGROUND — eight image reveals, eight different mechanisms.
        Standalone: open this file directly from disk. No build step.
        =================================================================== */
 
@@ -217,16 +217,6 @@
       object-fit: cover;
     }
 
-    /* Panels for the split-flap build are generated in JS. */
-    .panel {
-      position: absolute;
-      left: 0;
-      width: 100%;
-      background-repeat: no-repeat;
-      backface-visibility: hidden;
-      will-change: transform, opacity;
-    }
-
     /* ===== 01 — APERTURE ===== */
     #aperture .stage {
       clip-path: circle(0% at 50% 50%);
@@ -262,57 +252,7 @@
       object-fit: cover;
     }
 
-    /* ===== 03 — SPLIT-FLAP ===== */
-    #flap .stage {
-      perspective: 1400px;
-      perspective-origin: 50% 50%;
-    }
-
-    /* ===== 04 — LETTERBOX ===== */
-    #letterbox .stage {
-      clip-path: inset(50% 0 50% 0);
-      will-change: clip-path;
-    }
-
-    #letterbox img {
-      will-change: transform;
-    }
-
-    #letterbox .bar {
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: var(--gold);
-      opacity: 0;
-      box-shadow: 0 0 30px 3px rgba(201, 162, 39, 0.8);
-    }
-
-    #letterbox .bar--t {
-      top: 50%;
-    }
-
-    #letterbox .bar--b {
-      bottom: 50%;
-    }
-
-    /* ===== 05 — SCANLINE ===== */
-    #scan .stage {
-      --comb: 0px;
-      -webkit-mask-image: repeating-linear-gradient(to bottom,
-          #000 0 var(--comb),
-          transparent var(--comb) 10px);
-      mask-image: repeating-linear-gradient(to bottom,
-          #000 0 var(--comb),
-          transparent var(--comb) 10px);
-      will-change: mask-image;
-    }
-
-    #scan img {
-      will-change: transform, filter;
-    }
-
-    /* ===== 06 — HINGE ===== */
+    /* ===== 03 — HINGE ===== */
     #hinge .stage {
       overflow: visible;
       perspective: 1600px;
@@ -336,12 +276,102 @@
       object-fit: cover;
     }
 
-    /* Darkening that lifts as the panel swings to face the viewer. */
     #hinge .shade {
       position: absolute;
       inset: 0;
       background: linear-gradient(to right, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.75));
       pointer-events: none;
+    }
+
+    /* ===== 04 — SHATTER ===== */
+    .shard {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      will-change: transform, opacity;
+    }
+
+    /* ===== 05 — FLY-THROUGH ===== */
+    #fly .stage {
+      perspective: 1100px;
+      background: transparent;
+      overflow: visible;
+    }
+
+    #fly .craft {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: var(--ink-soft);
+      transform-style: preserve-3d;
+      will-change: transform, filter, opacity;
+    }
+
+    #fly .craft img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ===== 06 — RIPPLE ===== */
+    #ripple .stage {
+      --ring: 0px;
+      -webkit-mask-image: repeating-radial-gradient(circle at 50% 50%,
+          #000 0 var(--ring),
+          transparent var(--ring) 28px);
+      mask-image: repeating-radial-gradient(circle at 50% 50%,
+          #000 0 var(--ring),
+          transparent var(--ring) 28px);
+      will-change: mask-image;
+    }
+
+    /* ===== 07 — FABRIC ===== */
+    #fabric .stage {
+      overflow: hidden;
+    }
+
+    #fabric .cloth {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      transform-origin: 50% 0%;
+      will-change: transform;
+    }
+
+    #fabric .cloth img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ===== 08 — CHROMATIC ===== */
+    #chroma .stage {
+      background: #000;
+    }
+
+    #chroma .ch {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* Screen blending recombines the three isolated channels back into the
+         original image once they sit on top of each other. */
+      mix-blend-mode: screen;
+      will-change: transform;
+    }
+
+    #chroma .ch--r {
+      filter: url(#onlyRed);
+    }
+
+    #chroma .ch--g {
+      filter: url(#onlyGreen);
+    }
+
+    #chroma .ch--b {
+      filter: url(#onlyBlue);
     }
 
     .svg-defs {
@@ -361,14 +391,24 @@
 
 <body>
 
-  <!-- SVG filter used by 02 — INK BLEED -->
   <svg class="svg-defs" aria-hidden="true">
     <defs>
+      <!-- 02 — organic edge warp -->
       <filter id="inkTurbulence">
-        <feTurbulence id="inkNoise" type="fractalNoise" baseFrequency="0.012" numOctaves="3" seed="7"
-          result="noise" />
+        <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="3" seed="7" result="noise" />
         <feDisplacementMap id="inkDisplace" in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R"
           yChannelSelector="G" />
+      </filter>
+
+      <!-- 08 — single-channel isolation -->
+      <filter id="onlyRed">
+        <feColorMatrix type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" />
+      </filter>
+      <filter id="onlyGreen">
+        <feColorMatrix type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" />
+      </filter>
+      <filter id="onlyBlue">
+        <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" />
       </filter>
     </defs>
   </svg>
@@ -376,10 +416,11 @@
   <!-- ============ DUMMY: TOP ============ -->
   <section class="dummy">
     <div>
-      <h1>Six ways to<br />reveal an image</h1>
+      <h1>Eight ways to<br />reveal an image</h1>
       <p>
-        Each section uses a genuinely different mechanism — not one wipe at six
-        angles. They fire once on scroll; hit Replay on any of them to run it again.
+        Each section uses a genuinely different mechanism — clip-path, SVG filters,
+        3D transforms, CSS masks and channel separation. They fire once on scroll;
+        hit Replay on any of them to run it again.
       </p>
       <span class="scroll-hint">Scroll</span>
     </div>
@@ -392,21 +433,18 @@
       <div class="demo__meta">
         <h2>Aperture</h2>
         <p>
-          A circular clip opens from the centre while the photograph itself
-          counter-zooms from 1.45× down to 1×. The opposing motion is what sells the
-          depth — the frame grows outward as the subject settles back.
+          A circular clip opens from the centre while the photograph counter-zooms
+          from 1.45× down to 1×. The opposing motion is what sells the depth — the
+          frame grows outward as the subject settles back.
         </p>
       </div>
-      <button class="replay" data-replay="aperture">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <button class="replay" data-replay="aperture"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round">
           <path d="M3 12a9 9 0 1 0 3-6.7" />
           <path d="M3 4v5h5" />
-        </svg>Replay
-      </button>
+        </svg>Replay</button>
     </div>
-    <div class="stage">
-      <img src="public/images/home/hero-desktop.webp" alt="" />
-    </div>
+    <div class="stage"><img src="public/images/home/hero-desktop.webp" alt="" /></div>
   </section>
 
   <!-- ============ 02 — INK BLEED ============ -->
@@ -416,119 +454,158 @@
       <div class="demo__meta">
         <h2>Ink Bleed</h2>
         <p>
-          A soft radial mask grows outward while an SVG turbulence filter distorts
-          the edge and settles to zero. The boundary crawls and feathers like ink
-          soaking into paper rather than a clean geometric edge.
+          A soft radial mask grows outward while an SVG turbulence filter distorts the
+          edge and settles to zero. The boundary crawls and feathers like ink soaking
+          into paper rather than a clean geometric edge.
         </p>
       </div>
-      <button class="replay" data-replay="ink">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <button class="replay" data-replay="ink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round">
           <path d="M3 12a9 9 0 1 0 3-6.7" />
           <path d="M3 4v5h5" />
-        </svg>Replay
-      </button>
+        </svg>Replay</button>
     </div>
     <div class="stage">
       <div class="bleed"><img src="public/images/home/essence-desktop.webp" alt="" /></div>
     </div>
   </section>
 
-  <!-- ============ 03 — SPLIT-FLAP ============ -->
-  <section class="demo" id="flap">
-    <div class="demo__head">
-      <span class="demo__num">03</span>
-      <div class="demo__meta">
-        <h2>Split-Flap</h2>
-        <p>
-          Eight horizontal panels hinged along their top edge, each holding its own
-          band of the image. They fall flat one after another like a departure board
-          settling — edge-on to face-on, with real perspective.
-        </p>
-      </div>
-      <button class="replay" data-replay="flap">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <path d="M3 12a9 9 0 1 0 3-6.7" />
-          <path d="M3 4v5h5" />
-        </svg>Replay
-      </button>
-    </div>
-    <div class="stage" data-src="public/images/home/project-create-desktop.webp"></div>
-  </section>
-
-  <!-- ============ 04 — LETTERBOX ============ -->
-  <section class="demo" id="letterbox">
-    <div class="demo__head">
-      <span class="demo__num">04</span>
-      <div class="demo__meta">
-        <h2>Letterbox</h2>
-        <p>
-          Opens from a hairline slit at the centre line, expanding vertically to full
-          height. The image inside is squashed to 1.7× on Y and un-squashes as the
-          frame grows, so the picture appears to stretch into its own shape.
-        </p>
-      </div>
-      <button class="replay" data-replay="letterbox">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <path d="M3 12a9 9 0 1 0 3-6.7" />
-          <path d="M3 4v5h5" />
-        </svg>Replay
-      </button>
-    </div>
-    <div class="stage">
-      <img src="public/images/home/foundation-craftsmanship.webp" alt="" />
-      <div class="bar bar--t"></div>
-      <div class="bar bar--b"></div>
-    </div>
-  </section>
-
-  <!-- ============ 05 — SCANLINE ============ -->
-  <section class="demo" id="scan">
-    <div class="demo__head">
-      <span class="demo__num">05</span>
-      <div class="demo__meta">
-        <h2>Scanline Dissolve</h2>
-        <p>
-          A repeating gradient mask of 10px bands, whose opaque portion widens from
-          zero to full. The picture materialises through a fine comb — no extra DOM,
-          one element, purely the mask doing the work.
-        </p>
-      </div>
-      <button class="replay" data-replay="scan">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <path d="M3 12a9 9 0 1 0 3-6.7" />
-          <path d="M3 4v5h5" />
-        </svg>Replay
-      </button>
-    </div>
-    <div class="stage">
-      <img src="public/images/home/project-finish-desktop.webp" alt="" />
-    </div>
-  </section>
-
-  <!-- ============ 06 — HINGE ============ -->
+  <!-- ============ 03 — HINGE ============ -->
   <section class="demo" id="hinge">
     <div class="demo__head">
-      <span class="demo__num">06</span>
+      <span class="demo__num">03</span>
       <div class="demo__meta">
         <h2>Hinge</h2>
         <p>
           The whole frame is a door hinged on its left edge, swinging from 88°
-          edge-on to flat. A gradient shade rides on top and lifts as it turns, so
-          the surface catches light the way a real panel would.
+          edge-on to flat. A gradient shade rides on top and lifts as it turns, so the
+          surface catches light the way a real panel would.
         </p>
       </div>
-      <button class="replay" data-replay="hinge">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <button class="replay" data-replay="hinge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round">
           <path d="M3 12a9 9 0 1 0 3-6.7" />
           <path d="M3 4v5h5" />
-        </svg>Replay
-      </button>
+        </svg>Replay</button>
     </div>
     <div class="stage">
       <div class="door">
         <img src="public/images/home/foundation-sustainable.webp" alt="" />
         <div class="shade"></div>
       </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 — SHATTER ============ -->
+  <section class="demo" id="shatter">
+    <div class="demo__head">
+      <span class="demo__num">04</span>
+      <div class="demo__meta">
+        <h2>Shatter</h2>
+        <p>
+          The frame is cut into twenty-four irregular triangles, each a full copy of
+          the image clipped to its own polygon. They fly in from scattered directions,
+          spinning, and lock together into a single surface.
+        </p>
+      </div>
+      <button class="replay" data-replay="shatter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round">
+          <path d="M3 12a9 9 0 1 0 3-6.7" />
+          <path d="M3 4v5h5" />
+        </svg>Replay</button>
+    </div>
+    <div class="stage" data-src="public/images/home/project-create-desktop.webp"></div>
+  </section>
+
+  <!-- ============ 05 — FLY-THROUGH ============ -->
+  <section class="demo" id="fly">
+    <div class="demo__head">
+      <span class="demo__num">05</span>
+      <div class="demo__meta">
+        <h2>Fly-Through</h2>
+        <p>
+          The image starts 1400px back in Z-space, tilted off-axis and thrown out of
+          focus. It travels toward the viewer and squares up, the blur clearing as it
+          arrives — depth of field doing the work rather than a mask.
+        </p>
+      </div>
+      <button class="replay" data-replay="fly"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round">
+          <path d="M3 12a9 9 0 1 0 3-6.7" />
+          <path d="M3 4v5h5" />
+        </svg>Replay</button>
+    </div>
+    <div class="stage">
+      <div class="craft"><img src="public/images/home/project-finish-desktop.webp" alt="" /></div>
+    </div>
+  </section>
+
+  <!-- ============ 06 — RIPPLE ============ -->
+  <section class="demo" id="ripple">
+    <div class="demo__head">
+      <span class="demo__num">06</span>
+      <div class="demo__meta">
+        <h2>Ripple</h2>
+        <p>
+          A repeating radial mask of 28px concentric rings, whose opaque portion
+          widens from nothing to full. The picture fills in as rings spreading out from
+          the centre, like the surface of water settling.
+        </p>
+      </div>
+      <button class="replay" data-replay="ripple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round">
+          <path d="M3 12a9 9 0 1 0 3-6.7" />
+          <path d="M3 4v5h5" />
+        </svg>Replay</button>
+    </div>
+    <div class="stage"><img src="public/images/home/foundation-craftsmanship.webp" alt="" /></div>
+  </section>
+
+  <!-- ============ 07 — FABRIC ============ -->
+  <section class="demo" id="fabric">
+    <div class="demo__head">
+      <span class="demo__num">07</span>
+      <div class="demo__meta">
+        <h2>Fabric Drop</h2>
+        <p>
+          The image falls from above pinned at its top edge, overshoots, and a skew
+          ripples through it on an elastic ease that decays to nothing — the way a
+          sheet of cloth settles after you let go of it.
+        </p>
+      </div>
+      <button class="replay" data-replay="fabric"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round">
+          <path d="M3 12a9 9 0 1 0 3-6.7" />
+          <path d="M3 4v5h5" />
+        </svg>Replay</button>
+    </div>
+    <div class="stage">
+      <div class="cloth"><img src="public/images/home/foundation-human-design.webp" alt="" /></div>
+    </div>
+  </section>
+
+  <!-- ============ 08 — CHROMATIC ============ -->
+  <section class="demo" id="chroma">
+    <div class="demo__head">
+      <span class="demo__num">08</span>
+      <div class="demo__meta">
+        <h2>Chromatic Split</h2>
+        <p>
+          Three copies of the image, each stripped to a single colour channel and
+          blended back with screen. They start pulled apart and rotated, then converge —
+          the picture resolving out of its own red, green and blue as a lens correcting.
+        </p>
+      </div>
+      <button class="replay" data-replay="chroma"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round">
+          <path d="M3 12a9 9 0 1 0 3-6.7" />
+          <path d="M3 4v5h5" />
+        </svg>Replay</button>
+    </div>
+    <div class="stage">
+      <img class="ch ch--r" src="public/images/home/hero-desktop.webp" alt="" />
+      <img class="ch ch--g" src="public/images/home/hero-desktop.webp" alt="" />
+      <img class="ch ch--b" src="public/images/home/hero-desktop.webp" alt="" />
     </div>
   </section>
 
@@ -555,20 +632,28 @@
       start: 'top 75%',
       aperture: { duration: 1.4, zoomFrom: 1.45 },
       ink: { duration: 1.7, warp: 90 },
-      flap: { rows: 8, duration: 0.85, stagger: 0.09 },
-      letterbox: { duration: 1.3, squashY: 1.7 },
-      scan: { duration: 1.5, band: 10 },
       hinge: { duration: 1.5, angle: 88 },
+      shatter: { cols: 4, rows: 3, duration: 1.1, stagger: 0.03, spread: 320 },
+      fly: { duration: 1.5, depth: -1400, blur: 22 },
+      ripple: { duration: 1.6, ring: 28 },
+      fabric: { duration: 1.5, skew: 9 },
+      chroma: { duration: 1.4, split: 90 },
     };
 
     const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* Deterministic pseudo-random so the shatter looks scattered but replays
+       identically every time — a real Math.random() would reshuffle on replay. */
+    function rand(seed) {
+      const x = Math.sin(seed * 12.9898) * 43758.5453;
+      return x - Math.floor(x);
+    }
 
     /* ------------------------------------------------------------------
        Registry. Each demo supplies:
          set()  — snap to the pre-animation state
          play() — build and return a fresh timeline
-         rest() — the finished state, for reduced-motion
-       Scroll fires it once; the Replay button re-runs it on demand.
+         rest() — the finished state, for reduced motion
        ------------------------------------------------------------------ */
     function register(id, api) {
       const section = document.getElementById(id);
@@ -597,26 +682,6 @@
       });
     }
 
-    /* Build horizontal panels that together reconstruct the source image.
-       Each panel scales the background to the full grid height and offsets it —
-       with N rows there are N-1 gaps, so the offset is i/(N-1). */
-    function buildRows(stage, rows) {
-      const src = stage.dataset.src;
-      const out = [];
-      for (let r = 0; r < rows; r++) {
-        const p = document.createElement('div');
-        p.className = 'panel';
-        p.style.top = `${(r / rows) * 100}%`;
-        p.style.height = `${100 / rows}%`;
-        p.style.backgroundImage = `url("${src}")`;
-        p.style.backgroundSize = `100% ${rows * 100}%`;
-        p.style.backgroundPositionY = rows > 1 ? `${(r / (rows - 1)) * 100}%` : '0%';
-        stage.appendChild(p);
-        out.push(p);
-      }
-      return out;
-    }
-
     /* ===== 01 — APERTURE ================================================ */
     (function () {
       const stage = document.querySelector('#aperture .stage');
@@ -636,13 +701,10 @@
           // 75% covers the corners of a 16:9 box measured from its centre.
           tl.to(stage, {
             clipPath: 'circle(75% at 50% 50%)',
-            duration: T.aperture.duration,
-            ease: 'power3.inOut',
+            duration: T.aperture.duration, ease: 'power3.inOut',
           }, 0);
           tl.to(img, {
-            scale: 1,
-            duration: T.aperture.duration * 1.15,
-            ease: 'power2.out',
+            scale: 1, duration: T.aperture.duration * 1.15, ease: 'power2.out',
           }, 0);
           return tl;
         },
@@ -667,116 +729,21 @@
           const tl = gsap.timeline();
           // 260% guarantees the soft edge clears the corners of the frame.
           tl.to(bleed, {
-            maskSize: '260% 260%',
-            webkitMaskSize: '260% 260%',
-            duration: T.ink.duration,
-            ease: 'power2.out',
+            maskSize: '260% 260%', webkitMaskSize: '260% 260%',
+            duration: T.ink.duration, ease: 'power2.out',
           }, 0);
-          // Warp settles faster than the bleed, so the edge stops crawling
-          // just before the image finishes arriving.
+          // Warp settles ahead of the bleed so the edge stops crawling just
+          // before the image finishes arriving.
           tl.to(displace, {
             attr: { scale: 0 },
-            duration: T.ink.duration * 0.8,
-            ease: 'power2.out',
+            duration: T.ink.duration * 0.8, ease: 'power2.out',
           }, 0);
           return tl;
         },
       });
     })();
 
-    /* ===== 03 — SPLIT-FLAP ============================================== */
-    (function () {
-      const stage = document.querySelector('#flap .stage');
-      const panels = buildRows(stage, T.flap.rows);
-
-      register('flap', {
-        set: () => gsap.set(panels, {
-          rotateX: -92,
-          opacity: 0,
-          transformOrigin: '50% 0%',
-        }),
-        rest: () => gsap.set(panels, { rotateX: 0, opacity: 1 }),
-        play: () => gsap.to(panels, {
-          rotateX: 0,
-          opacity: 1,
-          duration: T.flap.duration,
-          ease: 'power3.out',
-          stagger: T.flap.stagger,
-        }),
-      });
-    })();
-
-    /* ===== 04 — LETTERBOX =============================================== */
-    (function () {
-      const stage = document.querySelector('#letterbox .stage');
-      const img = stage.querySelector('img');
-      const bars = stage.querySelectorAll('.bar');
-
-      register('letterbox', {
-        set: () => {
-          gsap.set(stage, { clipPath: 'inset(50% 0 50% 0)' });
-          gsap.set(img, { scaleY: T.letterbox.squashY });
-          gsap.set(bars, { opacity: 0 });
-        },
-        rest: () => {
-          gsap.set(stage, { clipPath: 'inset(0% 0 0% 0)' });
-          gsap.set(img, { scaleY: 1 });
-          gsap.set(bars, { opacity: 0 });
-        },
-        play: () => {
-          const tl = gsap.timeline();
-          tl.to(bars, { opacity: 1, duration: 0.18 }, 0);
-          tl.to(stage, {
-            clipPath: 'inset(0% 0 0% 0)',
-            duration: T.letterbox.duration,
-            ease: 'expo.inOut',
-          }, 0.1);
-          tl.to(img, {
-            scaleY: 1,
-            duration: T.letterbox.duration * 1.1,
-            ease: 'expo.out',
-          }, 0.1);
-          tl.to(bars, { opacity: 0, duration: 0.5 }, T.letterbox.duration * 0.75);
-          return tl;
-        },
-      });
-    })();
-
-    /* ===== 05 — SCANLINE DISSOLVE ======================================= */
-    (function () {
-      const stage = document.querySelector('#scan .stage');
-      const img = stage.querySelector('img');
-
-      register('scan', {
-        set: () => {
-          gsap.set(stage, { '--comb': '0px' });
-          gsap.set(img, { scale: 1.08, filter: 'brightness(1.4) contrast(0.8)' });
-        },
-        rest: () => {
-          gsap.set(stage, { '--comb': `${T.scan.band}px` });
-          gsap.set(img, { scale: 1, filter: 'none' });
-        },
-        play: () => {
-          const tl = gsap.timeline();
-          // GSAP interpolates the custom property in JS, so the mask recomputes
-          // each tick without needing an @property registration.
-          tl.to(stage, {
-            '--comb': `${T.scan.band}px`,
-            duration: T.scan.duration,
-            ease: 'power2.inOut',
-          }, 0);
-          tl.to(img, {
-            scale: 1,
-            filter: 'brightness(1) contrast(1)',
-            duration: T.scan.duration,
-            ease: 'power2.out',
-          }, 0);
-          return tl;
-        },
-      });
-    })();
-
-    /* ===== 06 — HINGE =================================================== */
+    /* ===== 03 — HINGE =================================================== */
     (function () {
       const stage = document.querySelector('#hinge .stage');
       const door = stage.querySelector('.door');
@@ -793,18 +760,173 @@
         },
         play: () => {
           const tl = gsap.timeline();
-          tl.to(door, {
-            rotateY: 0,
-            duration: T.hinge.duration,
-            ease: 'power3.out',
-          }, 0);
-          tl.to(shade, {
-            opacity: 0,
-            duration: T.hinge.duration * 0.9,
-            ease: 'power2.out',
-          }, 0.1);
+          tl.to(door, { rotateY: 0, duration: T.hinge.duration, ease: 'power3.out' }, 0);
+          tl.to(shade, { opacity: 0, duration: T.hinge.duration * 0.9, ease: 'power2.out' }, 0.1);
           return tl;
         },
+      });
+    })();
+
+    /* ===== 04 — SHATTER ================================================= */
+    (function () {
+      const stage = document.querySelector('#shatter .stage');
+      const src = stage.dataset.src;
+      const { cols, rows } = T.shatter;
+      const shards = [];
+
+      // Every shard is a full-bleed copy of the image clipped to one triangle.
+      // Because each layer is the same size as the stage, the background lines
+      // up automatically — no per-tile offset maths needed.
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const x0 = (c / cols) * 100, x1 = ((c + 1) / cols) * 100;
+          const y0 = (r / rows) * 100, y1 = ((r + 1) / rows) * 100;
+
+          // Alternate the diagonal so the cut lines zigzag instead of all
+          // leaning the same way — reads as broken glass, not a tiled grid.
+          const flip = (r + c) % 2 === 0;
+          const tris = flip
+            ? [[[x0, y0], [x1, y0], [x0, y1]], [[x1, y0], [x1, y1], [x0, y1]]]
+            : [[[x0, y0], [x1, y0], [x1, y1]], [[x0, y0], [x1, y1], [x0, y1]]];
+
+          tris.forEach((pts) => {
+            const el = document.createElement('div');
+            el.className = 'shard';
+            el.style.backgroundImage = `url("${src}")`;
+            el.style.clipPath = `polygon(${pts.map(p => `${p[0]}% ${p[1]}%`).join(',')})`;
+            stage.appendChild(el);
+            shards.push(el);
+          });
+        }
+      }
+
+      register('shatter', {
+        set: () => gsap.set(shards, {
+          opacity: 0,
+          x: (i) => (rand(i + 1) - 0.5) * T.shatter.spread,
+          y: (i) => (rand(i + 11) - 0.5) * T.shatter.spread,
+          rotate: (i) => (rand(i + 21) - 0.5) * 55,
+          scale: 0.72,
+        }),
+        rest: () => gsap.set(shards, { opacity: 1, x: 0, y: 0, rotate: 0, scale: 1 }),
+        play: () => gsap.to(shards, {
+          opacity: 1, x: 0, y: 0, rotate: 0, scale: 1,
+          duration: T.shatter.duration,
+          ease: 'power3.out',
+          stagger: { each: T.shatter.stagger, from: 'random' },
+        }),
+      });
+    })();
+
+    /* ===== 05 — FLY-THROUGH ============================================= */
+    (function () {
+      const craft = document.querySelector('#fly .craft');
+
+      register('fly', {
+        set: () => gsap.set(craft, {
+          z: T.fly.depth,
+          rotateY: 22,
+          rotateX: -10,
+          opacity: 0,
+          filter: `blur(${T.fly.blur}px)`,
+        }),
+        rest: () => gsap.set(craft, {
+          z: 0, rotateY: 0, rotateX: 0, opacity: 1, filter: 'none',
+        }),
+        play: () => {
+          const tl = gsap.timeline();
+          tl.to(craft, {
+            z: 0, rotateY: 0, rotateX: 0, opacity: 1,
+            duration: T.fly.duration, ease: 'power3.out',
+          }, 0);
+          // Focus lands a little before the travel does, so it arrives sharp
+          // rather than still resolving.
+          tl.to(craft, {
+            filter: 'blur(0px)',
+            duration: T.fly.duration * 0.75, ease: 'power2.out',
+          }, 0);
+          return tl;
+        },
+      });
+    })();
+
+    /* ===== 06 — RIPPLE ================================================== */
+    (function () {
+      const stage = document.querySelector('#ripple .stage');
+      const img = stage.querySelector('img');
+
+      register('ripple', {
+        set: () => {
+          gsap.set(stage, { '--ring': '0px' });
+          gsap.set(img, { scale: 1.12 });
+        },
+        rest: () => {
+          gsap.set(stage, { '--ring': `${T.ripple.ring}px` });
+          gsap.set(img, { scale: 1 });
+        },
+        play: () => {
+          const tl = gsap.timeline();
+          // GSAP interpolates the custom property in JS, so the mask recomputes
+          // each tick without needing an @property registration.
+          tl.to(stage, {
+            '--ring': `${T.ripple.ring}px`,
+            duration: T.ripple.duration, ease: 'power2.inOut',
+          }, 0);
+          tl.to(img, { scale: 1, duration: T.ripple.duration, ease: 'power2.out' }, 0);
+          return tl;
+        },
+      });
+    })();
+
+    /* ===== 07 — FABRIC DROP ============================================= */
+    (function () {
+      const cloth = document.querySelector('#fabric .cloth');
+
+      register('fabric', {
+        set: () => gsap.set(cloth, {
+          yPercent: -105,
+          skewY: T.fabric.skew,
+          scaleY: 1.12,
+        }),
+        rest: () => gsap.set(cloth, { yPercent: 0, skewY: 0, scaleY: 1 }),
+        play: () => {
+          const tl = gsap.timeline();
+          tl.to(cloth, {
+            yPercent: 0, duration: T.fabric.duration, ease: 'power4.out',
+          }, 0);
+          // Skew and stretch ring out on elastic after the drop lands, which is
+          // what reads as cloth rather than a sliding rectangle.
+          tl.to(cloth, {
+            skewY: 0, duration: T.fabric.duration * 1.3, ease: 'elastic.out(1, 0.35)',
+          }, 0.12);
+          tl.to(cloth, {
+            scaleY: 1, duration: T.fabric.duration * 1.2, ease: 'elastic.out(1, 0.45)',
+          }, 0.12);
+          return tl;
+        },
+      });
+    })();
+
+    /* ===== 08 — CHROMATIC SPLIT ========================================= */
+    (function () {
+      const stage = document.querySelector('#chroma .stage');
+      const r = stage.querySelector('.ch--r');
+      const g = stage.querySelector('.ch--g');
+      const b = stage.querySelector('.ch--b');
+      const s = T.chroma.split;
+
+      register('chroma', {
+        set: () => {
+          gsap.set(r, { x: -s, y: -s * 0.22, rotate: -2.5, scale: 1.06 });
+          gsap.set(g, { x: 0, y: s * 0.3, rotate: 0, scale: 1.1 });
+          gsap.set(b, { x: s, y: -s * 0.22, rotate: 2.5, scale: 1.06 });
+        },
+        rest: () => gsap.set([r, g, b], { x: 0, y: 0, rotate: 0, scale: 1 }),
+        play: () => gsap.to([r, g, b], {
+          x: 0, y: 0, rotate: 0, scale: 1,
+          duration: T.chroma.duration,
+          ease: 'expo.out',
+        }),
       });
     })();
   </script>

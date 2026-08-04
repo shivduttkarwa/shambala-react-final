@@ -53,18 +53,24 @@ const EssenceSection: React.FC<EssenceSectionProps> = ({
     gsap.registerPlugin(ScrollTrigger);
 
     const mask = imageMaskRef.current;
+    const img = mask.querySelector("img");
 
-    // Wipe with clip-path rather than width.
+    // APERTURE reveal (see play.html #01).
     //
-    // Animating width reflowed the page every frame, and because .essence-img
-    // is width:100% of this mask, the image was resized and re-cropped by
-    // object-fit on each step — it squashed into view instead of being
-    // revealed. clip-path is composited on the GPU and leaves layout alone, so
-    // the image is sized once and simply uncovered.
+    // A circular clip opens from the centre while the photograph counter-zooms
+    // back down to 1×. The opposing motion is what creates the depth — the
+    // frame grows outward as the subject settles back.
     //
-    // inset(top right bottom left): the left inset retreats from 100% to 0,
-    // which uncovers right-to-left and matches the old margin-left:auto anchor.
-    gsap.set(mask, { clipPath: "inset(0 0 0 100%)" });
+    // 75% is not arbitrary: for circle() a percentage resolves against
+    // sqrt(w² + h²) / sqrt(2), so any radius above sqrt(2)/2 ≈ 70.7% reaches
+    // the corners of *any* rectangle. 75% clears them with margin to spare,
+    // which matters here because this mask is a tall portrait box on desktop
+    // and a wide one on mobile.
+    //
+    // clip-path and transform are both GPU-composited, so nothing reflows and
+    // the image is laid out once rather than re-cropped mid-animation.
+    gsap.set(mask, { clipPath: "circle(0% at 50% 50%)" });
+    if (img) gsap.set(img, { scale: 1.45 });
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -75,11 +81,29 @@ const EssenceSection: React.FC<EssenceSectionProps> = ({
       },
     });
 
-    tl.to(mask, {
-      clipPath: "inset(0 0 0 0%)",
-      duration: 1.1,
-      ease: "power3.out",
-    });
+    tl.to(
+      mask,
+      {
+        clipPath: "circle(75% at 50% 50%)",
+        duration: 1.4,
+        ease: "power3.inOut",
+      },
+      0,
+    );
+
+    if (img) {
+      // Slightly longer than the clip so the zoom is still easing as the frame
+      // finishes opening, rather than both landing on the same frame.
+      tl.to(
+        img,
+        {
+          scale: 1,
+          duration: 1.6,
+          ease: "power2.out",
+        },
+        0,
+      );
+    }
 
     return () => {
       ScrollTrigger.getAll().forEach((st) => {
