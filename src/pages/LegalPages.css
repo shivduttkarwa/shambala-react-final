@@ -20,8 +20,10 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  /* Scrim for the white heading. Cannot go much below this: over a bright
+     photo, white text needs roughly 0.6 alpha here to clear 4.5:1. */
   background-image:
-    linear-gradient(160deg, rgba(20, 25, 20, 0.72) 0%, rgba(30, 40, 32, 0.78) 100%),
+    linear-gradient(160deg, rgba(20, 25, 20, 0.6) 0%, rgba(30, 40, 32, 0.66) 100%),
     var(--legal-hero-bg);
 }
 
@@ -30,11 +32,13 @@
   content: '';
   position: absolute;
   inset: 0;
+  /* Starts lower and lands weaker: it only needs to soften the seam into the
+     cream page below, not wash out the bottom half of the photograph. */
   background: linear-gradient(
     to bottom,
-    transparent 55%,
-    rgba(248, 246, 240, 0.3) 80%,
-    rgba(248, 246, 240, 0.75) 100%
+    transparent 72%,
+    rgba(248, 246, 240, 0.14) 88%,
+    rgba(248, 246, 240, 0.5) 100%
   );
   pointer-events: none;
   z-index: 1;

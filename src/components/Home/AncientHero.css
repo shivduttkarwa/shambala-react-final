@@ -327,19 +327,29 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
+  /* Was 0.75rem back when the ❋ overflowed its fixed 24px box and ate into
+     the gap visually. The box now hugs the glyph, so the full gap shows and
+     this needs to be smaller to look the same. */
+  gap: 0.25rem;
   opacity: 0;
 }
 
+/* No fixed 24px box. The ❋ glyph's advance width does not match 24px, so the
+   flex parent sized to the box while the glyph's ink sat off to one side —
+   which pushed the 1px line below it left of the flower. Letting the box hug
+   the glyph puts both on the same centre axis at every font-size. */
 .lotus {
-  width: 24px;
-  height: 24px;
   position: relative;
+  display: grid;
+  place-items: center;
+  line-height: 1;
 }
 
 .lotus::before {
   content: '❋';
+  display: block;
   font-size: 1.5rem;
+  line-height: 1;
   color: var(--gold);
   opacity: 0.6;
   animation: pulse 3s ease-in-out infinite;
