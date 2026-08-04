@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Reveal Playground — Shambala</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    /* ===================================================================
+       PLAYGROUND — six image reveals, six different mechanisms.
+       Standalone: open this file directly from disk. No build step.
+       =================================================================== */
+
+    :root {
+      --ink: #0e100f;
+      --ink-soft: #1a1d1b;
+      --paper: #f4f1ea;
+      --muted: rgba(244, 241, 234, 0.55);
+      --gold: #c9a227;
+      --line: rgba(244, 241, 234, 0.14);
+      --shell: min(1180px, 90vw);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: "Inter", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    /* ---------- dummy spacer sections ---------- */
+    .dummy {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(201, 162, 39, 0.10), transparent 60%),
+        var(--ink);
+    }
+
+    .dummy h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 300;
+      font-size: clamp(2.5rem, 7vw, 5.5rem);
+      line-height: 1.05;
+      margin: 0 0 1.25rem;
+    }
+
+    .dummy p {
+      max-width: 46ch;
+      margin: 0 auto;
+      color: var(--muted);
+      font-weight: 300;
+      font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+      line-height: 1.8;
+    }
+
+    .scroll-hint {
+      margin-top: 3.5rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .scroll-hint::after {
+      content: "";
+      width: 1px;
+      height: 54px;
+      background: linear-gradient(var(--gold), transparent);
+      animation: drop 2s ease-in-out infinite;
+    }
+
+    @keyframes drop {
+
+      0%,
+      100% {
+        transform: scaleY(0.4);
+        transform-origin: top;
+        opacity: 0.4;
+      }
+
+      50% {
+        transform: scaleY(1);
+        transform-origin: top;
+        opacity: 1;
+      }
+    }
+
+    /* ---------- demo chrome ---------- */
+    .demo {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 14vh 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .demo__head {
+      width: var(--shell);
+      margin: 0 auto 2.25rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .demo__num {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 0.9;
+      color: var(--gold);
+      font-weight: 300;
+    }
+
+    .demo__meta {
+      flex: 1;
+      min-width: 18rem;
+    }
+
+    .demo__meta h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 400;
+      font-size: clamp(1.5rem, 3vw, 2.4rem);
+      margin: 0 0 0.35rem;
+    }
+
+    .demo__meta p {
+      margin: 0;
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      font-weight: 300;
+      max-width: 62ch;
+      line-height: 1.75;
+    }
+
+    /* ---------- replay button ---------- */
+    .replay {
+      flex-shrink: 0;
+      align-self: center;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: inherit;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--paper);
+      background: transparent;
+      border: 1px solid rgba(201, 162, 39, 0.5);
+      border-radius: 999px;
+      padding: 0.7rem 1.3rem;
+      cursor: pointer;
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    }
+
+    .replay:hover {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--ink);
+    }
+
+    .replay:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 3px;
+    }
+
+    .replay svg {
+      width: 13px;
+      height: 13px;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .replay:hover svg {
+      transform: rotate(-180deg);
+    }
+
+    .stage {
+      width: var(--shell);
+      margin: 0 auto;
+      aspect-ratio: 16 / 9;
+      position: relative;
+      overflow: hidden;
+      background: var(--ink-soft);
+    }
+
+    .stage>img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Panels for the split-flap build are generated in JS. */
+    .panel {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      background-repeat: no-repeat;
+      backface-visibility: hidden;
+      will-change: transform, opacity;
+    }
+
+    /* ===== 01 — APERTURE ===== */
+    #aperture .stage {
+      clip-path: circle(0% at 50% 50%);
+      will-change: clip-path;
+    }
+
+    #aperture img {
+      will-change: transform;
+    }
+
+    /* ===== 02 — INK BLEED ===== */
+    #ink .stage {
+      filter: url(#inkTurbulence);
+    }
+
+    #ink .bleed {
+      position: absolute;
+      inset: 0;
+      -webkit-mask-image: radial-gradient(circle at 50% 55%, #000 55%, transparent 72%);
+      mask-image: radial-gradient(circle at 50% 55%, #000 55%, transparent 72%);
+      -webkit-mask-size: 0% 0%;
+      mask-size: 0% 0%;
+      -webkit-mask-position: center;
+      mask-position: center;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      will-change: mask-size;
+    }
+
+    #ink .bleed img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ===== 03 — SPLIT-FLAP ===== */
+    #flap .stage {
+      perspective: 1400px;
+      perspective-origin: 50% 50%;
+    }
+
+    /* ===== 04 — LETTERBOX ===== */
+    #letterbox .stage {
+      clip-path: inset(50% 0 50% 0);
+      will-change: clip-path;
+    }
+
+    #letterbox img {
+      will-change: transform;
+    }
+
+    #letterbox .bar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0;
+      box-shadow: 0 0 30px 3px rgba(201, 162, 39, 0.8);
+    }
+
+    #letterbox .bar--t {
+      top: 50%;
+    }
+
+    #letterbox .bar--b {
+      bottom: 50%;
+    }
+
+    /* ===== 05 — SCANLINE ===== */
+    #scan .stage {
+      --comb: 0px;
+      -webkit-mask-image: repeating-linear-gradient(to bottom,
+          #000 0 var(--comb),
+          transparent var(--comb) 10px);
+      mask-image: repeating-linear-gradient(to bottom,
+          #000 0 var(--comb),
+          transparent var(--comb) 10px);
+      will-change: mask-image;
+    }
+
+    #scan img {
+      will-change: transform, filter;
+    }
+
+    /* ===== 06 — HINGE ===== */
+    #hinge .stage {
+      overflow: visible;
+      perspective: 1600px;
+      perspective-origin: 0% 50%;
+      background: transparent;
+    }
+
+    #hinge .door {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      transform-origin: left center;
+      transform-style: preserve-3d;
+      background: var(--ink-soft);
+      will-change: transform;
+    }
+
+    #hinge .door img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Darkening that lifts as the panel swings to face the viewer. */
+    #hinge .shade {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.75));
+      pointer-events: none;
+    }
+
+    .svg-defs {
+      position: absolute;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-hint::after {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SVG filter used by 02 — INK BLEED -->
+  <svg class="svg-defs" aria-hidden="true">
+    <defs>
+      <filter id="inkTurbulence">
+        <feTurbulence id="inkNoise" type="fractalNoise" baseFrequency="0.012" numOctaves="3" seed="7"
+          result="noise" />
+        <feDisplacementMap id="inkDisplace" in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R"
+          yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- ============ DUMMY: TOP ============ -->
+  <section class="dummy">
+    <div>
+      <h1>Six ways to<br />reveal an image</h1>
+      <p>
+        Each section uses a genuinely different mechanism — not one wipe at six
+        angles. They fire once on scroll; hit Replay on any of them to run it again.
+      </p>
+      <span class="scroll-hint">Scroll</span>
+    </div>
+  </section>
+
+  <!-- ============ 01 — APERTURE ============ -->
+  <section class="demo" id="aperture">
+    <div class="demo__head">
+      <span class="demo__num">01</span>
+      <div class="demo__meta">
+        <h2>Aperture</h2>
+        <p>
+          A circular clip opens from the centre while the photograph itself
+          counter-zooms from 1.45× down to 1×. The opposing motion is what sells the
+          depth — the frame grows outward as the subject settles back.
+        </p>
+      </div>
+      <button class="replay" data-replay="aperture">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M3 12a9 9 0 1 0 3-6.7" />
+          <path d="M3 4v5h5" />
+        </svg>Replay
+      </button>
+    </div>
+    <div class="stage">
+      <img src="public/images/home/hero-desktop.webp" alt="" />
+    </div>
+  </section>
+
+  <!-- ============ 02 — INK BLEED ============ -->
+  <section class="demo" id="ink">
+    <div class="demo__head">
+      <span class="demo__num">02</span>
+      <div class="demo__meta">
+        <h2>Ink Bleed</h2>
+        <p>
+          A soft radial mask grows outward while an SVG turbulence filter distorts
+          the edge and settles to zero. The boundary crawls and feathers like ink
+          soaking into paper rather than a clean geometric edge.
+        </p>
+      </div>
+      <button class="replay" data-replay="ink">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M3 12a9 9 0 1 0 3-6.7" />
+          <path d="M3 4v5h5" />
+        </svg>Replay
+      </button>
+    </div>
+    <div class="stage">
+      <div class="bleed"><img src="public/images/home/essence-desktop.webp" alt="" /></div>
+    </div>
+  </section>
+
+  <!-- ============ 03 — SPLIT-FLAP ============ -->
+  <section class="demo" id="flap">
+    <div class="demo__head">
+      <span class="demo__num">03</span>
+      <div class="demo__meta">
+        <h2>Split-Flap</h2>
+        <p>
+          Eight horizontal panels hinged along their top edge, each holding its own
+          band of the image. They fall flat one after another like a departure board
+          settling — edge-on to face-on, with real perspective.
+        </p>
+      </div>
+      <button class="replay" data-replay="flap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M3 12a9 9 0 1 0 3-6.7" />
+          <path d="M3 4v5h5" />
+        </svg>Replay
+      </button>
+    </div>
+    <div class="stage" data-src="public/images/home/project-create-desktop.webp"></div>
+  </section>
+
+  <!-- ============ 04 — LETTERBOX ============ -->
+  <section class="demo" id="letterbox">
+    <div class="demo__head">
+      <span class="demo__num">04</span>
+      <div class="demo__meta">
+        <h2>Letterbox</h2>
+        <p>
+          Opens from a hairline slit at the centre line, expanding vertically to full
+          height. The image inside is squashed to 1.7× on Y and un-squashes as the
+          frame grows, so the picture appears to stretch into its own shape.
+        </p>
+      </div>
+      <button class="replay" data-replay="letterbox">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M3 12a9 9 0 1 0 3-6.7" />
+          <path d="M3 4v5h5" />
+        </svg>Replay
+      </button>
+    </div>
+    <div class="stage">
+      <img src="public/images/home/foundation-craftsmanship.webp" alt="" />
+      <div class="bar bar--t"></div>
+      <div class="bar bar--b"></div>
+    </div>
+  </section>
+
+  <!-- ============ 05 — SCANLINE ============ -->
+  <section class="demo" id="scan">
+    <div class="demo__head">
+      <span class="demo__num">05</span>
+      <div class="demo__meta">
+        <h2>Scanline Dissolve</h2>
+        <p>
+          A repeating gradient mask of 10px bands, whose opaque portion widens from
+          zero to full. The picture materialises through a fine comb — no extra DOM,
+          one element, purely the mask doing the work.
+        </p>
+      </div>
+      <button class="replay" data-replay="scan">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M3 12a9 9 0 1 0 3-6.7" />
+          <path d="M3 4v5h5" />
+        </svg>Replay
+      </button>
+    </div>
+    <div class="stage">
+      <img src="public/images/home/project-finish-desktop.webp" alt="" />
+    </div>
+  </section>
+
+  <!-- ============ 06 — HINGE ============ -->
+  <section class="demo" id="hinge">
+    <div class="demo__head">
+      <span class="demo__num">06</span>
+      <div class="demo__meta">
+        <h2>Hinge</h2>
+        <p>
+          The whole frame is a door hinged on its left edge, swinging from 88°
+          edge-on to flat. A gradient shade rides on top and lifts as it turns, so
+          the surface catches light the way a real panel would.
+        </p>
+      </div>
+      <button class="replay" data-replay="hinge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M3 12a9 9 0 1 0 3-6.7" />
+          <path d="M3 4v5h5" />
+        </svg>Replay
+      </button>
+    </div>
+    <div class="stage">
+      <div class="door">
+        <img src="public/images/home/foundation-sustainable.webp" alt="" />
+        <div class="shade"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DUMMY: BOTTOM ============ -->
+  <section class="dummy">
+    <div>
+      <h1>End of the reel</h1>
+      <p>
+        Pick the ones you want and I'll port them into the React components. Every
+        timing value lives in the <code>T</code> object at the top of the script.
+      </p>
+    </div>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* ------------------------------------------------------------------
+       Knobs — every reveal reads its timing from here.
+       ------------------------------------------------------------------ */
+    const T = {
+      start: 'top 75%',
+      aperture: { duration: 1.4, zoomFrom: 1.45 },
+      ink: { duration: 1.7, warp: 90 },
+      flap: { rows: 8, duration: 0.85, stagger: 0.09 },
+      letterbox: { duration: 1.3, squashY: 1.7 },
+      scan: { duration: 1.5, band: 10 },
+      hinge: { duration: 1.5, angle: 88 },
+    };
+
+    const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ------------------------------------------------------------------
+       Registry. Each demo supplies:
+         set()  — snap to the pre-animation state
+         play() — build and return a fresh timeline
+         rest() — the finished state, for reduced-motion
+       Scroll fires it once; the Replay button re-runs it on demand.
+       ------------------------------------------------------------------ */
+    function register(id, api) {
+      const section = document.getElementById(id);
+      const stage = section.querySelector('.stage');
+      const btn = section.querySelector(`[data-replay="${id}"]`);
+      let tl = null;
+
+      const run = () => {
+        // Kill the previous run first, or a mid-flight timeline keeps writing
+        // over the fresh one and the replay stutters.
+        if (tl) tl.kill();
+        api.set();
+        tl = api.play();
+      };
+
+      if (REDUCED) {
+        api.rest();
+      } else {
+        api.set();
+        ScrollTrigger.create({ trigger: stage, start: T.start, once: true, onEnter: run });
+      }
+
+      btn.addEventListener('click', () => {
+        if (REDUCED) { api.rest(); return; }
+        run();
+      });
+    }
+
+    /* Build horizontal panels that together reconstruct the source image.
+       Each panel scales the background to the full grid height and offsets it —
+       with N rows there are N-1 gaps, so the offset is i/(N-1). */
+    function buildRows(stage, rows) {
+      const src = stage.dataset.src;
+      const out = [];
+      for (let r = 0; r < rows; r++) {
+        const p = document.createElement('div');
+        p.className = 'panel';
+        p.style.top = `${(r / rows) * 100}%`;
+        p.style.height = `${100 / rows}%`;
+        p.style.backgroundImage = `url("${src}")`;
+        p.style.backgroundSize = `100% ${rows * 100}%`;
+        p.style.backgroundPositionY = rows > 1 ? `${(r / (rows - 1)) * 100}%` : '0%';
+        stage.appendChild(p);
+        out.push(p);
+      }
+      return out;
+    }
+
+    /* ===== 01 — APERTURE ================================================ */
+    (function () {
+      const stage = document.querySelector('#aperture .stage');
+      const img = stage.querySelector('img');
+
+      register('aperture', {
+        set: () => {
+          gsap.set(stage, { clipPath: 'circle(0% at 50% 50%)' });
+          gsap.set(img, { scale: T.aperture.zoomFrom });
+        },
+        rest: () => {
+          gsap.set(stage, { clipPath: 'circle(75% at 50% 50%)' });
+          gsap.set(img, { scale: 1 });
+        },
+        play: () => {
+          const tl = gsap.timeline();
+          // 75% covers the corners of a 16:9 box measured from its centre.
+          tl.to(stage, {
+            clipPath: 'circle(75% at 50% 50%)',
+            duration: T.aperture.duration,
+            ease: 'power3.inOut',
+          }, 0);
+          tl.to(img, {
+            scale: 1,
+            duration: T.aperture.duration * 1.15,
+            ease: 'power2.out',
+          }, 0);
+          return tl;
+        },
+      });
+    })();
+
+    /* ===== 02 — INK BLEED =============================================== */
+    (function () {
+      const bleed = document.querySelector('#ink .bleed');
+      const displace = document.getElementById('inkDisplace');
+
+      register('ink', {
+        set: () => {
+          gsap.set(bleed, { maskSize: '0% 0%', webkitMaskSize: '0% 0%' });
+          gsap.set(displace, { attr: { scale: T.ink.warp } });
+        },
+        rest: () => {
+          gsap.set(bleed, { maskSize: '260% 260%', webkitMaskSize: '260% 260%' });
+          gsap.set(displace, { attr: { scale: 0 } });
+        },
+        play: () => {
+          const tl = gsap.timeline();
+          // 260% guarantees the soft edge clears the corners of the frame.
+          tl.to(bleed, {
+            maskSize: '260% 260%',
+            webkitMaskSize: '260% 260%',
+            duration: T.ink.duration,
+            ease: 'power2.out',
+          }, 0);
+          // Warp settles faster than the bleed, so the edge stops crawling
+          // just before the image finishes arriving.
+          tl.to(displace, {
+            attr: { scale: 0 },
+            duration: T.ink.duration * 0.8,
+            ease: 'power2.out',
+          }, 0);
+          return tl;
+        },
+      });
+    })();
+
+    /* ===== 03 — SPLIT-FLAP ============================================== */
+    (function () {
+      const stage = document.querySelector('#flap .stage');
+      const panels = buildRows(stage, T.flap.rows);
+
+      register('flap', {
+        set: () => gsap.set(panels, {
+          rotateX: -92,
+          opacity: 0,
+          transformOrigin: '50% 0%',
+        }),
+        rest: () => gsap.set(panels, { rotateX: 0, opacity: 1 }),
+        play: () => gsap.to(panels, {
+          rotateX: 0,
+          opacity: 1,
+          duration: T.flap.duration,
+          ease: 'power3.out',
+          stagger: T.flap.stagger,
+        }),
+      });
+    })();
+
+    /* ===== 04 — LETTERBOX =============================================== */
+    (function () {
+      const stage = document.querySelector('#letterbox .stage');
+      const img = stage.querySelector('img');
+      const bars = stage.querySelectorAll('.bar');
+
+      register('letterbox', {
+        set: () => {
+          gsap.set(stage, { clipPath: 'inset(50% 0 50% 0)' });
+          gsap.set(img, { scaleY: T.letterbox.squashY });
+          gsap.set(bars, { opacity: 0 });
+        },
+        rest: () => {
+          gsap.set(stage, { clipPath: 'inset(0% 0 0% 0)' });
+          gsap.set(img, { scaleY: 1 });
+          gsap.set(bars, { opacity: 0 });
+        },
+        play: () => {
+          const tl = gsap.timeline();
+          tl.to(bars, { opacity: 1, duration: 0.18 }, 0);
+          tl.to(stage, {
+            clipPath: 'inset(0% 0 0% 0)',
+            duration: T.letterbox.duration,
+            ease: 'expo.inOut',
+          }, 0.1);
+          tl.to(img, {
+            scaleY: 1,
+            duration: T.letterbox.duration * 1.1,
+            ease: 'expo.out',
+          }, 0.1);
+          tl.to(bars, { opacity: 0, duration: 0.5 }, T.letterbox.duration * 0.75);
+          return tl;
+        },
+      });
+    })();
+
+    /* ===== 05 — SCANLINE DISSOLVE ======================================= */
+    (function () {
+      const stage = document.querySelector('#scan .stage');
+      const img = stage.querySelector('img');
+
+      register('scan', {
+        set: () => {
+          gsap.set(stage, { '--comb': '0px' });
+          gsap.set(img, { scale: 1.08, filter: 'brightness(1.4) contrast(0.8)' });
+        },
+        rest: () => {
+          gsap.set(stage, { '--comb': `${T.scan.band}px` });
+          gsap.set(img, { scale: 1, filter: 'none' });
+        },
+        play: () => {
+          const tl = gsap.timeline();
+          // GSAP interpolates the custom property in JS, so the mask recomputes
+          // each tick without needing an @property registration.
+          tl.to(stage, {
+            '--comb': `${T.scan.band}px`,
+            duration: T.scan.duration,
+            ease: 'power2.inOut',
+          }, 0);
+          tl.to(img, {
+            scale: 1,
+            filter: 'brightness(1) contrast(1)',
+            duration: T.scan.duration,
+            ease: 'power2.out',
+          }, 0);
+          return tl;
+        },
+      });
+    })();
+
+    /* ===== 06 — HINGE =================================================== */
+    (function () {
+      const stage = document.querySelector('#hinge .stage');
+      const door = stage.querySelector('.door');
+      const shade = stage.querySelector('.shade');
+
+      register('hinge', {
+        set: () => {
+          gsap.set(door, { rotateY: T.hinge.angle });
+          gsap.set(shade, { opacity: 1 });
+        },
+        rest: () => {
+          gsap.set(door, { rotateY: 0 });
+          gsap.set(shade, { opacity: 0 });
+        },
+        play: () => {
+          const tl = gsap.timeline();
+          tl.to(door, {
+            rotateY: 0,
+            duration: T.hinge.duration,
+            ease: 'power3.out',
+          }, 0);
+          tl.to(shade, {
+            opacity: 0,
+            duration: T.hinge.duration * 0.9,
+            ease: 'power2.out',
+          }, 0.1);
+          return tl;
+        },
+      });
+    })();
+  </script>
+</body>
+
+</html>

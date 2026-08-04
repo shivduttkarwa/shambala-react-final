@@ -10,13 +10,13 @@ interface HomeLogoProps {
 const HomeLogo: React.FC<HomeLogoProps> = ({
   className = "",
   style,
-  ariaLabel = "shambala",
+  ariaLabel = "Shambala Homes",
   onClick,
 }) => {
   const publicUrl = import.meta.env.BASE_URL || "/";
   const logoPath = publicUrl.endsWith("/") 
-    ? `${publicUrl}images/shambala.png`
-    : `${publicUrl}/images/shambala.png`;
+    ? `${publicUrl}images/shambala-white.svg`
+    : `${publicUrl}/images/shambala-white.svg`;
 
   return (
     <img

@@ -27,7 +27,6 @@ header {
 }
 
 .header-logo {
-  filter: brightness(0) invert(1);
   height: 9.088rem;
   width: auto;
   transform: translateY(0.8rem) translateX(-0.5rem);
