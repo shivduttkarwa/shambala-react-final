@@ -1,6 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+// Label colours. The hover state lightens the pill to #628141, so it — not the
+// resting #40513B — is where the label is hardest to read. Going to pure white
+// on hover is what keeps it above the 4.5:1 AA floor at this size.
+const LABEL_REST = '#F7F4E9'; // 7.9:1 on #40513B
+const LABEL_HOVER = '#FFFFFF'; // 4.5:1 on #628141
+
 interface AestheticButtonProps extends React.PropsWithChildren {
   text?: string;
   href?: string;
@@ -46,7 +52,7 @@ const AestheticButton: React.FC<AestheticButtonProps> = ({
       alignItems: 'center',
       padding: '20px 32px',
       background: '#40513B',
-      color: '#E5D9B6',
+      color: LABEL_REST,
       fontSize: '0.8rem',
       letterSpacing: '0.16em',
       textTransform: 'uppercase' as const,
@@ -72,6 +78,7 @@ const AestheticButton: React.FC<AestheticButtonProps> = ({
         style={{
           ...styles.text,
           background: isHovered ? '#628141' : '#40513B',
+          color: isHovered ? LABEL_HOVER : LABEL_REST,
           padding: isHovered ? '20px 36px' : '20px 32px',
         }}
       >

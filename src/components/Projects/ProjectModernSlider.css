@@ -70,12 +70,32 @@
   top: 0;
   left: -1px;
   background-color: transparent;
+  /* Text sits on the left (.pms-swiper-content is left:50px), so weight the
+     scrim there and let the right two-thirds of the photograph come through
+     almost clean. The previous gradient ran the other way — lightest at 0.4
+     under the text, darkest at 0.6 over the empty right side — which dimmed
+     the image without helping legibility. */
   background-image: linear-gradient(
     to right,
-    rgba(0, 0, 0, 0.4) 0%,
-    rgba(0, 0, 0, 0.6) 100%
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.38) 35%,
+    rgba(0, 0, 0, 0.12) 70%,
+    rgba(0, 0, 0, 0) 100%
   );
   z-index: 1;
+}
+
+/* Below 992px the content becomes centred and full-width, so a left-weighted
+   scrim would strand it over the bright side. Weight it vertically instead. */
+@media (max-width: 991px) {
+  .pms-slider-inner::after {
+    background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.55) 0%,
+      rgba(0, 0, 0, 0.4) 50%,
+      rgba(0, 0, 0, 0.5) 100%
+    );
+  }
 }
 
 .pms-swiper-content {
