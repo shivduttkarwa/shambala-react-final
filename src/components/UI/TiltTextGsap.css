@@ -13,21 +13,18 @@
   margin: 0;
   display: flex;
   flex-wrap: wrap;
-  /* No gap. Word separation was stacked three deep — flex gap, word-spacing,
-     and .tilt-text-word margin-right — which is why the headings read as
-     scattered. The margin-right below is the single remaining source. */
+  /* Word separation lives here, and only here.
+     It used to be stacked three deep (gap + word-spacing + a margin-right on
+     .tilt-text-word), which read as scattered. It has to be `gap` rather than
+     the margin, though: TiltTextGsap renders words as flex items, so the
+     whitespace between them collapses, and section stylesheets that carry a
+     `.wrapper * { margin: 0 }` reset — AboutCompanyShowcase does — nullify a
+     word margin at equal specificity. `gap` is immune to that. */
+  gap: 0.22em;
   position: relative;
   visibility: hidden; /* Initially hidden until GSAP reveals it */
   justify-content: center;
   width: 100%;
-}
-
-.tilt-text-word {
-  margin-right: 0.21em;
-}
-
-.tilt-text-word:last-child {
-  margin-right: 0;
 }
 
 .tilt-text-word {
@@ -62,15 +59,6 @@
 
   .tilt-text-word {
     overflow: hidden;
-    margin-right: 0.21em;
-  }
-
-  .tilt-text-word:last-child {
-    margin-right: 0;
-  }
-
-  .tilt-text-char {
-    display: inline-block;
   }
 }
 

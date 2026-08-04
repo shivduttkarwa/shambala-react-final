@@ -432,7 +432,7 @@ const OverlayMenu: React.FC = () => {
           <div
             className="olm-secondary-menu-bg"
             style={{
-              backgroundImage: `url(${getImagePath("shared/monochrome-clifftop-residence.png")})`,
+              backgroundImage: `url(${getImagePath("shared/clifftop-residence-background.webp")})`,
               backgroundSize: "cover",
               backgroundPosition: "right center",
               backgroundRepeat: "no-repeat",

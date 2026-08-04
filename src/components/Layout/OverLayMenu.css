@@ -644,7 +644,7 @@ body.menu-open {
     margin-inline: 0;
     background-image:
       linear-gradient(rgba(16, 16, 16, 0.85), rgba(16, 16, 16, 0.85)),
-      url("/images/shared/monochrome-clifftop-residence.png");
+      url("/images/shared/clifftop-residence-background.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

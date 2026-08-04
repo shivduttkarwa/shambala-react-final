@@ -1,101 +1,271 @@
-.philosophy-section {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  padding: clamp(3rem, 4vw, 5rem) clamp(1.5rem, 4vw, 6rem);
+/* ===========================================================================
+   COMPANY PHILOSOPHY
+   ---------------------------------------------------------------------------
+   Editorial two-column: a statement on the left, a numbered "ledger" of
+   principles on the right. Hairline rules and an index column do the work
+   instead of cards and shadows — closer to how an architecture practice
+   presents itself in print.
+   =========================================================================== */
 
-  color: #1f1b16;
+.phl {
+  --phl-ink: #1f1b16;
+  --phl-muted: rgba(31, 27, 22, 0.62);
+  --phl-line: rgba(31, 27, 22, 0.14);
+  --phl-gold: #d4af37;
+  --phl-green: var(--color-green, #47614d);
+
+  padding: clamp(4rem, 9vw, 8rem) clamp(1.5rem, 5vw, 6rem);
+  color: var(--phl-ink);
   font-family: "Nunito", sans-serif;
 }
 
-.philosophy-shell {
+.phl__shell {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1240px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(2rem, 4vw, 5rem);
+}
+
+/* ---------- masthead ---------- */
+.phl__masthead {
+  display: flex;
   align-items: center;
+  gap: clamp(1rem, 2.5vw, 2rem);
+  margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
 }
 
-.philosophy-content {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.philosophy-eyebrow {
-  font-size: 0.7rem;
-  letter-spacing: 0.3em;
+.phl__eyebrow,
+.phl__count {
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(71, 97, 77, 0.75);
   font-weight: 700;
+  white-space: nowrap;
 }
 
-.philosophy-copy {
-  font-size: clamp(1rem, 1.6vw, 1.2rem);
-  line-height: 1.8;
-  color: rgba(31, 27, 22, 0.78);
+.phl__eyebrow {
+  color: var(--phl-green);
 }
 
-.philosophy-pill-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
+.phl__count {
+  color: var(--phl-muted);
+  font-weight: 600;
 }
 
-.philosophy-pill {
-  padding: 0.5rem 1.25rem;
-  border-radius: 999px;
-  background: rgba(71, 97, 77, 0.1);
-  color: #2b2b2b;
-  font-size: 0.85rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+/* Hairline that eats the remaining width — gives the masthead its rule. */
+.phl__rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    var(--phl-line),
+    var(--phl-line) 70%,
+    rgba(212, 175, 55, 0.55)
+  );
 }
 
-.philosophy-frame {
-  border-radius: 1.5rem;
-  border: 1px solid rgba(31, 27, 22, 0.12);
-  background: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.08);
-  padding: 2.5rem;
+/* ---------- layout ---------- */
+.phl__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: clamp(2.5rem, 6vw, 6rem);
+  align-items: start;
 }
 
-.philosophy-frame-inner {
+/* ---------- statement ---------- */
+.phl__statement {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: clamp(1.5rem, 3vw, 2.25rem);
 }
 
-.philosophy-quote {
+/* TiltTextGsap centres its flex items by default; this column is left-aligned. */
+.phl__title {
+  justify-content: flex-start !important;
+  text-align: left !important;
+  color: var(--phl-ink);
+}
+
+.phl__lead {
+  font-size: clamp(1rem, 1.35vw, 1.15rem);
+  line-height: 1.85;
+  color: var(--phl-muted);
+  margin: 0;
+  max-width: 46ch;
+}
+
+.phl__quote {
+  margin: 0;
+  padding-left: clamp(1.25rem, 2vw, 1.75rem);
+  border-left: 2px solid var(--phl-gold);
+}
+
+.phl__quote p {
+  margin: 0 0 0.9rem;
   font-family: "Bona Nova SC", "Bebas Neue", sans-serif;
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  line-height: 1.3;
-  color: #1f1b16;
+  font-size: clamp(1.15rem, 1.9vw, 1.6rem);
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  color: var(--phl-ink);
 }
 
-.philosophy-meta {
-  font-size: 0.8rem;
+.phl__quote cite {
+  font-style: normal;
+  font-size: 0.7rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(31, 27, 22, 0.55);
+  color: var(--phl-muted);
 }
 
-@media (max-width: 900px) {
-  .philosophy-shell {
-    grid-template-columns: 1fr;
+/* ---------- principles ledger ---------- */
+.phl__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  /* Top rule so the first row reads as part of the ruled set. */
+  border-top: 1px solid var(--phl-line);
+}
+
+.phl__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(1rem, 2vw, 1.75rem);
+  padding: clamp(1.35rem, 2.4vw, 1.85rem) 0;
+  border-bottom: 1px solid var(--phl-line);
+}
+
+/* Warm wash. Bleeds past the column so it reads as a band across the row
+   rather than a card boxed around it — no border, no shadow, nothing that
+   would suggest the row is a button. */
+.phl__item::before {
+  content: "";
+  position: absolute;
+  inset: 0 clamp(-1.25rem, -1vw, -0.75rem);
+  border-radius: 0.4rem;
+  background: linear-gradient(
+    90deg,
+    rgba(212, 175, 55, 0.1),
+    rgba(212, 175, 55, 0.03) 55%,
+    transparent
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s ease;
+}
+
+/* Gold rule drawing in along the base, over the existing hairline. */
+.phl__item::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: var(--phl-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.phl__item:hover::before {
+  opacity: 1;
+}
+
+.phl__item:hover::after {
+  transform: scaleX(1);
+}
+
+/* Content drifts a little; the numeral leads and the body follows further,
+   which gives the row a sense of settling rather than sliding. */
+.phl__n,
+.phl__item-body {
+  /* position/z-index, not just transform: the ::before wash is positioned, so
+     without this it would paint over the text rather than behind it. */
+  position: relative;
+  z-index: 1;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.phl__item:hover .phl__n {
+  transform: translateX(0.2rem);
+}
+
+.phl__item:hover .phl__item-body {
+  transform: translateX(0.45rem);
+}
+
+.phl__n {
+  font-family: "Bona Nova SC", "Bebas Neue", sans-serif;
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  line-height: 1.4;
+  color: var(--phl-gold);
+  letter-spacing: 0.04em;
+  /* Fixed width keeps the titles on a single optical axis. */
+  min-width: 2.25rem;
+}
+
+.phl__item-body {
+  min-width: 0;
+}
+
+.phl__item-title {
+  margin: 0 0 0.4rem;
+  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  color: var(--phl-ink);
+}
+
+.phl__item-copy {
+  margin: 0;
+  font-size: clamp(0.9rem, 1.1vw, 0.98rem);
+  line-height: 1.75;
+  color: var(--phl-muted);
+  max-width: 52ch;
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 60rem) {
+  .phl__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(2.5rem, 6vw, 3.5rem);
   }
 
-  .philosophy-frame {
-    padding: 2rem;
+  .phl__count {
+    display: none;
   }
 }
 
-@media (max-width: 640px) {
-  .philosophy-section {
-    padding: 3rem 1.5rem;
+@media (max-width: 34rem) {
+  .phl__item {
+    gap: 0.85rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .phl__item::before,
+  .phl__item::after,
+  .phl__n,
+  .phl__item-body {
+    transition: none;
+  }
+
+  /* Drop the drift entirely — the wash and rule still convey the hover. */
+  .phl__item:hover .phl__n,
+  .phl__item:hover .phl__item-body {
+    transform: none;
+  }
+}
+
+/* No hover on touch, so none of the above ever fires there — nothing to
+   disable, but the wash must not linger after a tap. */
+@media (hover: none) {
+
+  .phl__item::before,
+  .phl__item::after {
+    display: none;
   }
 }
