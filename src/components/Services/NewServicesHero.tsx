@@ -5,8 +5,7 @@ import "./NewServicesHero.css";
 const publicUrl = import.meta.env.BASE_URL;
 const heroBackgroundDesktop = `${publicUrl}images/services/hero-background-desktop.webp`;
 const heroBackgroundMobile = `${publicUrl}images/services/hero-background-mobile.webp`;
-const heroFeatureDesktop = `${publicUrl}images/services/hero-feature-desktop.webp`;
-const heroFeatureTablet = `${publicUrl}images/services/hero-feature-tablet.webp`;
+const heroFeature = `${publicUrl}images/about/build-mobile.webp`;
 
 interface FloatingCard {
   id: number;
@@ -279,16 +278,14 @@ const NewServicesHero: React.FC = () => {
 
           <div className="nsh-image-frame">
             <div className="nsh-image-reveal" ref={imageRevealRef} />
+            {/* Single source, so no <source> element — a media query that
+                resolves to the same file just costs a match with no benefit. */}
             <picture className="nsh-main-picture">
-              <source
-                media="(max-width: 1199px)"
-                srcSet={heroFeatureTablet}
-              />
               <img
-                src={heroFeatureDesktop}
-                alt="Climate-responsive Queensland pavilion residence with a native garden entry"
-                width="1200"
-                height="1200"
+                src={heroFeature}
+                alt="Architect and site supervisor reviewing plans during a Queensland home build"
+                width="720"
+                height="960"
                 className="nsh-main-image"
                 ref={imageRef}
                 loading="eager"
