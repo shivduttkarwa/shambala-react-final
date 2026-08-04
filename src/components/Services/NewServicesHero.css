@@ -46,30 +46,44 @@
 }
 
 /*
- * Cream wash that makes the dark hero copy legible over the photograph.
+ * Cream wash that makes the dark hero copy (#1f1b16) legible over the photo.
  *
- * It has to stay strong behind the text column (the type is #1f1b16, so it
- * needs a light backing) but the old ramp held 0.72 all the way to 52% and
- * only reached 0.28 at the far corner — which washed the whole image out.
+ * The old ramp held 0.72 all the way to 52% and still sat at 0.28 in the far
+ * corner, which washed the whole image out — the background read as blank.
  *
- * Now it holds full strength across the copy, then falls away quickly so the
- * right two-thirds of the photograph reads properly. Horizontal rather than
- * 135deg: the copy is a left-hand column, so the wash should track x, not the
- * diagonal — the old angle was spending opacity on the empty lower-left.
+ * Below 1200px the hero is a single column and the copy spans the full width,
+ * so the wash has to cover everything; it just eases off toward the bottom.
  */
 .nsh-bg-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    to right,
+    to bottom,
     rgba(250, 248, 243, 0.92) 0%,
-    rgba(250, 248, 243, 0.88) 32%,
-    rgba(250, 248, 243, 0.45) 52%,
-    rgba(250, 248, 243, 0.12) 72%,
-    rgba(250, 248, 243, 0) 100%
+    rgba(250, 248, 243, 0.86) 55%,
+    rgba(250, 248, 243, 0.68) 100%
   );
   z-index: 1;
   pointer-events: none;
+}
+
+/*
+ * At 1200px the hero becomes two columns, so the wash can track x instead:
+ * full strength across the copy, then away quickly so the right side of the
+ * photograph actually reads. (The old 135deg angle spent its opacity on the
+ * empty lower-left rather than on the text.)
+ */
+@media (min-width: 1200px) {
+  .nsh-bg-overlay {
+    background: linear-gradient(
+      to right,
+      rgba(250, 248, 243, 0.55) 0%,
+      rgba(250, 248, 243, 0.45) 32%,
+      rgba(250, 248, 243, 0.2) 52%,
+      rgba(250, 248, 243, 0.05) 72%,
+      rgba(250, 248, 243, 0) 100%
+    );
+  }
 }
 
 /* ===== LEFT CONTENT ===== */

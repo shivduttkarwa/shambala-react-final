@@ -179,20 +179,27 @@ const ContactUsPage: React.FC = () => {
 
   const publicUrl = import.meta.env.BASE_URL || "/";
 
-  const heroBg = `${publicUrl}images/leo.jpeg`;
-  const parallaxBg = `${publicUrl}images/parallax-bg.jpg`;
+  const heroDesktop = `${publicUrl}images/contact/hero-desktop.webp`;
+  const heroMobile = `${publicUrl}images/contact/hero-mobile.webp`;
+  const calmLivingDesktop = `${publicUrl}images/contact/calm-living-desktop.webp`;
+  const calmLivingMobile = `${publicUrl}images/contact/calm-living-mobile.webp`;
 
   return (
     <div className="cup-page">
       {/* HERO */}
-      <section
-        className="cup-hero cup-section cup-section--hero"
-        style={
-          {
-            "--cup-hero-bg": `url(${heroBg})`,
-          } as React.CSSProperties
-        }
-      >
+      <section className="cup-hero cup-section cup-section--hero">
+        <picture className="cup-section-media cup-hero-media">
+          <source media="(max-width: 767px)" srcSet={heroMobile} />
+          <img
+            src={heroDesktop}
+            alt=""
+            width="1600"
+            height="900"
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+          />
+        </picture>
         <div className="cup-hero-overlay" />
         <div className="cup-hero-content">
           <h1 className="cup-hero-title">
@@ -419,14 +426,18 @@ const ContactUsPage: React.FC = () => {
       </section>
 
       {/* PARALLAX SECTION - SIMPLE AND CLEAN */}
-      <section
-        className="cup-parallax cup-section cup-section--parallax"
-        style={
-          {
-            "--cup-parallax-bg": `url(${parallaxBg})`,
-          } as React.CSSProperties
-        }
-      >
+      <section className="cup-parallax cup-section cup-section--parallax">
+        <picture className="cup-section-media cup-parallax-media">
+          <source media="(max-width: 767px)" srcSet={calmLivingMobile} />
+          <img
+            src={calmLivingDesktop}
+            alt=""
+            width="1600"
+            height="900"
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
         <div className="cup-parallax-overlay" />
         <div className="cup-parallax-content contact-animate">
           <div className="cup-parallax-top">

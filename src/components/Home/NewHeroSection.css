@@ -181,10 +181,45 @@
 .about-hero .hero-overlay {
   background: linear-gradient(
     135deg,
-    rgba(42, 61, 40, 0.5) 0%,
-    rgba(35, 45, 35, 0.55) 50%,
-    rgba(30, 40, 35, 0.5) 100%
+    rgba(250, 248, 243, 0.68) 0%,
+    rgba(250, 248, 243, 0.56) 50%,
+    rgba(250, 248, 243, 0.44) 100%
   );
+}
+
+.about-hero .hero-main-title {
+  color: #1f1b16;
+  text-shadow: 0 2px 18px rgba(255, 255, 255, 0.72);
+}
+
+.about-hero .hero-description {
+  color: rgba(31, 27, 22, 0.84);
+  text-shadow: none;
+}
+
+.about-hero .hero-value-title {
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  color: #6f5724;
+  text-shadow: none;
+}
+
+.about-hero .hero-value-description {
+  color: rgba(31, 27, 22, 0.78);
+  text-shadow: none;
+}
+
+.about-hero .hero-scroll-circle {
+  border-color: rgba(31, 27, 22, 0.35);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.about-hero .hero-scroll-arrow {
+  color: #1f1b16;
+}
+
+.about-hero .hero-scroll-text {
+  color: rgba(31, 27, 22, 0.72);
 }
 
 .hero-content {

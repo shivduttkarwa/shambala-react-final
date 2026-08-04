@@ -47,13 +47,13 @@ html {
 
 @media (min-width: 1536px) {
   html {
-    font-size: 17px;
+    font-size: 15px;
   }
 }
 
 @media (min-width: 1920px) {
   html {
-    font-size: 18px;
+    font-size: 16px;
   }
 }
 
