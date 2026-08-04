@@ -35,8 +35,11 @@
 .ftv-text-left,
 .ftv-text-right {
   font-family: "Bona Nova SC", "Libre Franklin", sans-serif;
-  font-size: clamp(4rem, 8vw, 14rem);
-  font-weight: 500;
+  /* All four breakpoints below are the previous values × 0.8. */
+  font-size: clamp(3.2rem, 6.4vw, 11.2rem);
+  /* 400 is the lightest Bona Nova SC ships (400/700 only). The previous 500
+     was already resolving down to 400 under CSS font matching. */
+  font-weight: 400;
   letter-spacing: -0.04em;
   line-height: 0.9;
   text-transform: uppercase;
@@ -218,7 +221,7 @@
 
   .ftv-text-left,
   .ftv-text-right {
-    font-size: clamp(3rem, 10vw, 10rem);
+    font-size: clamp(2.4rem, 8vw, 8rem);
   }
 
   .ftv-video-container {
@@ -239,7 +242,7 @@
 
   .ftv-text-left,
   .ftv-text-right {
-    font-size: clamp(2.5rem, 12vw, 6rem);
+    font-size: clamp(2rem, 9.6vw, 4.8rem);
   }
 
   .ftv-video-container {
@@ -279,7 +282,7 @@
 
   .ftv-text-left,
   .ftv-text-right {
-    font-size: clamp(2rem, 10vw, 4rem);
+    font-size: clamp(1.6rem, 8vw, 3.2rem);
   }
 
   .ftv-video-container {
