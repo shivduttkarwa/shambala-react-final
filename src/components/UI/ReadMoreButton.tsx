@@ -12,6 +12,11 @@ interface ReadMoreButtonProps {
   rel?: string;
   /** Kept for API compatibility — all sizes now render the shared cta-submit-button design. */
   size?: 'default' | 'compact' | 'card';
+  /**
+   * Render as a non-interactive <span> instead of a link/button. Use when the
+   * button sits inside another <a> (nested anchors are invalid HTML).
+   */
+  as?: 'auto' | 'span';
 }
 
 const ReadMoreButton: React.FC<ReadMoreButtonProps> = ({
@@ -22,6 +27,7 @@ const ReadMoreButton: React.FC<ReadMoreButtonProps> = ({
   className = '',
   target = '_self',
   rel,
+  as = 'auto',
 }) => {
   const content = (
     <>
@@ -47,6 +53,14 @@ const ReadMoreButton: React.FC<ReadMoreButtonProps> = ({
   ]
     .filter(Boolean)
     .join(' ');
+
+  if (as === 'span') {
+    return (
+      <span className={classes} aria-hidden="true">
+        {content}
+      </span>
+    );
+  }
 
   if (href && !disabled) {
     if (href.startsWith('/')) {

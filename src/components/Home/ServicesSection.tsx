@@ -203,8 +203,10 @@ const ServicesSection: React.FC<ServicesSectionProps> = ({
                       {service.description}
                     </div>
                   </div>
+                  {/* Rendered as a <span>: the whole card is already the link,
+                      and a nested <a> is invalid HTML. */}
                   <ReadMoreButton
-                    href={service.ctaLink || "#"}
+                    as="span"
                     text={service.ctaText || "Read More"}
                     size="card"
                     className="hss-readmore-btn"
