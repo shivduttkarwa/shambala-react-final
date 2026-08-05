@@ -280,8 +280,30 @@ body.about-showcase-active {
   margin-top: 0.8rem;
 }
 
-.company-panel-cta {
+/* On-dark variant of the shared button. Against the near-black glass panel the
+   default forest green sinks into the background. Same anatomy — uppercase
+   label, arrow, sweep, hover lift, and the shared 0.25rem radius — re-surfaced
+   in the panel's own gold accent (the kicker, bullet dots and top hairline are
+   all #d4af37) and grown to sit level with the bullet pills. Double class so it
+   outranks .read-more-button's own media queries regardless of sheet order. */
+.company-panel-ctas .company-panel-cta {
+  padding: 1rem 2rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  background: #d4af37;
+  color: #14140f;
   text-decoration: none;
+  box-shadow:
+    0 0.25rem 1rem rgba(212, 175, 55, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.company-panel-ctas .company-panel-cta:hover {
+  background: #e3c359;
+  color: #14140f;
+  box-shadow:
+    0 0.5rem 1.5rem rgba(212, 175, 55, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 /* First and last child spacing adjustments */
